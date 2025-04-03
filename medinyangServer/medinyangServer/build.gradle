@@ -28,6 +28,9 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	//runtimeOnly 'com.h2database:h2'
 
+	//tymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 	//lombok
 	implementation('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
