@@ -1,2 +1,7 @@
-hello
-jdk version 17
+server jdk version 17
+
+________todo_______
+서버 세팅 gitignore 설정
+체팅 페이지 구현
+웹소켓 통신 정의
+LLM 세팅 및 적용
