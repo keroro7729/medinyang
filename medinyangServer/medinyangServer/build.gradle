@@ -24,7 +24,7 @@ dependencies {
 
 	//websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
+	implementation 'org.json:json:20231013'
 	//database
 
 	//jpa
@@ -41,4 +41,8 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
 }
