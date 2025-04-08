@@ -2,6 +2,7 @@ package jinTeam.medinyangServer.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jinTeam.medinyangServer.Clova;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
+    private final Clova clova = new Clova();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session){
@@ -30,7 +32,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             System.out.println("💬 클라이언트 메시지: " + userMessage);
 
             // 💡 여기서 LLM이나 챗봇 응답 로직 넣으면 됨!
-            String botReply = "🐱 메디냥 챗봇: \"" + userMessage + "\"에 대한 응답입니다!";
+            String botReply = clova.getClovaReply(userMessage);
 
             // 프론트로 응답 보내기
             ObjectMapper objectMapper = new ObjectMapper();
