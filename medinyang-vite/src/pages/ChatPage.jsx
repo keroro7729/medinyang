@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ChatList from '../components/Chat/ChatList';
 import ChatInput from '../components/Chat/ChatInput';
+import TopHeader from '../components/TopHeader';
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
@@ -33,10 +34,10 @@ const ChatPage = () => {
     <div style={{
       width: '100vw',
       height: '100vh',
+      backgroundColor: '#f5f5f5',
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#f0f0f0',
+      alignItems: 'center',
     }}>
       <div style={{
         width: '100%',
@@ -44,25 +45,31 @@ const ChatPage = () => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#f5f5f5',
       }}>
+        <TopHeader title="메디냥 AI" />
+
+        {/* 채팅 내용 스크롤 영역 */}
         <div style={{
-          textAlign: 'center',
-          padding: '16px',
-          fontWeight: 'bold',
-          fontSize: '18px',
-          borderBottom: '1px solid #ddd',
+          flex: 1,
+          overflowY: 'auto',
+          padding: '20px',
+          backgroundColor: '#f5f5f5',
         }}>
-          메디냥 AI
+          <ChatList messages={messages} />
         </div>
-  
-        <ChatList messages={messages} />
-        <ChatInput onSend={handleSend} />
+
+        {/* 하단 고정 입력창 */}
+        <div style={{
+          backgroundColor: '#f5f5f5',
+          padding: '12px 20px',
+          borderTop: '1px solid #ddd',
+        }}>
+          <ChatInput onSend={handleSend} />
+        </div>
       </div>
     </div>
   );
-  
-  
 };
 
 export default ChatPage;
