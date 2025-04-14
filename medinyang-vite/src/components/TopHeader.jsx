@@ -4,15 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-const TopHeader = ({ title = '제목 없음', backTo = -1 }) => {
+const TopHeader = ({ title = '제목 없음', backTo = '/' }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    if (typeof backTo === 'number') {
-      navigate(backTo); // 기본 -1: 뒤로가기
-    } else {
-      navigate(backTo); // 특정 경로로 이동
-    }
+    navigate(backTo);
   };
 
   return (
@@ -37,11 +33,11 @@ const TopHeader = ({ title = '제목 없음', backTo = -1 }) => {
           borderRadius: '6px',
           border: 'none',
           cursor: 'pointer',
-          marginLeft:'20px',
+          marginLeft: '20px',
           transition: 'color 0.2s ease',
         }}
         onMouseEnter={(e) => (e.currentTarget.style.color = '#1D4ED8')}
-  onMouseLeave={(e) => (e.currentTarget.style.color = '#3B82F6')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = '#3B82F6')}
       >
         <FontAwesomeIcon icon={faArrowLeft} />
       </button>
