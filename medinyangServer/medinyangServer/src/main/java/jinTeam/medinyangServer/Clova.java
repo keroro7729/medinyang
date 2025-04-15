@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class Clova {
 
     private static final String apiURL = "https://ma3nqcqnxi.apigw.ntruss.com/custom/v1/17290/0aad7ccb56ed508afd8b1d86860783518c7b2bc88fc84a781a49bbabfcb46e89";
-    private static final String secretKey = "key";
+    private static final String secretKey = "key(jiin)";
 
     public static void main(String[] args) {
 

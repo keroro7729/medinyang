@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jinTeam.medinyangServer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jinTeam.medinyangServer.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/medinyangServer.iml" filepath="$PROJECT_DIR$/.idea/medinyangServer.iml" />
     </modules>
   </component>
 </project>

@@ -25,11 +25,11 @@ dependencies {
 	//websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.json:json:20231013'
-	//database
 
-	//jpa
-	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//runtimeOnly 'com.h2database:h2'
+	// JPA (Hibernate 기반 ORM)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// MySQL 연결 드라이버
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	//tymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
