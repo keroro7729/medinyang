@@ -2,6 +2,7 @@ package jinTeam.medinyangServer;
 
 import jinTeam.medinyangServer.ImageFile.ImageFile;
 import jinTeam.medinyangServer.ImageFile.ImageFileRepository;
+import jinTeam.medinyangServer.ImageFile.ImageFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,38 +16,26 @@ import java.util.Map;
 @Slf4j
 public class ApiController {
 
-    public ApiController(ImageFileRepository repository) {
-        this.repository = repository;
-    }
-
     @GetMapping("/chat")
     public String hello(){
         return "hello";
     }
+    private final ImageFileService imageFileService;
 
-    private final ImageFileRepository repository;
+    public ApiController(ImageFileService imageFileService) {
+        this.imageFileService = imageFileService;
+    }
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public ResponseEntity<Map<String, Object>> uploadImage(@RequestPart("file") MultipartFile file) {
-        try {
-            ImageFile saved = repository.save(ImageFile.builder()
-                    .image_data(file.getBytes())
-                    .build());
+    public ResponseEntity<Map<String, Object>> uploadImageFile(@RequestPart("file") MultipartFile file) {
+        ImageFile saved = imageFileService.uploadImage(file);
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "업로드 성공!");
-            response.put("id", saved.getImage_id());
+        log.info("파일 업로드 성공: {}", file.getOriginalFilename());
 
-            log.info("파일 업로드 성공: {}", file.getOriginalFilename());
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            Map<String, Object> error = new HashMap<>();
-            error.put("message", "업로드 실패: " + e.getMessage());
-
-            log.error("파일 업로드 중 예외 발생: ", e);
-            return ResponseEntity.status(500).body(error);
-        }
+        return ResponseEntity.ok(Map.of(
+                "message", "업로드 성공!",
+                "id", saved.getImage_id()
+        ));
     }
 }
 

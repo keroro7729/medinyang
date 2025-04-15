@@ -2,6 +2,7 @@ package jinTeam.medinyangServer.ImageFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageFileService {
@@ -13,5 +14,13 @@ public class ImageFileService {
         this.repository = repository;
     }
 
-    // CRUD 메소드 및 자주 사용할 기능들 정의
+    public ImageFile uploadImage(MultipartFile file) {
+        try {
+            return repository.save(ImageFile.builder()
+                    .image_data(file.getBytes())
+                    .build());
+        } catch (Exception e) {
+            throw new FileUploadException("파일 업로드 실패", e);
+        }
+    }
 }
