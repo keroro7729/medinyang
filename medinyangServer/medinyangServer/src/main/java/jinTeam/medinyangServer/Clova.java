@@ -18,20 +18,13 @@ public class Clova {
     private static final String apiURL = "https://ma3nqcqnxi.apigw.ntruss.com/custom/v1/17290/0aad7ccb56ed508afd8b1d86860783518c7b2bc88fc84a781a49bbabfcb46e89";
     private static final String secretKey = "key";
 
-    public static void main(String[] args) {
-
-        String userMessage = "자기소개 부탁해";
-
-        String response = getClovaReply(userMessage, apiURL, secretKey);
-
-        System.out.println("챗봇 응답: " + response);
-    }
-
     public static String getClovaReply(String message){
         if(secretKey.equals("key"))
-            return "서비스 키가 등록되어있지 않습니다: "+message;
+            return "🐱 메디냥 챗봇: \"" + message + "\"에 대한 응답입니다!: secretKey is not set";
         return getClovaReply(message, apiURL, secretKey);
     }
+
+    // reply 메세지 파싱, 필요한 부분만 리턴할 수 있도록 수정 필요
 
     public static String getClovaReply(String voiceMessage, String apiURL, String secretKey){
         try {
@@ -100,5 +93,14 @@ public class Clova {
         mac.init(signingKey);
         byte[] rawHmac = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(rawHmac);
+    }
+
+    public static void main(String[] args) {
+
+        String userMessage = "자기소개 부탁해";
+
+        String response = getClovaReply(userMessage, apiURL, secretKey);
+
+        System.out.println("챗봇 응답: " + response);
     }
 }
