@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class Clova {
 
     private static final String apiURL = "https://ma3nqcqnxi.apigw.ntruss.com/custom/v1/17290/0aad7ccb56ed508afd8b1d86860783518c7b2bc88fc84a781a49bbabfcb46e89";
-    private static final String secretKey = "key(jiin)";
+    private static final String secretKey = "key";
 
     public static void main(String[] args) {
 
@@ -27,6 +27,11 @@ public class Clova {
         System.out.println("챗봇 응답: " + response);
     }
 
+    public static String getClovaReply(String message){
+        if(secretKey.equals("key"))
+            return "서비스 키가 등록되어있지 않습니다: "+message;
+        return getClovaReply(message, apiURL, secretKey);
+    }
 
     public static String getClovaReply(String voiceMessage, String apiURL, String secretKey){
         try {
