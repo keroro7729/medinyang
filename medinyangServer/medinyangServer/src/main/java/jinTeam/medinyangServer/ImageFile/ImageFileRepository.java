@@ -1,6 +1,5 @@
-package jinTeam.medinyangServer.repository;
+package jinTeam.medinyangServer.ImageFile;
 
-import jinTeam.medinyangServer.entity.ImageFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ImageFileRepository extends JpaRepository<ImageFile, Long> {

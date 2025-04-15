@@ -1,7 +1,7 @@
 package jinTeam.medinyangServer;
 
-import jinTeam.medinyangServer.entity.ImageFile;
-import jinTeam.medinyangServer.repository.ImageFileRepository;
+import jinTeam.medinyangServer.ImageFile.ImageFile;
+import jinTeam.medinyangServer.ImageFile.ImageFileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

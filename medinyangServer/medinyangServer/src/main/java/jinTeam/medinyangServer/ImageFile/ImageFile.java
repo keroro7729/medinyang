@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.entity;
+package jinTeam.medinyangServer.ImageFile;
 
 import jakarta.persistence.*;
 import lombok.*;
