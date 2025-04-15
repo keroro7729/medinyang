@@ -21,7 +21,8 @@
 | `chore` | 빌드 설정, 패키지 관리 등 기타 작업 | `chore: .gitignore에 .env 추가` |
 | `perf` | 성능 개선 | `perf: 메시지 렌더링 속도 향상` |
 
---
+---
+
 ## 🚦 Git 사용 규칙
 
 1. **로컬 본인의 브랜치에서 작업 (fe, hoon, jiin)**  
@@ -38,10 +39,4 @@ git fetch origin
 git merge origin/main  # 자동 또는 수동 병합
 ---
 
-### 🛠 예시 커밋 메시지
-
-```bash
-git commit -m "feat(chat): 채팅방 입장 시 알림 메시지 추가"
-git commit -m "fix(chat): 메시지 중복 전송 버그 수정"
-git commit -m "docs: 프로젝트 실행 방법 추가"
 
