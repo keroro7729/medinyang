@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { IoIosArrowUp } from 'react-icons/io';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 const ChatInput = ({ onSend }) => {
   const [input, setInput] = useState('');
@@ -12,7 +13,14 @@ const ChatInput = ({ onSend }) => {
   };
 
   return (
-    <div style={{ display: 'flex', padding: '12px', borderTop: '1px solid #ccc' }}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5', // ✅ 전체 배경 통일
+        padding: '8px 0',
+      }}
+    >
       <input
         type="text"
         value={input}
@@ -21,30 +29,36 @@ const ChatInput = ({ onSend }) => {
         placeholder="궁금한 점을 메디냥에게 물어보세요!"
         style={{
           flex: 1,
-          padding: '8px 12px',
-          marginRight: '12px',
+          padding: '10px 12px',
           fontSize: '14px',
           border: '1px solid #ccc',
-          borderRadius: '8px',
+          borderRadius: '6px',
+          marginRight: '10px',
+          backgroundColor: '#ffffff', // ✅ 인풋창은 흰 배경
         }}
       />
       <button
         onClick={handleSend}
-        disabled={!isActive}
         style={{
-          backgroundColor: isActive ? '#2C7EDB' : '#D7D7D7',
-          color: 'white',
+          backgroundColor: '#3B82F6',   // ✅ 파란색 원
           border: 'none',
-          borderRadius: '50%',
+          borderRadius: '50%',          // 원형
           width: '40px',
           height: '40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '20px',
+          cursor: 'pointer',
+          transition: 'background-color 0.2s ease',
         }}
       >
-        <IoIosArrowUp size={22} color="white" />
+        <FontAwesomeIcon
+          icon={faArrowUp}
+          style={{
+            color: '#ffffff',            // ✅ 흰색 화살표
+            fontSize: '16px',
+          }}
+        />
       </button>
     </div>
   );
