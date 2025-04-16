@@ -1,10 +1,12 @@
 package jinTeam.medinyangServer.ImageFile;
 
 import jakarta.persistence.*;
+import jinTeam.medinyangServer.enums.ImageType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -29,6 +31,16 @@ public class ImageFile {
     @Column(updatable = false)
     private LocalDateTime upload_date;
 
-// (user_id 외래키는 이후 연동 예정)
+    private String hospital;
 
+    private LocalDate visit_date;
+
+    @Enumerated(EnumType.STRING)
+    private ImageType type;
+
+    /*
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    */
 }
