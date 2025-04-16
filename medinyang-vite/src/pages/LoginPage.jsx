@@ -1,63 +1,37 @@
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
-
+import googleIcon from '../assets/google.png'; // ✅ 구글 로고 svg를 assets 폴더에 넣어야 함
 const LoginPage = () => {
-  const navigate = useNavigate();
+  // ✅ 환경변수에서 client_id와 redirect_uri 가져옴
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const REDIRECT_URI = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
 
-  // 🔐 구글 로그인 성공 시 호출되는 함수
-  const handleLoginSuccess = (credentialResponse) => {
-    const idToken = credentialResponse.credential; // 1. id_token 받음
+  const handleGoogleLogin = () => {
+    // 🔗 구글 로그인 URL 생성 (Authorization Code 방식)
+    const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
 
-    // 📡 이 토큰을 우리 백엔드 서버에 보내 인증 요청
-    fetch('http://localhost:8080/api/auth/google', {  //2. 서버로 전송
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // 보낼 데이터 형식 명시
-      },
-      body: JSON.stringify({ token: idToken }), // 3. token : id_token   토큰을 JSON 형식으로 보냄
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // 🧾 백엔드에서 JWT 토큰이 오면 브라우저에 저장
-        localStorage.setItem('accessToken', data.token);
-
-        // 🔀 로그인 성공 후 메인 페이지("/")로 이동
-        navigate('/');
-      })
-      .catch((err) => {
-        // ❌ 오류 발생 시 알림 표시
-        console.error('서버 인증 실패', err);
-        alert('로그인에 실패했어요 😢');
-      });
-  };
-
-  // ❌ 구글 로그인 자체가 실패했을 때 실행되는 함수
-  const handleLoginError = () => {
-    console.error('Google 로그인 실패');
-    alert('구글 로그인에 실패했어요');
+    // 👉 구글 로그인 페이지로 이동
+    window.location.href = googleLoginUrl;
   };
 
   return (
     // 📱 전체 화면을 수직·수평 모두 가운데 정렬
     <div
       style={{
-        height: '100vh', // 화면 전체 높이
-        width: '100vw',  // 화면 전체 너비
-        display: 'flex', // flexbox 사용
-        flexDirection: 'column', // 세로 방향 정렬
-        justifyContent: 'center', // 수직 정렬
-        alignItems: 'center', // 수평 정렬
-        backgroundColor: '#f5f5f5', // 배경색
-        //padding: '0 20px', // 좌우 여백
-        textAlign: 'center', // 텍스트 가운데 정렬
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
+        textAlign: 'center',
       }}
     >
       {/* 🐱 메디냥 로고 이미지 - 크기 줄임 */}
       <img
-        src="src/assets/logo.png" //
+        src="src/assets/logo.png"
         alt="Medi냥 로고"
-        style={{ width: 180 }} // ✅ 크기 줄임
+        style={{ width: 180 }}
       />
 
       {/* 💬 안내 문구 */}
@@ -66,29 +40,44 @@ const LoginPage = () => {
       </p>
 
       {/* 소셜 로그인 한 줄 구분선 (피그마 스타일 반영) */}
-<div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '12px',
-  margin: '24px 0',
-  width: '100%',
-  maxWidth: '300px'
-}}>
-  <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }} />
-  <span style={{ fontSize: '14px', color: '#555', whiteSpace: 'nowrap' }}>
-    소셜 로그인
-  </span>
-  <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }} />
-</div>
-
-      {/* 🔐 실제 Google 로그인 버튼 (자동 생성됨) */}
-      <div style={{marginBottom: '130px'}}>
-      <GoogleLogin
-        onSuccess={handleLoginSuccess} // 성공 시 처리 함수
-        onError={handleLoginError}     // 실패 시 처리 함수
-      />
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '12px',
+        margin: '24px 0',
+        width: '100%',
+        maxWidth: '300px'
+      }}>
+        <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }} />
+        <span style={{ fontSize: '14px', color: '#555', whiteSpace: 'nowrap' }}>
+          소셜 로그인
+        </span>
+        <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }} />
       </div>
+
+      {/* 커스텀 구글 로그인 버튼 */}
+      <button
+        onClick={handleGoogleLogin}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          padding: '10px 20px',
+          fontSize: '15px',
+          fontWeight: '500',
+          border: '1px solid #ccc',
+          borderRadius: '6px',
+          backgroundColor: '#fff',
+          color: '#555',
+          cursor: 'pointer',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          marginBottom:'150px'
+        }}
+      >
+        <img src={googleIcon} alt="Google 로고" style={{ width: '18px', height: '18px' }} />
+        Google 계정으로 로그인
+      </button>
     </div>
   );
 };
