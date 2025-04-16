@@ -34,22 +34,22 @@ const HistoryList = ({ data }) => {
         >
           {/* 병원명 강조 표시 */}
           <div>
-            <strong style={{ color: '#2f80ed' }}>병원명:</strong> {item.hospital}
+            <strong style={{ color: '#2f80ed' }}>병원명</strong> {item.hospital}
           </div>
 
           {/* 방문 날짜 */}
           <div>
-            <strong>방문일:</strong> {item.date}
+            <strong>방문일</strong> {item.date}
           </div>
 
           {/* 진료 유형 */}
           <div>
-            <strong>유형:</strong> {item.type}
+            <strong>유형</strong> {item.type}
           </div>
 
           {/* 진단명 */}
           <div>
-            <strong>진단명:</strong> {item.diagnosis}
+            <strong>진단명</strong> {item.diagnosis}
           </div>
         </div>
       ))}
