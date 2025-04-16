@@ -7,15 +7,15 @@ const LoginPage = () => {
 
   // 🔐 구글 로그인 성공 시 호출되는 함수
   const handleLoginSuccess = (credentialResponse) => {
-    const idToken = credentialResponse.credential; // 구글에서 받은 토큰 (id_token)
+    const idToken = credentialResponse.credential; // 1. id_token 받음
 
     // 📡 이 토큰을 우리 백엔드 서버에 보내 인증 요청
-    fetch('http://localhost:8080/api/auth/google', {
+    fetch('http://localhost:8080/api/auth/google', {  //2. 서버로 전송
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // 보낼 데이터 형식 명시
       },
-      body: JSON.stringify({ token: idToken }), // 토큰을 JSON 형식으로 보냄
+      body: JSON.stringify({ token: idToken }), // 3. token : id_token   토큰을 JSON 형식으로 보냄
     })
       .then((res) => res.json())
       .then((data) => {
