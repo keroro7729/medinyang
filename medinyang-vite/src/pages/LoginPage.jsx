@@ -5,13 +5,10 @@ const LoginPage = () => {
   const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const REDIRECT_URI = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
 
-  const handleGoogleLogin = () => {
-    // 🔗 구글 로그인 URL 생성 (Authorization Code 방식)
-    const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
-
-    // 👉 구글 로그인 페이지로 이동
-    window.location.href = googleLoginUrl;
-  };
+const handleGoogleLogin = () => {
+  // Spring Boot에서 OAuth2 로그인 핸들링을 맡게 함
+  window.location.href = "http://localhost:8080/oauth2/authorization/google";
+};
 
   return (
     // 📱 전체 화면을 수직·수평 모두 가운데 정렬
