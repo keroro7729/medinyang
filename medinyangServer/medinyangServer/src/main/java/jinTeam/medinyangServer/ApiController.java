@@ -1,25 +1,23 @@
 package jinTeam.medinyangServer;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import jakarta.servlet.http.HttpServletRequest;
 import jinTeam.medinyangServer.ImageFile.ImageFile;
-import jinTeam.medinyangServer.ImageFile.ImageFileRepository;
 import jinTeam.medinyangServer.ImageFile.ImageFileService;
+import jinTeam.medinyangServer.utils.GoogleTokenVerifier;
+import jinTeam.medinyangServer.utils.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 @Slf4j
 public class ApiController {
-
-    @GetMapping("/chat")
-    public String hello(){
-        return "hello";
-    }
     private final ImageFileService imageFileService;
 
     public ApiController(ImageFileService imageFileService) {
@@ -37,5 +35,25 @@ public class ApiController {
                 "id", saved.getImage_id()
         ));
     }
+
+    @PostMapping("/auth/google")
+    public ResponseEntity<?> loginWithGoogle(@RequestBody Map<String, String> body, HttpServletRequest request) {
+        String idToken = body.get("idToken");
+        GoogleIdToken.Payload payload = GoogleTokenVerifier.verify(idToken);
+
+        if (payload == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ID Token");
+        }
+        String email = payload.getEmail();
+
+        // 1. 세션 인증 등록
+        SecurityUtil.loginUser(email);
+
+        // 2. (선택) 사용자 세션 직접 접근 가능
+        request.getSession().setAttribute("userEmail", email);
+
+        return ResponseEntity.ok("세션 로그인 성공!");
+    }
+
 }
 
