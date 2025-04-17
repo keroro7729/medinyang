@@ -8,11 +8,11 @@ import TopHeader from '../components/TopHeader';
 const dummyData = [
   { hospital: '지콜 병원', date: '2023-03-02', type: '처방전', diagnosis: '감기' },
   { hospital: '지토스키 병원', date: '2024-04-01', type: '건강검진결과', diagnosis: '고혈압' },
-  { hospital: '지토토스키 병원', date: '2025-04-03', type: '처방전', diagnosis: '장염' },
-  { hospital: '지토토스키 병원', date: '2021-04-03', type: '건강검진결과', diagnosis: '비만' },
-  { hospital: '지토토스키 병원', date: '2021-05-03', type: '처방전', diagnosis: '장염' },
-  { hospital: '지토토스키 병원', date: '2024-07-03', type: '처방전', diagnosis: '장염' },
-  { hospital: '지토토스키 병원', date: '2023-09-03', type: '처방전', diagnosis: '장염' },
+  { hospital: '지토스키 병원', date: '2025-04-03', type: '처방전', diagnosis: '장염' },
+  { hospital: '차은우 병원', date: '2021-04-03', type: '건강검진결과', diagnosis: '과체중으로 체중조절 필요' },
+  { hospital: '지토스키 병원', date: '2021-05-03', type: '처방전', diagnosis: '장염' },
+  { hospital: '지콜 정형외과', date: '2024-07-03', type: '처방전', diagnosis: '척추측만증으로 물리치료' },
+  { hospital: '지토스키 병원', date: '2023-09-03', type: '처방전', diagnosis: '장염' },
 ];
 
 const HistoryPage = () => {
@@ -36,7 +36,7 @@ const HistoryPage = () => {
   return (
     <div style={{
       width: '100vw',
-      height: '100vh',
+      height: '100dvh',
       backgroundColor: '#f5f5f5',
       display: 'flex',
       justifyContent: 'center',
@@ -49,6 +49,8 @@ const HistoryPage = () => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+
+        
         backgroundColor: '#f5f5f5',
       }}>
         {/* 상단 고정 헤더 */}
