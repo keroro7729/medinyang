@@ -73,7 +73,7 @@ const UploadPage = () => {
   return (
     <div style={{
       width: '100vw',
-      height: '100vh',
+      height: '100dvh',
       backgroundColor: '#f5f5f5',
       display: 'flex',
       justifyContent: 'center',

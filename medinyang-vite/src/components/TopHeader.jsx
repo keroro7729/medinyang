@@ -7,7 +7,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 // TopHeader 컴포넌트
 // title: 가운데 제목 텍스트
 // backTo: 뒤로가기 버튼을 눌렀을 때 이동할 경로
-const TopHeader = ({ title = '제목 없음', backTo = '/' }) => {
+const TopHeader = ({ title = '제목 없음', backTo = '/main' }) => {
   const navigate = useNavigate();
 
   // 뒤로가기 버튼 클릭 시 실행
@@ -23,7 +23,7 @@ const TopHeader = ({ title = '제목 없음', backTo = '/' }) => {
         backgroundColor: '#ffffff',
         justifyContent: 'space-between', // 왼쪽, 가운데, 오른쪽 정렬
         alignItems: 'center',
-        marginBottom: '45px', // 아래 콘텐츠와 간격
+        //marginBottom: '45px', // 아래 콘텐츠와 간격
       }}
     >
       {/* 왼쪽 뒤로가기 버튼 */}
