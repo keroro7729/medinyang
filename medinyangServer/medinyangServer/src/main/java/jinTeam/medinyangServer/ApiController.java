@@ -52,7 +52,7 @@ public class ApiController {
         // 2. (선택) 사용자 세션 직접 접근 가능
         request.getSession().setAttribute("userEmail", email);
 
-        return ResponseEntity.ok("세션 로그인 성공!");
+        return ResponseEntity.ok(Map.of("message", "세션 로그인 성공!"));
     }
 
 }
