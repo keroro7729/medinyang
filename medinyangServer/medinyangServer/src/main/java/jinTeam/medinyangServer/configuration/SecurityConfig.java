@@ -26,15 +26,13 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(
                             "/api/**",
-                            "/oauth2/**",
-                            "/login/**",
                             "/",
                             "/error",
                             "/ws/**"
                     ).permitAll()
                     .anyRequest().authenticated()
-            )
-            .oauth2Login(Customizer.withDefaults());
+            );
+
 
         return http.build();
     }
