@@ -6,6 +6,7 @@ import jinTeam.medinyangServer.ImageFile.ImageFile;
 import jinTeam.medinyangServer.ImageFile.ImageFileService;
 import jinTeam.medinyangServer.utils.GoogleTokenVerifier;
 import jinTeam.medinyangServer.utils.SecurityUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@Slf4j
+@RequiredArgsConstructor //생성자 주입
+@Slf4j // log 처리
 public class ApiController {
     private final ImageFileService imageFileService;
+    private final GoogleTokenVerifier googleTokenVerifier;
 
-    public ApiController(ImageFileService imageFileService) {
-        this.imageFileService = imageFileService;
-    }
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<Map<String, Object>> uploadImageFile(@RequestPart("file") MultipartFile file) {
@@ -39,7 +39,7 @@ public class ApiController {
     @PostMapping("/auth/google")
     public ResponseEntity<?> loginWithGoogle(@RequestBody Map<String, String> body, HttpServletRequest request) {
         String idToken = body.get("idToken");
-        GoogleIdToken.Payload payload = GoogleTokenVerifier.verify(idToken);
+        GoogleIdToken.Payload payload = googleTokenVerifier.verify(idToken);
 
         if (payload == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ID Token");

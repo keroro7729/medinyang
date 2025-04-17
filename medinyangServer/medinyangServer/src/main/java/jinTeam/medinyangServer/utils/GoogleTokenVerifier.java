@@ -3,21 +3,27 @@ package jinTeam.medinyangServer.utils;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
+@Component //이 클래스를 Spring Bean으로 등록
 public class GoogleTokenVerifier {
 
-    private static final String CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
+    private final String googleClientId;
+    public GoogleTokenVerifier(@Value("${google.client-id}") String googleClientId) {
+        this.googleClientId = googleClientId;
+    } // 기존 final static 상수 선언에서 application.properties에서 환경변수 받아오는 방식으로 변경
 
     private static final NetHttpTransport transport = new NetHttpTransport();
-    private static final JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+    private static final GsonFactory jsonFactory = GsonFactory.getDefaultInstance(); // JacksonFactory는 유지보수 중단(deprecated)이므로 GsonFactory로 변경
 
-    public static GoogleIdToken.Payload verify(String idTokenString) {
+    public  GoogleIdToken.Payload verify(String idTokenString) {
         try {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                    .setAudience(Collections.singletonList(CLIENT_ID))
+                    .setAudience(Collections.singletonList(googleClientId))
                     .build();
 
             GoogleIdToken idToken = verifier.verify(idTokenString);
