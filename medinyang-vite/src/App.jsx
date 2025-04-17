@@ -10,8 +10,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainHome />} />
-        <Route path="/login" element={<LoginPage />} /> {/* 👈 로그인 라우트 추가 */}
+        <Route path="/main" element={<MainHome />} />
+        <Route path="/" element={<LoginPage />} /> {/* 👈 로그인 라우트 추가 */}
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/history" element={<HistoryPage />} />
