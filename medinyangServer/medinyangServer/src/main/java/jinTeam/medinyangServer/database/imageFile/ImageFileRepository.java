@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.ImageFile;
+package jinTeam.medinyangServer.database.imageFile;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
