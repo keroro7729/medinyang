@@ -2,8 +2,8 @@ package jinTeam.medinyangServer;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import jakarta.servlet.http.HttpServletRequest;
-import jinTeam.medinyangServer.ImageFile.ImageFile;
-import jinTeam.medinyangServer.ImageFile.ImageFileService;
+import jinTeam.medinyangServer.database.imageFile.ImageFile;
+import jinTeam.medinyangServer.database.imageFile.ImageFileService;
 import jinTeam.medinyangServer.utils.GoogleTokenVerifier;
 import jinTeam.medinyangServer.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor //생성자 주입
 @Slf4j // log 처리
 public class ApiController {
+
     private final ImageFileService imageFileService;
     private final GoogleTokenVerifier googleTokenVerifier;
 
