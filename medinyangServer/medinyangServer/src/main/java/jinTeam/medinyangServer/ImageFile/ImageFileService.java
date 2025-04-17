@@ -1,18 +1,15 @@
 package jinTeam.medinyangServer.ImageFile;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class ImageFileService {
 
     private final ImageFileRepository repository;
-
-    @Autowired
-    public ImageFileService(ImageFileRepository repository){
-        this.repository = repository;
-    }
 
     public ImageFile uploadImage(MultipartFile file) {
         try {

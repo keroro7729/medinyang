@@ -29,8 +29,8 @@ dependencies {
 	//security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'com.google.api-client:google-api-client:2.2.0'
-	implementation 'com.google.http-client:google-http-client-jackson2:1.43.3'
+	implementation 'com.google.api-client:google-api-client:2.7.0' // 2.2.0에서 2.7.0으로 업그레이드
+	implementation 'com.google.http-client:google-http-client-gson:1.43.3'
 
 	// JPA (Hibernate 기반 ORM)
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -49,6 +49,11 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.withType(JavaCompile) {
+// 기존: Gradle이 구성 단계에서 모든 JavaCompile 태스크를 즉시 순회하며 설정함
+// 단점: 모든 태스크를 미리 구성하므로 프로젝트가 클 경우 느려질 수 있음
+
+// 변경: configureEach를 사용하면 JavaCompile 태스크가 생성될 때마다 하나씩 설정(lazy configuration)
+// 장점: 필요할 때만 설정되어 구성 시간이 단축됨 → Gradle 최신 스타일에 부합함
+tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 }
