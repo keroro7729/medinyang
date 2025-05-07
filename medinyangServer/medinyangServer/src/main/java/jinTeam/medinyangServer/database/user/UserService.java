@@ -4,6 +4,7 @@ import jinTeam.medinyangServer.database.account.Account;
 import jinTeam.medinyangServer.database.account.AccountService;
 import jinTeam.medinyangServer.enums.Gender;
 import jinTeam.medinyangServer.exceptions.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,16 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository repository;
     private final AccountService accountService;
-
-    @Autowired
-    public UserService(UserRepository repository, AccountService accountService){
-        this.repository = repository;
-        this.accountService = accountService;
-    }
 
     @Transactional
     public User createUser(Long account_id, String name, Integer year, Gender gender){

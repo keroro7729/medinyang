@@ -2,22 +2,18 @@ package jinTeam.medinyangServer.database.imageFile;
 
 import jinTeam.medinyangServer.database.user.UserService;
 import jinTeam.medinyangServer.exceptions.FileUploadException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class ImageFileService {
 
     private final ImageFileRepository repository;
     private final UserService userService;
-
-    @Autowired
-    public ImageFileService(ImageFileRepository repository, UserService userService){
-        this.repository = repository;
-        this.userService = userService;
-    }
 
     @Transactional
     public ImageFile uploadImage(MultipartFile file) { //이미지의 정보-사용자 정보 DB에

@@ -2,6 +2,7 @@ package jinTeam.medinyangServer.database.account;
 
 import jinTeam.medinyangServer.exceptions.AccountNotFoundException;
 import jinTeam.medinyangServer.exceptions.EmailAlreadyExistsException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,14 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository repository;
 
-    @Autowired
-    public AccountService(AccountRepository repository){
-        this.repository = repository;
-    }
 
     @Transactional
     public Account makeAccount(String email) {
