@@ -3,6 +3,7 @@ import TopHeader from "../components/TopHeader";
 import DataBasic from "../components/Data/DataBasic";
 import DataReport from "../components/Data/DataReport";
 import DataEdit from "../components/Data/DataEdit";
+import BottomNav from "../components/Main/BottomNav"; // 하단바
 
 const DataPage = () => {
   return (
@@ -24,6 +25,7 @@ const DataPage = () => {
         <DataReport />
         <DataEdit />
       </div>
+      <BottomNav current="manage" />  {/* ✅ 하단바 추가 위치 */}
     </div>
   );
 };

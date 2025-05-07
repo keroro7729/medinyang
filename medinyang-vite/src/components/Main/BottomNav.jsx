@@ -2,6 +2,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faHouse,
   faChartLine,
   faFileMedical,
   faUserDoctor,
@@ -13,8 +14,9 @@ const BottomNav = ({ current }) => {
   const navigate = useNavigate();
 
   const navItems = [
-    { icon: faChartLine, label: "나의 건강 DATA", to: "/data" },
-    { icon: faFileMedical, label: "의료 이력 관리", to: "/history" },
+    { icon: faChartLine, label: "나의 건강", to: "/data" },
+    { icon: faFileMedical, label: "이력 관리", to: "/history" },
+    { icon: faHouse, label: "홈", to: "/main" },
     { icon: faUserDoctor, label: "맞춤관리", to: "/manage" },
     { icon: faGear, label: "설정", to: "/setting" },
   ];
@@ -40,11 +42,17 @@ const BottomNav = ({ current }) => {
 
 const styles = {
   nav: {
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    height: "64px",
+    backgroundColor: "#fff",
+    borderTop: "1px solid #ddd",
     display: "flex",
     justifyContent: "space-around",
-    padding: "12px 0",
-    borderTop: "1px solid #ddd",
-    backgroundColor: "#ffffff",
+    alignItems: "center",
+    zIndex: 1000,
   },
   item: {
     display: "flex",
@@ -55,6 +63,8 @@ const styles = {
   },
   label: {
     marginTop: "4px",
+    whiteSpace: "pre-line",
+    textAlign: "center",
   },
 };
 

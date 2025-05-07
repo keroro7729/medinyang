@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import TopHeader from "../components/TopHeader";
+import BottomNav from "../components/Main/BottomNav"; // 하단바
+
 
 const UploadPage = () => {
   // 선택된 파일 이름 (텍스트로 표시)
@@ -56,6 +58,7 @@ const UploadPage = () => {
       const response = await fetch("http://localhost:8080/api/upload", {
         method: "POST",
         body: formData,
+        credentials: "include", // ✅ 세션 쿠키(JSESSIONID)를 자동 포함
       });
 
       if (!response.ok) throw new Error("업로드 실패");
@@ -217,6 +220,7 @@ const UploadPage = () => {
           </button>
         </div>
       </div>
+      <BottomNav current="manage" />  {/* ✅ 하단바 추가 위치 */}
     </div>
   );
 };

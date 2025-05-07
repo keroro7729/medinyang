@@ -3,6 +3,7 @@ import TopHeader from "../components/TopHeader";
 import { useNavigate } from "react-router-dom";
 import PlanResultCard from "../components/Manage/PlanResultCard";
 import ChallengeContent from "../components/Manage/ChallengeContent";
+import BottomNav from "../components/Main/BottomNav"; // 하단바
 
 
 const ManagePage = () => {
@@ -47,6 +48,7 @@ const ManagePage = () => {
   <ChallengeContent />
 )}
       </div>
+      <BottomNav current="manage" />  {/* ✅ 하단바 추가 위치 */}
     </div>
   );
 };

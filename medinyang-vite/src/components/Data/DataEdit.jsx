@@ -23,7 +23,8 @@ const styles = {
     border: 'none',
     borderRadius: '8px',
     fontSize: '16px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginBottom: "80px",
   }
 };
 

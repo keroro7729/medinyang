@@ -1,8 +1,10 @@
 // src/components/Main/ActionButtons.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import camera from "../../assets/logo.png"; // 예시 이미지
-import doctor from "../../assets/medi_doctor.png";
+import doctor from "../../assets/doctornyang.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
+
 
 const ActionButtons = () => {
   const navigate = useNavigate();
@@ -10,12 +12,13 @@ const ActionButtons = () => {
   return (
     <div style={styles.row}>
       <div style={styles.button} onClick={() => navigate("/upload")}>
-        <img src={camera} alt="업로드" style={styles.icon} />
-        <span style={styles.label}>의료 기록 업로드</span>
-      </div>
+  <FontAwesomeIcon icon={faCamera} size="3x" style={styles.camera} />
+  <span style={styles.label}>업로드</span>
+</div>
+
       <div style={styles.button} onClick={() => navigate("/chat")}>
         <img src={doctor} alt="메디냥" style={styles.icon} />
-        <span style={styles.label}>메디냥AI 상담</span>
+        <span style={styles.label}>메디냥 상담</span>
       </div>
     </div>
   );
@@ -25,7 +28,7 @@ const styles = {
   row: {
     display: "flex",
     justifyContent: "space-around",
-    marginBottom: "24px",
+    marginBottom: "10px",
   },
   button: {
     width: "120px",
@@ -38,9 +41,13 @@ const styles = {
     alignItems: "center",
     cursor: "pointer",
   },
+  camera: {
+    color: "#3B82F6",
+    marginBottom: "8px",
+  },
   icon: {
-    width: "40px",
-    height: "40px",
+    width: "60px",
+    height: "70px",
     marginBottom: "8px",
   },
   label: {

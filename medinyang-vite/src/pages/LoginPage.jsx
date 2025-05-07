@@ -12,6 +12,7 @@ const LoginPage = () => {
     // 📡 이 토큰을 우리 백엔드 서버에 보내 인증 요청
     fetch("http://localhost:8080/login/auth/google", {
       method: "POST",
+      credentials: "include", // ✅ 세션 쿠키(JSESSIONID)를 자동 포함
       headers: {
         "Content-Type": "application/json", // 보낼 데이터 형식 명시
       },
