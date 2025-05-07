@@ -2,6 +2,7 @@ package jinTeam.medinyangServer;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import jakarta.servlet.http.HttpServletRequest;
+import jinTeam.medinyangServer.database.account.AccountService;
 import jinTeam.medinyangServer.database.imageFile.ImageFile;
 import jinTeam.medinyangServer.database.imageFile.ImageFileService;
 import jinTeam.medinyangServer.utils.GoogleTokenVerifier;
@@ -23,6 +24,7 @@ public class ApiController {
 
     private final ImageFileService imageFileService;
     private final GoogleTokenVerifier googleTokenVerifier;
+    private final AccountService accountService;
 
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
@@ -33,7 +35,7 @@ public class ApiController {
 
         return ResponseEntity.ok(Map.of(
                 "message", "업로드 성공!",
-                "id", saved.getImage_id()
+                "id", saved.getImageId()
         ));
     }
 
@@ -48,10 +50,14 @@ public class ApiController {
         String email = payload.getEmail();
 
         // 1. 세션 인증 등록
-        SecurityUtil.loginUser(email);
+        SecurityUtil.loginUser(email); //account_id, user_id 세션에 등록하기
 
         // 2. (선택) 사용자 세션 직접 접근 가능
         request.getSession().setAttribute("userEmail", email);
+
+        if(accountService.isNewEmail(email)){
+            accountService.makeAccount(email);
+        }
 
         return ResponseEntity.ok(Map.of("message", "세션 로그인 성공!"));
     }

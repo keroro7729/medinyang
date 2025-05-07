@@ -26,9 +26,9 @@ public class UserService {
     @Transactional
     public User createUser(Long account_id, String name, Integer year, Gender gender){
         User user = User.builder()
-                        .master_account(accountService.getAccount(account_id))
+                        .masterAccount(accountService.getAccount(account_id))
                         .name(name)
-                        .birth_year(year)
+                        .birthYear(year)
                         .gender(gender)
                         .build();
         return repository.save(user);
@@ -55,7 +55,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
         user.setName(name);
-        user.setBirth_year(year);
+        user.setBirthYear(year);
         user.setGender(gender);
 
         // JPA는 @Transactional 안에서 entity 필드만 수정해도 자동으로 update 쿼리 나감 (Dirty Checking)

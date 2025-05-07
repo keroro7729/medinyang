@@ -20,10 +20,10 @@ public class ImageFileService {
     }
 
     @Transactional
-    public ImageFile uploadImage(MultipartFile file) {
+    public ImageFile uploadImage(MultipartFile file) { //이미지의 정보-사용자 정보 DB에
         try {
             return repository.save(ImageFile.builder()
-                    .image_data(file.getBytes())
+                    .imageData(file.getBytes())
                     .build());
         } catch (Exception e) {
             throw new FileUploadException("파일 업로드 실패", e);

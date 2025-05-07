@@ -20,32 +20,32 @@ public class ImageFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long image_id;
+    private Long imageId;
 
     @Lob
-    private byte[] image_data;
+    private byte[] imageData; //1)
 
-    private String ai_description;
+    private String aiDescription;
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime upload_date;
+    private LocalDateTime uploadDate;
 
     private String hospital;
 
-    private LocalDate visit_date;
+    private LocalDate visitDate;
 
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user; //1)
 
     public void setAdditionalData(String description, String hospital, LocalDate visit_date, ImageType type){
-        ai_description = description;
+        aiDescription = description;
         this.hospital = hospital;
-        this.visit_date = visit_date;
+        this.visitDate = visit_date;
         this.type = type;
     }
 }
