@@ -2,6 +2,7 @@ package jinTeam.medinyangServer.database.user;
 
 import jinTeam.medinyangServer.database.account.Account;
 import jinTeam.medinyangServer.database.account.AccountService;
+import jinTeam.medinyangServer.dto.CreateUserRequest;
 import jinTeam.medinyangServer.enums.Gender;
 import jinTeam.medinyangServer.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,24 @@ public class UserService {
     private final AccountService accountService;
 
     @Transactional
-    public User createUser(Long account_id, String name, Integer year, Gender gender){
+    public User createUser(Long accountId, String name, Integer year, Gender gender){
         User user = User.builder()
-                        .masterAccount(accountService.getAccount(account_id))
+                        .masterAccount(accountService.getAccount(accountId))
                         .name(name)
                         .birthYear(year)
                         .gender(gender)
                         .build();
+        return repository.save(user);
+    }
+
+    @Transactional
+    public User createUser(CreateUserRequest request){
+        User user = User.builder()
+                .masterAccount(accountService.getAccount(request.getAccountId()))
+                .name(request.getName())
+                .birthYear(request.getYear())
+                .gender(request.getGender())
+                .build();
         return repository.save(user);
     }
 
