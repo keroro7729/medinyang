@@ -1,6 +1,6 @@
 
-g	java:S112\"FDefine and throw a dedicated exception instead of using a generic one.(¬À™Êüÿÿÿÿ8Ş¿·¾ã2
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²²·…ûÿÿÿÿ8â¿·¾ã2
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÎÕÍ8ó¿·¾ã2
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÄÁå¾8ó¿·¾ã2
-L	java:S106"+Replace this use of System.out by a logger.(æ¿úÿÿÿÿ8÷¿·¾ã2
+†	java:S112\"FDefine and throw a dedicated exception instead of using a generic one.(¬À™ÊüÿÿÿÿJ$0da78621-0da6-4469-8168-23f86db2ab19
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²²·…ûÿÿÿÿJ$47cd0c94-80fa-46b6-94f8-56ae32b07865
+•	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÎÕÍJ$1aefd261-31fd-47e6-b21c-3ff31e5eb06c
+•	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÄÁå¾J$943658cf-134a-4810-aa92-31fc9e93f3b8
+k	java:S106"+Replace this use of System.out by a logger.(æ¿úÿÿÿÿJ$b733ab97-3e46-4ea9-be35-a2ccb881a9ae

@@ -20,12 +20,11 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Clova_OCR {
-
+public class Clova_OCR_ver1 {
     public static void main(String[] args) {
         String apiURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
         String secretKey = "bmFsWG5JZ3BjaGpRQlVNSHBZdHpFR2hWU1hibmlHblA=";
-        String imageFile = "C:/222.jpg";
+        String imageFile = "C:/111.jpg";
 
         try {
             URL url = new URL(apiURL);
@@ -73,23 +72,6 @@ public class Clova_OCR {
             br.close();
 
             System.out.println(response);
-
-            JSONObject jsonObj = new JSONObject(response.toString());
-
-
-
-
-
-
-            JSONArray images1 = jsonObj.getJSONArray("images");
-
-            for(int i=0; i < images1.length(); i++){
-                JSONArray fields = images1.getJSONObject(i).getJSONArray("fields");
-                for(int j=0; j < fields.length(); j++){
-                    System.out.println(fields.getJSONObject(j).getString("inferText"));
-                }
-            }
-
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -124,10 +106,15 @@ public class Clova_OCR {
                 }
                 out.write("\r\n".getBytes());
             }
+
             out.write(("--" + boundary + "--\r\n").getBytes("UTF-8"));
         }
         out.flush();
 
     }
-}
 
+
+
+
+
+}
