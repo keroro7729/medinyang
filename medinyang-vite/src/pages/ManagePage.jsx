@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TopHeader from "../components/TopHeader";
+import TopHeader from "../components/common/TopHeader";
 import { useNavigate } from "react-router-dom";
 import PlanResultCard from "../components/Manage/PlanResultCard";
 import ChallengeContent from "../components/Manage/ChallengeContent";

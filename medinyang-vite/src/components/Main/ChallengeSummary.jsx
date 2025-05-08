@@ -27,7 +27,9 @@ const styles = {
     borderRadius: "12px",
     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
     cursor: "pointer",
+    marginBottom: "24px",      // ✅ 하단 여백 추가
   },
+  
   row: {
     display: "flex",
     alignItems: "center",

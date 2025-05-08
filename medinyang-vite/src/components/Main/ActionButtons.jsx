@@ -27,9 +27,10 @@ const ActionButtons = () => {
 const styles = {
   row: {
     display: "flex",
-    justifyContent: "space-around",
-    marginBottom: "10px",
+    justifyContent: "space-evenly",   // ✅ 버튼 균등 간격
+    gap: "20px",
   },
+  
   button: {
     width: "120px",
     height: "120px",

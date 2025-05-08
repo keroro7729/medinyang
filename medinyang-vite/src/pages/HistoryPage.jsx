@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import HistoryList from "../components/History/HistoryList";
-import TopHeader from "../components/TopHeader";
-import BottomNav from "../components/Main/BottomNav";
-
+import TopHeader from "../components/common/TopHeader";
+import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
+import ScrollToTopButton from "../components/common/ScrollToTopButton"; 
 
 const dummyData = [
   { hospital: "지콜 병원", date: "2023-03-02", type: "처방전", diagnosis: "감기" },
-  { hospital: "지토스키 병원", date: "2024-04-01", type: "건강검진결과", diagnosis: "고혈압" },
+  { hospital: "지토스키 병원", date: "2024-04-01", type: "건강검진", diagnosis: "고혈압" },
   { hospital: "지토스키 병원", date: "2025-04-03", type: "처방전", diagnosis: "장염" },
-  { hospital: "차은우 병원", date: "2021-04-03", type: "건강검진결과", diagnosis: "과체중으로 체중조절 필요" },
+  { hospital: "차은우 병원", date: "2021-04-03", type: "건강검진", diagnosis: "과체중으로 체중조절 필요" },
   { hospital: "지토스키 병원", date: "2021-05-03", type: "처방전", diagnosis: "장염" },
   { hospital: "지콜 정형외과", date: "2024-07-03", type: "처방전", diagnosis: "척추측만증으로 물리치료" },
   { hospital: "지토스키 병원", date: "2023-09-03", type: "처방전", diagnosis: "장염" },
+  { hospital: "지콜콜 병원", date: "2011-09-03", type: "처방전", diagnosis: "감기" },
+  { hospital: "인성 병원", date: "2025-09-01", type: "처방전", diagnosis: "장염" },
+  { hospital: "지토스키 병원", date: "2023-09-03", type: "처방전", diagnosis: "장염" },
+  { hospital: "지토스키 병원", date: "2023-09-03", type: "처방전", diagnosis: "감기" },
+  { hospital: "인성성 병원", date: "2024-11-28", type: "처방전", diagnosis: "노로바이러스" },
+  { hospital: "삼성성 병원", date: "2023-09-03", type: "처방전", diagnosis: "감기" },
+  { hospital: "삼성성 병원", date: "2025-01-21", type: "건강검진", diagnosis: "고혈압" },
+  
 ];
 
 const HistoryPage = () => {
@@ -63,7 +71,7 @@ const HistoryPage = () => {
               >
                 <option value="전체">전체</option>
                 <option value="처방전">처방전</option>
-                <option value="건강검진결과">건강검진결과</option>
+                <option value="건강검진">건강검진</option>
               </select>
             </div>
           </div>
@@ -72,7 +80,8 @@ const HistoryPage = () => {
           </div>
         </div>
       </div>
-      <BottomNav current="history" /> {/* ✅ 하단바 고정 추가 */}
+      <ScrollAwareBottomNav current="history" /> {/* ✅ 스크롤 대응 하단바 */}
+      <ScrollToTopButton /> {/* ✅ 여기 추가 */}
     </div>
     
   );
