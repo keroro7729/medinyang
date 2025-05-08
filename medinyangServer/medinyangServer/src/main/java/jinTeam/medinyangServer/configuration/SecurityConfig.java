@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/login/**","/").permitAll() // 로그인 관련 API만 비인증 접근 허용
+                    .requestMatchers("/login/**","/","/ws/**").permitAll() // 로그인 관련 API만 비인증 접근 허용
                     .anyRequest().authenticated() // 나머지는 전부 인증 필요
             );
 
