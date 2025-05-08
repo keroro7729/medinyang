@@ -55,7 +55,7 @@ const UploadPage = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await fetch("http://localhost:8080/api/upload", {
+      const response = await fetch("http://localhost:8080/image-files/upload", {
         method: "POST",
         body: formData,
         credentials: "include", // ✅ 세션 쿠키(JSESSIONID)를 자동 포함
