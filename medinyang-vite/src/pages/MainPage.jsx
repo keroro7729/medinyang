@@ -43,3 +43,5 @@ const styles = {
     gap: "24px",                    // ✅ 요소 간 여백
   },
 };
+
+export default MainPage;
