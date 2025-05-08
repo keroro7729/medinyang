@@ -1,0 +1,33 @@
+
+‰
+java:S1192X"FDefine a constant instead of duplicating this literal "UTF-8" 4 times.(ş¬›ó8¶–§Ùê2J$ba8ddf20-c4e2-461e-b9b1-1d060163a462
+”	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(îä™Ëüÿÿÿÿ8¤×¡Ùê2J$b45e75c8-22da-4bb6-89e5-2c07fff544d5
+¡	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²²·…ûÿÿÿÿ8¦×¡Ùê2J$609a2241-d446-459a-aadf-4c9832f80e73
+§
+java:S1149D"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(Ôô¡Óüÿÿÿÿ8Ö–§Ùê2J$6d5727aa-9bd4-4705-87f7-3e5d56772678
+|
+java:S18547"9Remove this useless assignment to local variable "start".(’Ã¼8Ù–§Ùê2J$23385235-ed99-49bb-be5e-8ccec934a2a8
+Š
+java:S5361%"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ñ±Ë<8æ–§Ùê2J$c5125aac-4623-442f-bd26-604cd783887b
+m
+java:S14817"*Remove this unused "start" local variable.(’Ã¼8ö–§Ùê2J$8aab3114-344d-4a06-b221-4c4ef878696a
+r	java:S106J"+Replace this use of System.out by a logger.(˜Š¿Ûüÿÿÿÿ8ú–§Ùê2J$9ec3ce04-250c-49fe-bed6-ebf2ab970d9d
+r	java:S106L"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8û–§Ùê2J$ef109265-2642-4852-b248-1947c7bea148
+|
+java:S4719X"9Replace charset name argument with StandardCharsets.UTF_8(ş¬›ó8†—§Ùê2J$6aed3a12-e93a-45a7-98f7-9b55922ec8a0
+
+java:S4719\"9Replace charset name argument with StandardCharsets.UTF_8(Şã¨Ùûÿÿÿÿ8‡—§Ùê2J$7a1cce8b-421b-48ec-9c0c-f961e6ee0035
+|
+java:S4719b"9Replace charset name argument with StandardCharsets.UTF_8(ƒµ­8ˆ—§Ùê2J$7a31fb3e-b99c-45c8-97d5-91c44092f498
+|
+java:S4719n"9Replace charset name argument with StandardCharsets.UTF_8(æ¯†ö8‰—§Ùê2J$29ff3a1c-668c-4708-969d-9a8ab3421c83
+f
+java:S1128"$Remove this unused import 'java.io'.(¬›ãD8¥¥Ùê2J$3f9eb1d1-228c-410d-8064-273663233e55
+a
+java:S1128"Remove this duplicated import.(¬¬˜­8‘¥¥Ùê2J$60473109-442b-44cd-84d4-daed2acf03e7
+f
+java:S1128"Remove this duplicated import.(ÀãÄ£úÿÿÿÿ8‘¥¥Ùê2J$85d0eaa6-b68b-421a-b491-ae304bd79bcd
+f
+java:S1128"Remove this duplicated import.(¬¸Ê’üÿÿÿÿ8‘¥¥Ùê2J$747f1fd8-7020-464f-a530-cf4c701ae868
+f
+java:S1128"Remove this duplicated import.(œÖ´üşÿÿÿÿ8‘¥¥Ùê2J$b100056f-5ff5-4a54-86d0-262b02e953fe
