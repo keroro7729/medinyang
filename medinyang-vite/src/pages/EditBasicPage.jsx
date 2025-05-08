@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import TopHeader from '../components/TopHeader';
+import TopHeader from '../components/common/TopHeader';
 import { useNavigate } from 'react-router-dom';
+
 
 const EditBasicPage = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const styles = {
   pageWrapper: {
     backgroundColor: '#f8f9fa',
     width: "100vw",
-        height: "100dvh",
+    height: "100dvh",
     padding: '24px',
     //display: 'flex',
     justifyContent: 'center',

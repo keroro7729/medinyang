@@ -1,6 +1,6 @@
 // src/components/common/TopHeader.jsx
 import React from "react";
-import { useNavigate } from "react-router-dom"; // 페이지 이동용 hook
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -22,12 +22,14 @@ const TopHeader = ({ title = "제목 없음", backTo = null }) => {
   return (
     <div
       style={{
-        width: "100%", // 가로 전체
+        position: "sticky",      // ✅ 스크롤 고정
+        top: 0,                  // ✅ 최상단 고정
+        zIndex: 100,            // ✅ 다른 요소보다 위에
+        width: "100%",
         display: "flex",
         backgroundColor: "#ffffff",
-        justifyContent: "space-between", // 왼쪽, 가운데, 오른쪽 정렬
+        justifyContent: "space-between",
         alignItems: "center",
-        //marginBottom: '45px', // 아래 콘텐츠와 간격
       }}
     >
       {/* 왼쪽 뒤로가기 버튼 */}
@@ -35,7 +37,7 @@ const TopHeader = ({ title = "제목 없음", backTo = null }) => {
         onClick={handleBack}
         style={{
           backgroundColor: "#ffffff",
-          color: "#3B82F6", // 기본 파란색
+          color: "#3B82F6",
           fontWeight: "bold",
           fontSize: "20px",
           padding: "4px",
@@ -43,10 +45,10 @@ const TopHeader = ({ title = "제목 없음", backTo = null }) => {
           border: "none",
           cursor: "pointer",
           marginLeft: "20px",
-          transition: "color 0.2s ease", // hover 시 색상 전환
+          transition: "color 0.2s ease",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = "#1D4ED8")} // 진한 파랑
-        onMouseLeave={(e) => (e.currentTarget.style.color = "#3B82F6")} // 원래 색
+        onMouseEnter={(e) => (e.currentTarget.style.color = "#1D4ED8")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#3B82F6")}
       >
         <FontAwesomeIcon icon={faArrowLeft} />
       </button>
@@ -57,7 +59,7 @@ const TopHeader = ({ title = "제목 없음", backTo = null }) => {
           fontSize: "16px",
           fontWeight: "600",
           fontFamily: `'Segoe UI', 'Pretendard', 'Noto Sans KR', sans-serif`,
-          color: "#111827", // 거의 검정에 가까운 색
+          color: "#111827",
         }}
       >
         {title}

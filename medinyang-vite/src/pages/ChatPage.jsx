@@ -1,7 +1,8 @@
+// src/pages/ChatPage.jsx
 import React, { useState, useEffect, useRef } from "react";
 import ChatList from "../components/Chat/ChatList";
 import ChatInput from "../components/Chat/ChatInput";
-import TopHeader from "../components/TopHeader";
+import TopHeader from "../components/common/TopHeader";
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
@@ -9,6 +10,12 @@ const ChatPage = () => {
   const socket = useRef(null);
 
   useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      console.warn("로그인되지 않아 WebSocket 연결을 생략합니다.");
+      return;
+    }
+
     socket.current = new WebSocket("ws://localhost:8080/ws/chat");
 
     socket.current.onmessage = (event) => {
@@ -20,7 +27,7 @@ const ChatPage = () => {
 
     socket.current.onclose = () => console.log("웹소켓 연결 종료");
 
-    return () => socket.current.close();
+    return () => socket.current?.close();
   }, []);
 
   const handleSend = (text) => {
@@ -70,8 +77,8 @@ const ChatPage = () => {
       <div
         style={{
           position: "absolute",
-          top: "56px", // 헤더 높이
-          bottom: "96px", // 입력창 높이
+          top: "56px",
+          bottom: "96px",
           left: 0,
           right: 0,
           overflowY: "auto",
@@ -82,7 +89,7 @@ const ChatPage = () => {
         <ChatList messages={messages} />
       </div>
 
-      {/* 하단 고정 입력창 */}
+      {/* 입력창 */}
       <div
         style={{
           position: "fixed",

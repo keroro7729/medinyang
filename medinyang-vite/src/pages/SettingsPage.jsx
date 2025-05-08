@@ -1,8 +1,8 @@
 import React from "react";
-import TopHeader from "../components/TopHeader";
+import TopHeader from "../components/common/TopHeader";
 import SettingSection from "../components/Settings/SettingSection";
 import BottomNav from "../components/Main/BottomNav"; // 하단바
-
+import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
 
 const SettingsPage = () => {
   return (
@@ -27,7 +27,7 @@ const SettingsPage = () => {
           items={["고객센터", "피드백 보내기"]}
         />
       </div>
-      <BottomNav current="manage" />  {/* ✅ 하단바 추가 위치 */}
+      <ScrollAwareBottomNav current="setting" />
     </div>
   );
 };

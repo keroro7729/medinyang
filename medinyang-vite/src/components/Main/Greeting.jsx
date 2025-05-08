@@ -13,12 +13,13 @@ const Greeting = () => {
   
   const styles = {
     container: {
-      display: "flex", // 가로 정렬
-      alignItems: "center", // 수직 가운데 정렬
-      justifyContent: "center", // 전체 중앙 배치
-      gap: "12px", // 이미지와 텍스트 사이 간격
-      padding: "24px 0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "12px",
+      padding: "12px 0",        // ✅ 여백 축소
     },
+    
     image: {
       width: "60px",
       height: "60px",

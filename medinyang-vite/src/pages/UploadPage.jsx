@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import TopHeader from "../components/TopHeader";
+import TopHeader from "../components/common/TopHeader";
 import BottomNav from "../components/Main/BottomNav"; // 하단바
 
 
