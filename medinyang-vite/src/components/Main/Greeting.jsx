@@ -1,37 +1,56 @@
 // src/components/Main/Greeting.jsx
 import React from "react";
-import profileImg from "../../assets/google.png"; // ❗️profile.png 이미지 필요
+import profileImg from "../../assets/google.png";
 
 const Greeting = () => {
-    return (
-      <div style={styles.container}>
+  return (
+    <div style={styles.container}>
+      <div style={styles.inner}>
         <img src={profileImg} alt="프로필" style={styles.image} />
-        <p style={styles.text}>홍길동님 반갑습니다!</p>
+        <div style={styles.textWrapper}>
+          <p style={styles.name}>홍길동 님,</p>
+          <p style={styles.sub1}>메디냥과 함께</p>
+          <p style={styles.sub2}>더 건강한 생활 해보아요!</p>
+        </div>
       </div>
-    );
-  };
-  
-  const styles = {
-    container: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "12px",
-      padding: "12px 0",        // ✅ 여백 축소
-    },
-    
-    image: {
-      width: "60px",
-      height: "60px",
-      borderRadius: "50%",
-      objectFit: "cover",
-    },
-    text: {
-      fontSize: "18px",
-      fontWeight: "bold",
-      color: "#111827",
-    },
-  };
-  
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    backgroundColor: "#2C7EDB",
+    padding: "48px 24px 70px",
+    color: "white",
+  },
+  inner: {
+    display: "flex",
+    alignItems: "center",
+    gap: "24px",
+  },
+  image: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    backgroundColor: "#e4e4e4",
+  },
+  textWrapper: {
+    flex: 1,
+  },
+  name: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    marginBottom: "4px",
+  },
+  sub1: {
+    fontSize: "15px",
+    lineHeight: "1.4",
+  },
+  sub2: {
+    fontSize: "15px",
+    lineHeight: "1.4",
+    marginTop: "-2px",
+  },
+};
 
 export default Greeting;

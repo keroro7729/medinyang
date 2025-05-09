@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+// src/pages/EditBasicPage.jsx
+import React, { useState, useEffect } from 'react';
 import TopHeader from '../components/common/TopHeader';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 
 const EditBasicPage = () => {
-  
+  const { isLoggedIn, loading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다!");
+      navigate("/");
+    }
+  }, [isLoggedIn, loading, navigate]);
 
   const [form, setForm] = useState({
     이름: '홍길동',
@@ -25,10 +33,9 @@ const EditBasicPage = () => {
     console.log('수정된 정보:', form);
     navigate('/data');
   };
-  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
 
   if (loading) return <p>로딩 중입니다...</p>;
-  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
+
   return (
     <div>
       <TopHeader title="기본정보 수정" />
@@ -46,11 +53,10 @@ const EditBasicPage = () => {
               />
             </div>
           ))}
-         
-        </form>
-        <button type="submit" style={styles.submit}>
+          <button type="submit" style={styles.submit}>
             저장
           </button>
+        </form>
       </div>
     </div>
   );
@@ -62,13 +68,12 @@ const styles = {
     width: "100vw",
     height: "100dvh",
     padding: '24px',
-    //display: 'flex',
     justifyContent: 'center',
     boxSizing: 'border-box',
   },
   form: {
     width: '100%',
-    maxWidth: '480px', // 📱 iPhone 14 Pro 기준 꽉 차게
+    maxWidth: '480px',
     backgroundColor: '#ffffff',
     padding: '24px',
     borderRadius: '16px',
@@ -102,11 +107,10 @@ const styles = {
     fontWeight: "bold",
     padding: "12px",
     fontSize: "16px",
-    marginTop:"15px",
+    marginTop: "15px",
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
-   
   },
 };
 

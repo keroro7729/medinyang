@@ -1,23 +1,22 @@
 // src/pages/MainPage.jsx
-import React from "react";
 import Greeting from "../components/Main/Greeting";
 import ActionButtons from "../components/Main/ActionButtons";
 import ChallengeSummary from "../components/Main/ChallengeSummary";
 import BottomNav from "../components/Main/BottomNav";
-import { useAuth } from "../context/AuthContext";
 
 const MainPage = () => {
-
-  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
-
-  if (loading) return <p>로딩 중입니다...</p>;
-  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
-  
   return (
-    <div style={styles.container}>
-      <div style={styles.content}>
-        <Greeting />
-        <ActionButtons />
+    <div style={styles.page}>
+      <Greeting />
+      <ActionButtons />
+      <div style={styles.challengeWrapper}>
+        <div style={styles.challengeTitleBox}>
+          <span style={styles.challengeTitleAccent}>꾸준함</span>
+          <span style={styles.challengeTitle}>이 만드는 건강한 습관!</span>
+          <p style={styles.challengeDesc}>
+            현재 길동님이 진행중인 챌린지예요
+          </p>
+        </div>
         <ChallengeSummary />
       </div>
       <BottomNav current="main" />
@@ -26,28 +25,30 @@ const MainPage = () => {
 };
 
 const styles = {
-  container: {
-    height: "100dvh",         // 화면에 맞게 고정
+  page: {
     width: "100vw",
-    overflow: "hidden",       // 스크롤 제거
-    margin: 0,
-    padding: 0,
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "column",
     backgroundColor: "#f9f9f9",
+    paddingBottom: "80px", // ✅ 하단 바 안 가리도록
   },
-  content: {
-    flex: 1,
-    maxWidth: "600px",
-    width: "100%",
-    margin: "0 auto",
-    padding: "0 16px",
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",       // ✅ 중앙 배치
-    gap: "24px",                    // ✅ 요소 간 여백
+  challengeWrapper: {
+    padding: "20px",
+  },
+  challengeTitleBox: {
+    marginBottom: "12px",
+  },
+  challengeTitleAccent: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    color: "#3B82F6",
+  },
+  challengeTitle: {
+    fontSize: "20px",
+    fontWeight: "bold",
+  },
+  challengeDesc: {
+    fontSize: "12px",
+    color: "#6B7280",
+    marginTop: "-2px",
   },
 };
 
