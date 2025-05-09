@@ -4,8 +4,15 @@ import Greeting from "../components/Main/Greeting";
 import ActionButtons from "../components/Main/ActionButtons";
 import ChallengeSummary from "../components/Main/ChallengeSummary";
 import BottomNav from "../components/Main/BottomNav";
+import { useAuth } from "../context/AuthContext";
 
 const MainPage = () => {
+
+  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
+
+  if (loading) return <p>로딩 중입니다...</p>;
+  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
+  
   return (
     <div style={styles.container}>
       <div style={styles.content}>

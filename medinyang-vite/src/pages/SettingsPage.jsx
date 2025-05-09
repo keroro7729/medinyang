@@ -3,8 +3,13 @@ import TopHeader from "../components/common/TopHeader";
 import SettingSection from "../components/Settings/SettingSection";
 import BottomNav from "../components/Main/BottomNav"; // 하단바
 import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
+import { useAuth } from "../context/AuthContext";
 
 const SettingsPage = () => {
+  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
+
+  if (loading) return <p>로딩 중입니다...</p>;
+  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
   return (
     <div style={styles.page}>
       <TopHeader title="설정" />

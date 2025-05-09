@@ -1,26 +1,30 @@
-// src/pages/LoginPage.jsx
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // ✅ context 가져오기
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth(); // ✅ 로그인 상태 변경 함수
 
   const handleLoginSuccess = (credentialResponse) => {
     const idToken = credentialResponse.credential;
 
     fetch("http://localhost:8080/login/auth/google", {
       method: "POST",
-      credentials: "include",
+      credentials: "include", // ✅ 세션 쿠키 포함
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ idToken }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("accessToken", data.token);
-        localStorage.setItem("isLoggedIn", "true"); // ✅ 로그인 상태 저장
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error("백엔드 인증 실패"); // ❌ 실패 처리
+        }
+        const data = await res.json();
+        localStorage.setItem("accessToken", data.token); // optional
+        setIsLoggedIn(true); // ✅ 로그인 상태 전역 변경
         navigate("/main");
       })
       .catch((err) => {

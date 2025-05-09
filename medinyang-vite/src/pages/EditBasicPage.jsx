@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import TopHeader from '../components/common/TopHeader';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from "../context/AuthContext";
 
 const EditBasicPage = () => {
+  
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -24,7 +25,10 @@ const EditBasicPage = () => {
     console.log('수정된 정보:', form);
     navigate('/data');
   };
+  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
 
+  if (loading) return <p>로딩 중입니다...</p>;
+  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
   return (
     <div>
       <TopHeader title="기본정보 수정" />

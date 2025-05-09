@@ -3,19 +3,22 @@ import React, { useState, useEffect, useRef } from "react";
 import ChatList from "../components/Chat/ChatList";
 import ChatInput from "../components/Chat/ChatInput";
 import TopHeader from "../components/common/TopHeader";
+import { useAuth } from "../context/AuthContext";
 
 const ChatPage = () => {
+  const { isLoggedIn, loading } = useAuth(); // ✅ Context에서 가져오기
   const [messages, setMessages] = useState([]);
   const [isReplying, setIsReplying] = useState(false);
   const socket = useRef(null);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (loading) return; // 아직 확인 중이면 아무것도 하지 않음
     if (!isLoggedIn) {
       console.warn("로그인되지 않아 WebSocket 연결을 생략합니다.");
       return;
     }
 
+    // ✅ 로그인 상태일 때만 WebSocket 연결
     socket.current = new WebSocket("ws://localhost:8080/ws/chat");
 
     socket.current.onmessage = (event) => {
@@ -28,7 +31,7 @@ const ChatPage = () => {
     socket.current.onclose = () => console.log("웹소켓 연결 종료");
 
     return () => socket.current?.close();
-  }, []);
+  }, [isLoggedIn, loading]); // ✅ 의존성에 추가
 
   const handleSend = (text) => {
     if (!text.trim() || isReplying) return;
@@ -47,6 +50,9 @@ const ChatPage = () => {
     }
     setIsReplying(false);
   };
+
+  if (loading) return <p>로딩 중입니다...</p>;
+  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
 
   return (
     <div
