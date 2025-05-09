@@ -1,34 +1,0 @@
-
-‚
-java:S1192j"FDefine a constant instead of duplicating this literal "UTF-8" 4 times.(ş¬›óJ$92173e2a-76ad-4a36-b091-a53b8b36361a
-ˆ	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(óûšÄJ$a7c2ef89-6769-4bee-b4f1-707ee1c93f50
-š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²²·…ûÿÿÿÿJ$95740002-a7a4-4b18-8c9d-957669a74b6c
-
-java:S1149E"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(Ôô¡Óüÿÿÿÿ8ÍÌÎ‚ë2
-V
-java:S18548"9Remove this useless assignment to local variable "start".(’Ã¼8ÏÌÎ‚ë2
-d
-java:S5361&"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ñ±Ë<8ÔÌÎ‚ë2
-G
-java:S14818"*Remove this unused "start" local variable.(’Ã¼8ÚÌÎ‚ë2
-k	java:S106K"+Replace this use of System.out by a logger.(˜Š¿ÛüÿÿÿÿJ$7fa211cc-3b00-4a60-91d4-ea786a922bbe
-r	java:S106Y"+Replace this use of System.out by a logger.(ºĞùöıÿÿÿÿ8êÍË‚ë2J$7e2d4a17-4dc5-4134-be1f-b19518cfc084
-L	java:S106^"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8ãÌÎ‚ë2
-u
-java:S4719j"9Replace charset name argument with StandardCharsets.UTF_8(ş¬›óJ$a08d377e-1a6b-47e5-8c92-ff1f77a59120
-z
-java:S4719n"9Replace charset name argument with StandardCharsets.UTF_8(Şã¨ÙûÿÿÿÿJ$779205cd-4a2a-4505-a604-a87c42bd65b9
-u
-java:S4719t"9Replace charset name argument with StandardCharsets.UTF_8(ƒµ­J$477d08e0-2d01-407b-a9d9-5149f391439f
-u
-java:S4719"9Replace charset name argument with StandardCharsets.UTF_8(æ¯†öJ$b3db0567-cdce-4543-90be-402be2c7ac7a
-_
-java:S1128"$Remove this unused import 'java.io'.(¬›ãDJ$be7eed29-be56-416b-b26b-36cc0f7912b9
-Z
-java:S1128"Remove this duplicated import.(¬¬˜­J$cd56cc7d-cac0-4130-8d34-c0847a612ff0
-_
-java:S1128"Remove this duplicated import.(ÀãÄ£úÿÿÿÿJ$a45a2d90-f81e-4bc0-883a-6509fbbdc879
-_
-java:S1128"Remove this duplicated import.(¬¸Ê’üÿÿÿÿJ$0f1b4c77-e28d-4d5f-a5c5-5418668aa1af
-_
-java:S1128"Remove this duplicated import.(œÖ´üşÿÿÿÿJ$7ee5e1a2-198b-4721-abcf-4bb8532da7d4
