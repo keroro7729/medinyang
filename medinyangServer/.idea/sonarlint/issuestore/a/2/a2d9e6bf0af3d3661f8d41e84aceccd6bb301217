@@ -1,34 +1,0 @@
-
-‰
-java:S1192d"FDefine a constant instead of duplicating this literal "UTF-8" 4 times.(ş¬›ó8–Œ¬¦ã2J$af4e8730-da04-4a2c-9185-8ab17ac7ad07
-	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(óûšÄ8—Œ¬¦ã2J$fe0cc5b7-ee51-456b-a03b-8e1fa1cba049
-¡	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(²²·…ûÿÿÿÿ8˜Œ¬¦ã2J$cd554fe9-2a69-411f-a19e-9203c105d5bb
-
-java:S1149E"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(Ôô¡Óüÿÿÿÿ8óµ»¦ã2
-V
-java:S18548"9Remove this useless assignment to local variable "start".(’Ã¼8õµ»¦ã2
-d
-java:S5361&"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ñ±Ë<8ùµ»¦ã2
-G
-java:S14818"*Remove this unused "start" local variable.(’Ã¼8¶»¦ã2
-L	java:S106K"+Replace this use of System.out by a logger.(˜Š¿Ûüÿÿÿÿ8…¶»¦ã2
-L	java:S106S"+Replace this use of System.out by a logger.(ºĞùöıÿÿÿÿ8†¶»¦ã2
-L	java:S106X"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8†¶»¦ã2
-|
-java:S4719d"9Replace charset name argument with StandardCharsets.UTF_8(ş¬›ó8®Œ¬¦ã2J$7189a080-c49d-4550-aea2-9a250cfb8a7b
-
-java:S4719h"9Replace charset name argument with StandardCharsets.UTF_8(Şã¨Ùûÿÿÿÿ8®Œ¬¦ã2J$16e45467-b8b5-45d5-ae9a-56de9513547f
-|
-java:S4719n"9Replace charset name argument with StandardCharsets.UTF_8(ƒµ­8®Œ¬¦ã2J$5cabaec4-b786-4bb8-acbc-53a089c02107
-|
-java:S4719y"9Replace charset name argument with StandardCharsets.UTF_8(æ¯†ö8¯Œ¬¦ã2J$a0a05e0c-d2af-4e1f-9377-55d1131bb8fb
-@
-java:S1128"$Remove this unused import 'java.io'.(¬›ãD8¶»¦ã2
-a
-java:S1128"Remove this duplicated import.(¬¬˜­8°Œ¬¦ã2J$bb78764d-3c03-4cfc-8b75-fa7d10d05553
-f
-java:S1128"Remove this duplicated import.(ÀãÄ£úÿÿÿÿ8°Œ¬¦ã2J$1d17e313-90e6-4d0e-b87e-7138a9a98ce3
-f
-java:S1128"Remove this duplicated import.(¬¸Ê’üÿÿÿÿ8°Œ¬¦ã2J$b3b0756d-acd8-4e1c-b6ef-275f70c2caea
-f
-java:S1128"Remove this duplicated import.(œÖ´üşÿÿÿÿ8°Œ¬¦ã2J$663f8052-7cdf-41e4-a858-03ceaa225420
