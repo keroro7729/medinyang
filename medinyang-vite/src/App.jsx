@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage"; // 👈 로그인 페이지 import �
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Routes>
         <Route path="/data" element={<DataPage />} />
@@ -25,6 +26,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 

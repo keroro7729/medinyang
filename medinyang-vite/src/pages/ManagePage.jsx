@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PlanResultCard from "../components/Manage/PlanResultCard";
 import ChallengeContent from "../components/Manage/ChallengeContent";
 import BottomNav from "../components/Main/BottomNav"; // 하단바
-
+import { useAuth } from "../context/AuthContext";
 
 const ManagePage = () => {
   const navigate = useNavigate();
@@ -14,6 +14,11 @@ const ManagePage = () => {
     navigate("/chat");
   };
 
+  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
+
+  if (loading) return <p>로딩 중입니다...</p>;
+  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
+  
   return (
     <div style={styles.page}>
       <TopHeader title="맞춤 관리" />

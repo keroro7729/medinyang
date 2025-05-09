@@ -3,6 +3,7 @@ import HistoryList from "../components/History/HistoryList";
 import TopHeader from "../components/common/TopHeader";
 import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
 import ScrollToTopButton from "../components/common/ScrollToTopButton"; 
+import { useAuth } from "../context/AuthContext";
 
 const dummyData = [
   { hospital: "지콜 병원", date: "2023-03-02", type: "처방전", diagnosis: "감기" },
@@ -38,7 +39,11 @@ const HistoryPage = () => {
   const sortedData = [...filteredData].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
+  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
 
+  if (loading) return <p>로딩 중입니다...</p>;
+  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
+  
   return (
     <div style={styles.wrapper}>
       <div style={styles.container}>
