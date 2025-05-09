@@ -7,17 +7,58 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.Authentication;
+import jinTeam.medinyangServer.session.SessionCollector;
 
 import java.io.IOException;
 import java.util.Map;
+import jakarta.servlet.http.HttpSession;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session){
-        System.out.println("✅ WebSocket 연결됨: " + session.getId());
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        // 쿼리 파라미터에서 JSESSIONID 추출
+        String uri = session.getUri().toString();
+        String jsessionId = null;
+        if (uri.contains("jsession=")) {
+            jsessionId = uri.split("jsession=")[1];
+        }
+
+        System.out.println("🧪 전달된 JSESSIONID: " + jsessionId);
+
+        if (jsessionId == null) {
+            session.close();
+            return;
+        }
+
+        // 2. 세션 보관소에서 세션 복원
+        HttpSession httpSession = SessionCollector.getSessionById(jsessionId);
+        System.out.println("🧪 복원된 HttpSession: " + httpSession);
+
+        if (httpSession == null) {
+            session.close();
+            return;
+        }
+
+        // 3. 인증 정보 확인
+        SecurityContext context = (SecurityContext) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
+        System.out.println("🧪 SecurityContext: " + context);
+
+        if (context == null || context.getAuthentication() == null || !context.getAuthentication().isAuthenticated()) {
+            session.close();
+            return;
+        }
+
+        // 4. 사용자 정보 사용 가능
+        Authentication auth = context.getAuthentication();
+        String email = (String) auth.getPrincipal();
+
+        // 6. 인증 완료된 WebSocket 사용자 연결 확인
+        System.out.println("✅ WebSocket 인증 사용자 연결됨: " + email + " (" + session.getId() + ")");
     }
 
     @Override
