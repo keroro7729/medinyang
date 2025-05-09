@@ -1,5 +1,7 @@
 package jinTeam.medinyangServer.controller;
 
+import jinTeam.medinyangServer.dto.response.DefaultResponseDto;
+import jinTeam.medinyangServer.dto.response.SessionResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,14 +19,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
     @GetMapping("/session")
-    public ResponseEntity<?> getSessionUser(@AuthenticationPrincipal String email) {
+    public ResponseEntity<DefaultResponseDto<SessionResponseDto>> getSessionUser(@AuthenticationPrincipal String email) {
         if (email == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션 없음 또는 만료됨");
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new DefaultResponseDto<>(false, "세션 없음 또는 만료됨", null));
         }
 
-        return ResponseEntity.ok(Map.of(
-                "email", email,
-                "message", "세션 유효함"
-        ));
+        SessionResponseDto sessionData = new SessionResponseDto(email);
+        return ResponseEntity.ok(new DefaultResponseDto<>(true, "세션 정보 반환 성공", sessionData));
     }
 }

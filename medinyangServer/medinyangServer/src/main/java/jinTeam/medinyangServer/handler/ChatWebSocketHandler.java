@@ -9,6 +9,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.Authentication;
+import jinTeam.medinyangServer.session.SessionCollector;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,29 +21,39 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        // 1. WebSocket 연결 시, HTTP 세션(HttpSession)을 복원하기 위해 attributes에서 꺼냄
-        //    → 이 HttpSession은 핸드셰이크 시점에 HttpSessionHandshakeInterceptor(config에 정의되어 있음)가 복사해둠
-        HttpSession httpSession = (HttpSession) session.getAttributes().get("HTTP.SESSION");
-        System.out.println("🧪 HttpSession: " + httpSession);
+        // 쿼리 파라미터에서 JSESSIONID 추출
+        String uri = session.getUri().toString();
+        String jsessionId = null;
+        if (uri.contains("jsession=")) {
+            jsessionId = uri.split("jsession=")[1];
+        }
 
-        // 2. 세션이 없는 경우 (예: JSESSIONID 쿠키가 없는 비로그인 사용자) → 연결 차단
+        System.out.println("🧪 전달된 JSESSIONID: " + jsessionId);
+
+        if (jsessionId == null) {
+            session.close();
+            return;
+        }
+
+        // 2. 세션 보관소에서 세션 복원
+        HttpSession httpSession = SessionCollector.getSessionById(jsessionId);
+        System.out.println("🧪 복원된 HttpSession: " + httpSession);
+
         if (httpSession == null) {
             session.close();
             return;
         }
 
-        // 3. Spring Security의 인증 정보를 세션에서 직접 꺼냄
-        //     → 세션 내부의 SPRING_SECURITY_CONTEXT에 Authentication 객체가 저장되어 있음
+        // 3. 인증 정보 확인
         SecurityContext context = (SecurityContext) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
         System.out.println("🧪 SecurityContext: " + context);
 
-        // 4. 인증 정보가 없거나, 인증되지 않은 사용자라면 → 연결 차단
         if (context == null || context.getAuthentication() == null || !context.getAuthentication().isAuthenticated()) {
             session.close();
             return;
         }
 
-        // 5. 인증된 사용자 정보 사용 가능 (예: 이메일, 유저 ID 등)
+        // 4. 사용자 정보 사용 가능
         Authentication auth = context.getAuthentication();
         String email = (String) auth.getPrincipal();
 
