@@ -9,13 +9,17 @@ export default defineConfig({
     proxy: {
       '/ws': {
         target: 'http://localhost:8080',
-        ws: true,
+        changeOrigin: true,
+        ws: true, // ✅ WebSocket도 프록시
+      },
+      '/auth': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/login': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-      }
-    }
-  }
+      },
+    },
+  },
 });

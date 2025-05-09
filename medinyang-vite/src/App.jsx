@@ -9,6 +9,7 @@ import ManagePage from './pages/ManagePage';
 import SettingsPage from './pages/SettingsPage';
 import MainPage from './pages/MainPage';
 import LoginPage from "./pages/LoginPage"; // 👈 로그인 페이지 import 추가
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (

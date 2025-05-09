@@ -8,50 +8,102 @@ const ChallengeSummary = () => {
 
   return (
     <div style={styles.card} onClick={() => navigate("/manage")}>
-      <div style={styles.row}>
-        <img src={sleepyCat} alt="챌린지" style={styles.image} />
-        <div>
-          <p style={styles.title}>🌙 수면 챌린지</p>
-          <p style={styles.sub}>13일째 ing</p>
-        </div>
+      {/* ✅ 상단 헤더: 좌우 색 다르게 분리 */}
+      <div style={styles.header}>
+        <div style={styles.headerLeft}>🌙 <span style={styles.headerTitle}>수면 챌린지</span></div>
+        <div style={styles.headerRight}>챌린지 체크하러 가기 →</div>
       </div>
-      <p style={styles.link}>챌린지 체크하러 가기 &gt;</p>
+
+      <div style={styles.content}>
+        <div>
+          <p style={styles.status}>13일 연속 성공중 🔥</p>
+          <p style={styles.desc}>지금 이 페이스 그대로~! 남은 기간 화이팅 👊🏻</p>
+          <div style={styles.barWrapper}>
+            <div style={styles.barFill} />
+          </div>
+          <p style={styles.date}>2025.05.01~2025.05.31</p>
+        </div>
+        <img src={sleepyCat} alt="챌린지" style={styles.cat} />
+      </div>
     </div>
   );
 };
 
 const styles = {
   card: {
-    backgroundColor: "#ffffff",
-    padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-    cursor: "pointer",
-    marginBottom: "24px",      // ✅ 하단 여백 추가
+    backgroundColor: "#fff",
+    borderRadius: "16px",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+    overflow: "hidden", // ✅ 헤더 색 분할 유지
   },
-  
-  row: {
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: "40px",
+  },
+  headerLeft: {
+    flex: 1,
+    backgroundColor: "#1E3A8A",
+    color: "white",
+    fontWeight: "bold",
+    paddingLeft: "16px",
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    fontSize: "15px",
   },
-  image: {
-    width: "60px",
-    height: "60px",
+  headerRight: {
+    backgroundColor: "#1E3A8A",
+    color: "white",
+    fontSize: "12px",
+    padding: "0 12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
   },
-  title: {
-    fontSize: "16px",
+  headerTitle: {
+    marginLeft: "4px",
+  },
+  content: {
+    padding: "16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    fontSize: "14px",
+  },
+  status: {
+    fontSize: "14px",
     fontWeight: "bold",
     marginBottom: "4px",
   },
-  sub: {
-    fontSize: "14px",
-    color: "#555",
+  desc: {
+    marginTop: "-3px",
+    fontSize: "12px",
+    color: "#444",
+    marginBottom: "20px",
   },
-  link: {
-    marginTop: "12px",
-    fontSize: "13px",
-    color: "#3B82F6",
+  barWrapper: {
+    width: "150px",
+    height: "10px",
+    backgroundColor: "#E5E7EB",
+    borderRadius: "6px",
+    overflow: "hidden",
+    marginBottom: "6px",
+  },
+  barFill: {
+    width: "65%",
+    height: "100%",
+    backgroundColor: "#3B82F6",
+  },
+  date: {
+    marginTop: "-2px",
+    fontSize: "12px",
+    color: "#6B7280",
+  },
+  cat: {
+    width: "100px",
+    height: "auto",
   },
 };
 
