@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.enums;
+package jinTeam.medinyangServer.common.enums;
 
 public enum ImageType {
     PRESCRIPTION("처방전"),

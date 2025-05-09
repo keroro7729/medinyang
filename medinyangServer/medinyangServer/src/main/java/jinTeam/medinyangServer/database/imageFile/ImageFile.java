@@ -1,7 +1,7 @@
 package jinTeam.medinyangServer.database.imageFile;
 
 import jakarta.persistence.*;
-import jinTeam.medinyangServer.enums.ImageType;
+import jinTeam.medinyangServer.common.enums.ImageType;
 import jinTeam.medinyangServer.database.user.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

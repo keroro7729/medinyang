@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.exceptions;
+package jinTeam.medinyangServer.common.exceptions;
 
 public class FileUploadException extends RuntimeException {
     public FileUploadException(String message) {

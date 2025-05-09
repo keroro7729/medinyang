@@ -1,11 +1,11 @@
 package jinTeam.medinyangServer.database.imageFile;
 
+import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.user.User;
 import jinTeam.medinyangServer.database.user.UserService;
-import jinTeam.medinyangServer.enums.ImageType;
-import jinTeam.medinyangServer.exceptions.FileUploadException;
+import jinTeam.medinyangServer.common.enums.ImageType;
+import jinTeam.medinyangServer.common.exceptions.FileUploadException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +53,7 @@ public class ImageFileService {
 
     public ImageFile getImageFile(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ImageFile id not found: "+id));
+                .orElseThrow(() -> new ResourceNotFoundException("ImageFile id not found: "+id));
     }
 
     public List<ImageFile> getUsersImageFileList(Long userId) {

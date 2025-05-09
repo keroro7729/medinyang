@@ -1,13 +1,12 @@
-package jinTeam.medinyangServer.dto;
+package jinTeam.medinyangServer.common.dto;
 
-import jinTeam.medinyangServer.enums.Gender;
+import jinTeam.medinyangServer.common.enums.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class CreateUserRequest {
-    private Long accountId;
     private String name;
     private Integer year;
     private Gender gender;

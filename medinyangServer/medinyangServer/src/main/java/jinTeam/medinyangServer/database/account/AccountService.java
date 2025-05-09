@@ -1,9 +1,8 @@
 package jinTeam.medinyangServer.database.account;
 
-import jinTeam.medinyangServer.exceptions.AccountNotFoundException;
-import jinTeam.medinyangServer.exceptions.EmailAlreadyExistsException;
+import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
+import jinTeam.medinyangServer.common.exceptions.EmailAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +37,7 @@ public class AccountService {
     public Account getAccount(String email){
         Optional<Account> result = repository.findByEmail(email);
         if(result.isEmpty()){
-            throw new AccountNotFoundException("Account not found with email:"+email);
+            throw new ResourceNotFoundException("Account not found with email:"+email);
         }
         return result.get();
     }
@@ -47,7 +46,7 @@ public class AccountService {
     public Account getAccount(Long id){
         Optional<Account> result = repository.findById(id);
         if(result.isEmpty()){
-            throw new AccountNotFoundException("Account not found with id"+id);
+            throw new ResourceNotFoundException("Account not found with id"+id);
         }
         return result.get();
     }

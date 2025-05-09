@@ -2,7 +2,7 @@ package jinTeam.medinyangServer.database.user;
 
 import jakarta.persistence.*;
 import jinTeam.medinyangServer.database.account.Account;
-import jinTeam.medinyangServer.enums.Gender;
+import jinTeam.medinyangServer.common.enums.Gender;
 import lombok.*;
 import jakarta.persistence.Id;
 

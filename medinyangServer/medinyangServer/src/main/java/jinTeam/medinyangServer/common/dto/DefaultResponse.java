@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.dto;
+package jinTeam.medinyangServer.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

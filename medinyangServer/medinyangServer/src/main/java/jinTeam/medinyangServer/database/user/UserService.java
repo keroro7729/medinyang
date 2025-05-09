@@ -1,12 +1,11 @@
 package jinTeam.medinyangServer.database.user;
 
+import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.account.Account;
 import jinTeam.medinyangServer.database.account.AccountService;
-import jinTeam.medinyangServer.dto.CreateUserRequest;
-import jinTeam.medinyangServer.enums.Gender;
-import jinTeam.medinyangServer.exceptions.UserNotFoundException;
+import jinTeam.medinyangServer.common.dto.CreateUserRequest;
+import jinTeam.medinyangServer.common.enums.Gender;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +31,9 @@ public class UserService {
     }
 
     @Transactional
-    public User createUser(CreateUserRequest request){
+    public User createUser(Long accountId, CreateUserRequest request){
         User user = User.builder()
-                .masterAccount(accountService.getAccount(request.getAccountId()))
+                .masterAccount(accountService.getAccount(accountId))
                 .name(request.getName())
                 .birthYear(request.getYear())
                 .gender(request.getGender())
@@ -43,8 +42,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getUserList(Long account_id){
-        Account account = accountService.getAccount(account_id);
+    public List<User> getUserList (Long accountId){
+        Account account = accountService.getAccount(accountId);
         return repository.findAllByMasterAccount(account);
     }
 
@@ -52,20 +51,28 @@ public class UserService {
     public User getUser(Long id){
         Optional<User> result = repository.findById(id);
         if(result.isEmpty()){
-            throw new UserNotFoundException("User not found with id: "+id);
+            throw new ResourceNotFoundException("User not found with id: "+id);
         }
         return result.get();
     }
 
     @Transactional
-    public void updateUser(Long id, String name, Integer year, Gender gender){
+    public User updateUser(Long id, CreateUserRequest form){
         User user = repository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
-        user.setName(name);
-        user.setBirthYear(year);
-        user.setGender(gender);
+        user.setName(form.getName());
+        user.setBirthYear(form.getYear());
+        user.setGender(form.getGender());
 
         // JPA는 @Transactional 안에서 entity 필드만 수정해도 자동으로 update 쿼리 나감 (Dirty Checking)
+        return user;
+    }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        repository.delete(user);
     }
 }
