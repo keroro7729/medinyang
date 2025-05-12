@@ -1,7 +1,9 @@
 package jinTeam.medinyangServer.configuration;
 
+import jinTeam.medinyangServer.session.SessionCollector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -24,13 +26,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/api/**",
-                            "/",
-                            "/error",
-                            "/ws/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/login/**","/","/ws/**", "/auth/session").permitAll() // 로그인 관련 API만 비인증 접근 허용
+                    .anyRequest().authenticated() // 나머지는 전부 인증 필요
             );
 
 
@@ -51,5 +48,10 @@ public class SecurityConfig {
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
         bean.setOrder(0); // 💡 필터 체인 가장 먼저 적용되도록 우선순위 부여
         return bean;
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<SessionCollector> sessionCollector() {
+        return new ServletListenerRegistrationBean<>(new SessionCollector());
     }
 }

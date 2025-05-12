@@ -6,7 +6,12 @@ import jinTeam.medinyangServer.common.dto.ImageFileDTO;
 import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
 import jinTeam.medinyangServer.database.imageFile.ImageFile;
 import jinTeam.medinyangServer.database.imageFile.ImageFileService;
+<<<<<<< HEAD
 import jinTeam.medinyangServer.common.enums.ImageType;
+=======
+import jinTeam.medinyangServer.dto.response.DefaultResponseDto;
+import jinTeam.medinyangServer.enums.ImageType;
+>>>>>>> jiin
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +22,23 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import jinTeam.medinyangServer.dto.response.DefaultResponseDto;
+import jinTeam.medinyangServer.dto.response.UploadImageResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Map;
 
 @RestController
 @RequestMapping("/image-files")
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class ImageFileController {
 
     private final ImageFileService imageFileService;
