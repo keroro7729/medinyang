@@ -8,16 +8,16 @@ export default defineConfig({
   server: {
     proxy: {
       '/ws': {
-        target: 'http://localhost:8080',
+        target: '${import.meta.env.VITE_API_BASE_URL}',
         changeOrigin: true,
         ws: true, // ✅ WebSocket도 프록시
       },
       '/auth': {
-        target: 'http://localhost:8080',
+        target: '${import.meta.env.VITE_API_BASE_URL}',
         changeOrigin: true,
       },
       '/login': {
-        target: 'http://localhost:8080',
+        target: '${import.meta.env.VITE_API_BASE_URL}',
         changeOrigin: true,
       },
     },

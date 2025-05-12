@@ -56,7 +56,7 @@ const UploadPage = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await fetch("http://localhost:8080/image-files/upload", {
+      const response = await fetch("${import.meta.env.VITE_API_BASE_URL}/image-files/upload", {
         method: "POST",
         body: formData,
         credentials: "include",
@@ -205,6 +205,7 @@ const UploadPage = () => {
               border: "none",
               borderRadius: "6px",
               cursor: "pointer",
+              marginBottom:"70px",
             }}
           >
             업로드
