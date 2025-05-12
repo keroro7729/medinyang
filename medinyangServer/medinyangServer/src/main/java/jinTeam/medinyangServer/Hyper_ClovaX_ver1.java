@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Hyper_ClovaX_ver1 {
 
     private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-001";
-    private static final String API_KEY = "Bearer nv-58mDJo"; // 실제 키로 교체
+    private static final String API_KEY = "Bearer nv-58fe094mDJo"; // 실제 키로 교체
     private static final String REQUEST_ID = "786e27ab661c4ac8ac544fdf9d02da22";
 
     public static void main(String[] args) throws Exception {

@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class Hyper_ClovaX_ver2 {
 
     private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-001";
-    private static final String API_KEY = "Bearer nv-58f9"; // 반드시 "Bearer " 포함
-    private static final String REQUEST_ID = "your-request-id";
+    private static final String API_KEY = "Bearer nv-58f9ade094mDJo"; // 반드시 "Bearer " 포함
+    private static final String REQUEST_ID = "786e27ab661c4ac8ac544fdf9d02da22";
 
     public static void main(String[] args) throws Exception {
         JSONArray messages = new JSONArray();
@@ -110,11 +110,19 @@ public class Hyper_ClovaX_ver2 {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
+                    System.out.println("응답 수신 중:");
+                    System.out.println(line);
                     if (!line.trim().isEmpty() && line.startsWith("data:")) {
                         String jsonStr = line.substring(5).trim();
+                        if (jsonStr.equals("[DONE]")) break;
+
                         JSONObject dataObj = new JSONObject(jsonStr);
-                        JSONObject message = dataObj.getJSONArray("choices").getJSONObject(0).getJSONObject("message");
-                        reply.append(message.getString("content"));
+                        if (dataObj.has("choices")) {
+                            JSONObject message = dataObj.getJSONArray("choices")
+                                    .getJSONObject(0)
+                                    .getJSONObject("message");
+                            reply.append(message.getString("content"));
+                        }
                     }
                 }
             }
@@ -124,4 +132,5 @@ public class Hyper_ClovaX_ver2 {
         return reply.toString();
     }
 }
+
 
