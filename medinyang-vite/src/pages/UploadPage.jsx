@@ -1,16 +1,27 @@
-import React, { useState, useRef } from "react";
+// src/pages/UploadPage.jsx
+import React, { useState, useRef, useEffect } from "react";
 import TopHeader from "../components/common/TopHeader";
 import BottomNav from "../components/Main/BottomNav";
-import { useAuth } from "../context/AuthContext"; // ✅ 로그인 상태
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UploadPage = () => {
-  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 확인
+  const { isLoggedIn, loading } = useAuth();
+  const navigate = useNavigate();
 
   const [fileName, setFileName] = useState("선택된 파일 없음");
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
   const validExtensions = ["jpg", "jpeg", "png", "bmp"];
+
+  // 🔒 로그인 확인 후 없으면 이동
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다!");
+      navigate("/");
+    }
+  }, [loading, isLoggedIn, navigate]);
 
   const triggerFileSelect = () => {
     fileInputRef.current.click();
@@ -62,9 +73,7 @@ const UploadPage = () => {
     }
   };
 
-  // ✅ 로그인 여부 체크
   if (loading) return <p>로딩 중입니다...</p>;
-  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
 
   return (
     <div

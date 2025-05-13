@@ -1,29 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopHeader from "../components/common/TopHeader";
 import { useNavigate } from "react-router-dom";
 import PlanResultCard from "../components/Manage/PlanResultCard";
 import ChallengeContent from "../components/Manage/ChallengeContent";
-import BottomNav from "../components/Main/BottomNav"; // 하단바
+import BottomNav from "../components/Main/BottomNav";
 import { useAuth } from "../context/AuthContext";
 
 const ManagePage = () => {
   const navigate = useNavigate();
-  const [tab, setTab] = useState("plan"); // "plan" or "challenge"
+  const [tab, setTab] = useState("plan");
+  const { isLoggedIn, loading } = useAuth();
+
+  // ✅ 로그인 안 되어있을 경우 경고 후 리디렉션
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다!");
+      navigate("/");
+    }
+  }, [isLoggedIn, loading, navigate]);
+
+  if (loading) return <p>로딩 중입니다...</p>;
 
   const handleGoToChat = () => {
     navigate("/chat");
   };
 
-  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
-
-  if (loading) return <p>로딩 중입니다...</p>;
-  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
-  
   return (
     <div style={styles.page}>
       <TopHeader title="맞춤 관리" />
 
-      {/* 탭 메뉴 */}
       <div style={styles.tabContainer}>
         <button
           style={{ ...styles.tab, ...(tab === "plan" ? styles.activeTab : {}) }}
@@ -39,21 +44,21 @@ const ManagePage = () => {
         </button>
       </div>
 
-      {/* 탭 콘텐츠 */}
       <div style={styles.content}>
-      {tab === "plan" ? (
-  <>
-    <button onClick={handleGoToChat} style={styles.consultButton}>
-      플랜 상담하러 가기
-    </button>
-    <hr style={styles.divider} />
-    <PlanResultCard />
-  </>
-) : (
-  <ChallengeContent />
-)}
+        {tab === "plan" ? (
+          <>
+            <button onClick={handleGoToChat} style={styles.consultButton}>
+              플랜 상담하러 가기
+            </button>
+            <hr style={styles.divider} />
+            <PlanResultCard />
+          </>
+        ) : (
+          <ChallengeContent />
+        )}
       </div>
-      <BottomNav current="manage" />  {/* ✅ 하단바 추가 위치 */}
+
+      <BottomNav current="manage" />
     </div>
   );
 };
@@ -61,7 +66,7 @@ const ManagePage = () => {
 const styles = {
   page: {
     width: "100vw",
-        height: "100dvh",
+    height: "100dvh",
     backgroundColor: "#f9f9f9",
     boxSizing: "border-box",
   },
@@ -103,35 +108,6 @@ const styles = {
     margin: "16px 0",
     border: "none",
     borderTop: "1px solid #e5e7eb",
-  },
-  planResult: {
-    backgroundColor: "#ffffff",
-    borderRadius: "12px",
-    padding: "40px 20px",
-    textAlign: "center",
-    position: "relative",
-    minHeight: "240px",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-  },
-  planText: {
-    fontSize: "20px",
-    fontWeight: "600",
-    color: "#111827",
-  },
-  catImage: {
-    position: "absolute",
-    right: "20px",
-    bottom: "20px",
-    width: "80px",
-    height: "auto",
-  },
-  challengeArea: {
-    backgroundColor: "#ffffff",
-    padding: "40px 20px",
-    borderRadius: "12px",
-    minHeight: "240px",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-    textAlign: "center",
   },
 };
 
