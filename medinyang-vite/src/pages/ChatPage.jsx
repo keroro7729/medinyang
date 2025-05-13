@@ -14,12 +14,20 @@ const ChatPage = () => {
   useEffect(() => {
     if (loading) return; // 아직 확인 중이면 아무것도 하지 않음
     if (!isLoggedIn) {
-      console.warn("로그인되지 않아 WebSocket 연결을 생략합니다.");
+      console.log("로그인되지 않아 WebSocket 연결을 생략합니다.");
       return;
     }
 
-    // ✅ 로그인 상태일 때만 WebSocket 연결
-    socket.current = new WebSocket("ws://localhost:8080/ws/chat");
+  // ✅ localStorage에서 세션 ID 가져오기
+    const jsessionId = localStorage.getItem("jsessionId");
+    if (!jsessionId) {
+     console.warn("❌ 세션 ID 없음");
+     return;
+    }
+
+      // ✅ WebSocket 연결 시 쿼리로 세션 ID 붙이기
+    socket.current = new WebSocket(`/ws/chat?jsession=${jsessionId}`);
+
 
     socket.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -28,7 +36,13 @@ const ChatPage = () => {
       setIsReplying(false);
     };
 
-    socket.current.onclose = () => console.log("웹소켓 연결 종료");
+
+    socket.current.onclose = (event) => {
+      console.warn("웹소켓 연결 종료");
+      console.warn("code:", event.code);
+      console.warn("reason:", event.reason);
+      console.warn("wasClean:", event.wasClean);
+    };
 
     return () => socket.current?.close();
   }, [isLoggedIn, loading]); // ✅ 의존성에 추가

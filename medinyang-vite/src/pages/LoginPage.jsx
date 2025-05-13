@@ -23,7 +23,14 @@ const LoginPage = () => {
           throw new Error("백엔드 인증 실패"); // ❌ 실패 처리
         }
         const data = await res.json();
-        localStorage.setItem("accessToken", data.token); // optional
+
+        // ✅ 세션 ID 저장 (백엔드 응답 구조: data.data.jsessionId)
+        localStorage.setItem("jsessionId", data.data.jsessionId);
+          // (선택) accessToken 저장
+        localStorage.setItem("accessToken", data.token || "");
+          // ✅ 로그인 여부 저장
+        localStorage.setItem("isLoggedIn", "true");
+
         setIsLoggedIn(true); // ✅ 로그인 상태 전역 변경
         navigate("/main");
       })

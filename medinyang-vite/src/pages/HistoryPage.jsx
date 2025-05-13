@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HistoryList from "../components/History/HistoryList";
 import TopHeader from "../components/common/TopHeader";
 import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
-import ScrollToTopButton from "../components/common/ScrollToTopButton"; 
+import ScrollToTopButton from "../components/common/ScrollToTopButton";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const dummyData = [
   { hospital: "지콜 병원", date: "2023-03-02", type: "처방전", diagnosis: "감기" },
@@ -20,13 +21,24 @@ const dummyData = [
   { hospital: "인성성 병원", date: "2024-11-28", type: "처방전", diagnosis: "노로바이러스" },
   { hospital: "삼성성 병원", date: "2023-09-03", type: "처방전", diagnosis: "감기" },
   { hospital: "삼성성 병원", date: "2025-01-21", type: "건강검진", diagnosis: "고혈압" },
-  
 ];
 
 const HistoryPage = () => {
+  const { isLoggedIn, loading } = useAuth();
+  const navigate = useNavigate();
+
   const [filterType, setFilterType] = useState("전체");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다!");
+      navigate("/");
+    }
+  }, [isLoggedIn, loading, navigate]);
+
+  if (loading) return <p>로딩 중입니다...</p>;
 
   const filteredData = dummyData.filter((item) => {
     const inDateRange =
@@ -39,11 +51,7 @@ const HistoryPage = () => {
   const sortedData = [...filteredData].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
-  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
 
-  if (loading) return <p>로딩 중입니다...</p>;
-  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
-  
   return (
     <div style={styles.wrapper}>
       <div style={styles.container}>
@@ -85,10 +93,9 @@ const HistoryPage = () => {
           </div>
         </div>
       </div>
-      <ScrollAwareBottomNav current="history" /> {/* ✅ 스크롤 대응 하단바 */}
-      <ScrollToTopButton /> {/* ✅ 여기 추가 */}
+      <ScrollAwareBottomNav current="history" />
+      <ScrollToTopButton />
     </div>
-    
   );
 };
 

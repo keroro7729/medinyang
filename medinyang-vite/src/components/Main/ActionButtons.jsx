@@ -2,59 +2,70 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import doctor from "../../assets/doctornyang.png";
+import camera from "../../assets/camera.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-
+import { faCamera, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 
 const ActionButtons = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={styles.row}>
-      <div style={styles.button} onClick={() => navigate("/upload")}>
-  <FontAwesomeIcon icon={faCamera} size="3x" style={styles.camera} />
-  <span style={styles.label}>업로드</span>
-</div>
+    <div style={styles.wrapper}>
+      <div style={styles.buttonCard} onClick={() => navigate("/upload")}>
+        <p style={styles.title}>
+          <FontAwesomeIcon icon={faCamera} /> 의료 이미지 업로드
+        </p>
+        <p style={styles.desc}>
+          처방전이나 건강검진 결과를 메디냥에게 보내주세요!
+        </p>
+        <img src={camera} alt="카메라" style={{marginLeft:"auto",  marginTop:"-20px", width: 75, height: 55, marginBottom:"-15px" }} />
+      </div>
 
-      <div style={styles.button} onClick={() => navigate("/chat")}>
-        <img src={doctor} alt="메디냥" style={styles.icon} />
-        <span style={styles.label}>메디냥 상담</span>
+      <div style={styles.buttonCard} onClick={() => navigate("/chat")}>
+        <p style={styles.title}>
+          <FontAwesomeIcon icon={faCommentDots} /> 메디냥 AI상담
+        </p>
+        <p style={styles.desc}>요즘 속이 안좋아요... 메디냥이랑 상담해보세요!</p>
+        <img src={doctor} alt="메디냥" style={{marginLeft:"auto",  marginTop:"-20px",width: 70, height: 80, marginBottom:"-15px" }} />
       </div>
     </div>
   );
 };
 
 const styles = {
-  row: {
+  wrapper: {
     display: "flex",
-    justifyContent: "space-evenly",   // ✅ 버튼 균등 간격
-    gap: "20px",
+    justifyContent: "space-around",
+    gap: "12px",
+    marginTop: "-40px",
+    padding: "0 16px",
+    marginBottom:"20px",
   },
-  
-  button: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "60px",
-    border: "2px solid #3B82F6",
+  buttonCard: {
+    flex: 1,
+    backgroundColor: "#fff",
+    borderRadius: "16px",
+    padding: "16px",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+    textAlign: "left",
+    cursor: "pointer",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    cursor: "pointer",
+    justifyContent: "space-between",
+    gap: "12px",
+    minHeight: "160px",
   },
-  camera: {
-    color: "#3B82F6",
-    marginBottom: "8px",
+  title: {
+    fontSize: "12px",
+    fontWeight: "bold",
+    marginTop: "-2px",
   },
-  icon: {
-    width: "60px",
-    height: "70px",
-    marginBottom: "8px",
-  },
-  label: {
-    fontSize: "13px",
-    textAlign: "center",
-    color: "#111827",
+  desc: {
+    fontSize: "12px",
+    color: "#444",
+    flexGrow: 1,
+    fontWeight: "SemiBold",
+    marginTop:"-10px",
   },
 };
 

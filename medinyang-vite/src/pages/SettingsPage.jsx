@@ -1,19 +1,27 @@
-import React from "react";
+// src/pages/SettingsPage.jsx
+import React, { useEffect } from "react";
 import TopHeader from "../components/common/TopHeader";
 import SettingSection from "../components/Settings/SettingSection";
-import BottomNav from "../components/Main/BottomNav"; // 하단바
 import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SettingsPage = () => {
-  const { isLoggedIn, loading } = useAuth(); // ✅ 로그인 정보
+  const { isLoggedIn, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다!");
+      navigate("/");
+    }
+  }, [isLoggedIn, loading, navigate]);
 
   if (loading) return <p>로딩 중입니다...</p>;
-  if (!isLoggedIn) return <p>로그인이 필요합니다.</p>;
+
   return (
     <div style={styles.page}>
       <TopHeader title="설정" />
-
       <div style={styles.container}>
         <SettingSection
           title="계정 관리"
@@ -40,9 +48,9 @@ const SettingsPage = () => {
 const styles = {
   page: {
     backgroundColor: "#f9f9f9",
-    minHeight: "100vh",      // 내용이 적으면 전체화면, 많으면 스크롤 허용
-    width: "100vw",       // 너무 넓게 퍼지지 않도록 고정
-    margin: "0 auto",        // 가운데 정렬
+    minHeight: "100vh",
+    width: "100vw",
+    margin: "0 auto",
   },
   container: {
     padding: "16px",
