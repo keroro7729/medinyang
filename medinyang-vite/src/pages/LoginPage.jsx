@@ -10,7 +10,7 @@ const LoginPage = () => {
   const handleLoginSuccess = (credentialResponse) => {
     const idToken = credentialResponse.credential;
 
-    fetch("http://localhost:8080/login/auth/google", {
+    fetch("https://1fc0-210-110-128-155.ngrok-free.app/login/auth/google", {
       method: "POST",
       credentials: "include", // ✅ 세션 쿠키 포함
       headers: {

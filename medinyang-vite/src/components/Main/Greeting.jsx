@@ -1,6 +1,6 @@
 // src/components/Main/Greeting.jsx
 import React from "react";
-import profileImg from "../../assets/google.png";
+import profileImg from "../../assets/profile.png";
 
 const Greeting = () => {
   return (
@@ -49,7 +49,7 @@ const styles = {
   sub2: {
     fontSize: "15px",
     lineHeight: "1.4",
-    marginTop: "-2px",
+    marginTop: "-12px",
   },
 };
 
