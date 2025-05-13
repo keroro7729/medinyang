@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -76,7 +75,7 @@ public class UserController {
         return ResponseEntity.ok(new UserDTO(user));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser (@PathVariable Long userId, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Long accountId = (Long) session.getAttribute("accountId");
@@ -87,5 +86,19 @@ public class UserController {
 
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/switch")
+    public ResponseEntity<UserDTO> switchUser (@RequestParam Long userId,
+                                            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Long accountId = (Long) session.getAttribute("accountId");
+
+        User user = userService.getUser(userId);
+        if(!user.getMasterAccount().getAccountId().equals(accountId))
+            throw new AccessDeniedException("user{"+userId+"}: cant access from account{"+accountId+"}");
+
+        session.setAttribute("userId", userId);
+        return ResponseEntity.ok(new UserDTO(user));
     }
 }
