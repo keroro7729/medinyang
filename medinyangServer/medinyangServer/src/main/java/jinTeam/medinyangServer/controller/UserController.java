@@ -50,7 +50,7 @@ public class UserController {
         return ResponseEntity.ok(body);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUser (@PathVariable Long userId, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Long accountId = (Long) session.getAttribute("accountId");
@@ -61,7 +61,7 @@ public class UserController {
         return ResponseEntity.ok(new UserDTO(user));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{userId}")
     public ResponseEntity<UserDTO> updateUser (@PathVariable Long userId,
                                                @RequestBody CreateUserRequest form,
                                                HttpServletRequest request) {
