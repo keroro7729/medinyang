@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Hyper_ClovaX_ver1 {
 
     private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-001";
-    private static final String API_KEY = "Bearer nv-58fe094mDJo"; // 실제 키로 교체
+    private static final String API_KEY = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo"; // 실제 키로 교체
     private static final String REQUEST_ID = "786e27ab661c4ac8ac544fdf9d02da22";
 
     public static void main(String[] args) throws Exception {
@@ -104,13 +104,13 @@ public class Hyper_ClovaX_ver1 {
                 .put("role", "user")
                 .put("content", "처방전 정보를 바탕으로 요약해주고 약 설명과 복용방법에 대해서도 알려줘"));
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("사용자 질문 입력: ");
-        String question = sc.nextLine();
+        //Scanner sc = new Scanner(System.in);
+        //System.out.print("사용자 질문 입력: ");
+        //String question = sc.nextLine();
 
-        messages.put(new JSONObject()
-                .put("role", "user")
-                .put("content", question));
+        //messages.put(new JSONObject()
+        //        .put("role", "user")
+        //        .put("content", question));
 
         JSONObject request = new JSONObject();
         request.put("messages", messages);
