@@ -61,7 +61,7 @@ public class Hyper_ClovaX_ver0 {
                     .getJSONObject("message")
                     .getString("content");
 
-            System.out.println("\n✅ 응답 메시지:\n" + content);
+            System.out.println("\n✅MEDINYANG 응답 메시지:\n" + content);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class Hyper_ClovaX_ver0 {
     public static void main(String[] args) {
         Hyper_ClovaX_ver0 executor = new Hyper_ClovaX_ver0(
                 "https://clovastudio.stream.ntruss.com",
-                "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo",  // 실제 API 키로 교체하세요
+                "Bearer nv-5",  // 실제 API 키로 교체하세요
                 "9f8d2655c0284c29865ceb8e4a654f88"
         );
 
@@ -85,7 +85,7 @@ public class Hyper_ClovaX_ver0 {
                   ],
                   "topP": 0.8,
                   "topK": 0,
-                  "maxTokens": 311,
+                  "maxTokens": 300,
                   "temperature": 0.5,
                   "repeatPenalty": 1.1,
                   "stopBefore": [],
@@ -95,6 +95,8 @@ public class Hyper_ClovaX_ver0 {
                 """;
 
         executor.execute(jsonPayload);
+
+
     }
 }
 
