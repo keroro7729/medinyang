@@ -2,9 +2,10 @@ package jinTeam.medinyangServer.controller;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import jakarta.servlet.http.HttpServletRequest;
+import jinTeam.medinyangServer.common.dto.response.DefaultResponseDto;
+import jinTeam.medinyangServer.common.dto.response.LoginResponseDto;
+import jinTeam.medinyangServer.common.dto.response.SessionResponseDto;
 import jinTeam.medinyangServer.database.account.AccountService;
-import jinTeam.medinyangServer.dto.response.DefaultResponseDto;
-import jinTeam.medinyangServer.dto.response.SessionResponseDto;
 import jinTeam.medinyangServer.utils.GoogleTokenVerifier;
 import jinTeam.medinyangServer.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/google")
-    public ResponseEntity<DefaultResponseDto<jinTeam.medinyangServer.dto.response.LoginResponseDto>> loginWithGoogle(@RequestBody Map<String, String> body, HttpServletRequest request) {
+    public ResponseEntity<DefaultResponseDto<LoginResponseDto>> loginWithGoogle(@RequestBody Map<String, String> body, HttpServletRequest request) {
         String idToken = body.get("idToken");
         GoogleIdToken.Payload payload = googleTokenVerifier.verify(idToken);
 
@@ -62,7 +63,7 @@ public class AuthController {
 
         String jsessionId = request.getSession().getId();
 
-        jinTeam.medinyangServer.dto.response.LoginResponseDto loginData = new jinTeam.medinyangServer.dto.response.LoginResponseDto(email,jsessionId);
+        LoginResponseDto loginData = new LoginResponseDto(email,jsessionId);
 
         return ResponseEntity.ok(new DefaultResponseDto<>(true,"세션 로그인 성공!", loginData));
     }
