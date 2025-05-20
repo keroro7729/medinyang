@@ -1,13 +1,11 @@
 package jinTeam.medinyangServer.database.imageFile;
 
 import jakarta.persistence.*;
-import jinTeam.medinyangServer.common.enums.ImageType;
-import jinTeam.medinyangServer.database.user.User;
+import jinTeam.medinyangServer.database.mediacalHistory.MedicalHistory;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,29 +21,14 @@ public class ImageFile {
     private Long imageId;
 
     @Lob
-    private byte[] imageData; //1)
-
-    private String aiDescription;
+    private byte[] imageData;
 
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime uploadDate;
 
-    private String hospital;
+    @ManyToOne(fetch = FetchType.LAZY) // N:1 관계, 지연 로딩
+    @JoinColumn(name="history_id")
+    private MedicalHistory medicalHistory;
 
-    private LocalDate visitDate;
-
-    @Enumerated(EnumType.STRING)
-    private ImageType type;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user; //1)
-
-    public void setAdditionalData(String description, String hospital, LocalDate visit_date, ImageType type){
-        aiDescription = description;
-        this.hospital = hospital;
-        this.visitDate = visit_date;
-        this.type = type;
-    }
 }

@@ -26,7 +26,7 @@ const ChatPage = () => {
     }
 
       // ✅ WebSocket 연결 시 쿼리로 세션 ID 붙이기
-    socket.current = new WebSocket(`/ws/chat?jsession=${jsessionId}`);
+    socket.current = new WebSocket(`wss://f7bc-210-110-128-155.ngrok-free.app/ws/chat?jsession=${jsessionId}`);
 
 
     socket.current.onmessage = (event) => {

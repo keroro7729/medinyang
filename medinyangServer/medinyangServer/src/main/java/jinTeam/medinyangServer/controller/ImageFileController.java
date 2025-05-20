@@ -6,7 +6,7 @@ import jinTeam.medinyangServer.common.dto.ImageFileDTO;
 import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
 import jinTeam.medinyangServer.database.imageFile.ImageFile;
 import jinTeam.medinyangServer.database.imageFile.ImageFileService;
-import jinTeam.medinyangServer.common.enums.ImageType;
+import jinTeam.medinyangServer.common.enums.MedicalType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class ImageFileController {
 
         // OCR 추출 LLM 파싱 추가 필요
         // 더미 예시
-        imageFileService.addDetail(saved, "예시 설명", "예시 병원", LocalDate.of(2025, 5, 7), ImageType.PRESCRIPTION);
+        imageFileService.addDetail(saved, "예시 설명", "예시 병원", LocalDate.of(2025, 5, 7), MedicalType.PRESCRIPTION);
 
         ImageFileDTO created = new ImageFileDTO(saved);
         URI location = URI.create("/image-files/"+saved.getImageId());

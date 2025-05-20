@@ -3,7 +3,7 @@ package jinTeam.medinyangServer.database.imageFile;
 import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.user.User;
 import jinTeam.medinyangServer.database.user.UserService;
-import jinTeam.medinyangServer.common.enums.ImageType;
+import jinTeam.medinyangServer.common.enums.MedicalType;
 import jinTeam.medinyangServer.common.exceptions.FileUploadException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +46,7 @@ public class ImageFileService {
     }
 
     @Transactional
-    public void addDetail(ImageFile imageFile, String description, String hospital, LocalDate visit_date, ImageType type) {
+    public void addDetail(ImageFile imageFile, String description, String hospital, LocalDate visit_date, MedicalType type) {
         imageFile.setAdditionalData(description, hospital, visit_date, type);
         repository.save(imageFile);
     }

@@ -1,6 +1,6 @@
 package jinTeam.medinyangServer.common.dto;
 
-import jinTeam.medinyangServer.common.enums.ImageType;
+import jinTeam.medinyangServer.common.enums.MedicalType;
 import jinTeam.medinyangServer.database.imageFile.ImageFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class ImageFileDTO {
     private String aiDescription;
     private String hospital;
     private LocalDate visitDate;
-    private ImageType type;
+    private MedicalType type;
 
     private Long userId;
 
