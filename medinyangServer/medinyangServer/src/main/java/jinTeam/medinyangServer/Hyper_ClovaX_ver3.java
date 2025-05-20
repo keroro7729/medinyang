@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Hyper_ClovaX_ver3 {
 
     private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-001";
-    private static final String API_KEY = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo"; // 반드시 "Bearer " 포함
+    private static final String API_KEY = "Bearer nv-58DJo"; // 반드시 "Bearer " 포함
     private static final String REQUEST_ID = "786e27ab661c4ac8ac544fdf9d02da22";
 
     private static final Map<String, JSONArray> userSessions = new HashMap<>();

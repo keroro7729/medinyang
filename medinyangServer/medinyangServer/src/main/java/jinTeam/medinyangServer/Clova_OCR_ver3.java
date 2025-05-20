@@ -11,8 +11,8 @@ import java.util.*;
 public class Clova_OCR_ver3 {
     public static void main(String[] args) {
         String apiURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
-        String secretKey = "bmFibmlHblA=";
-        String imageFile = "C:/111.jpg"; // OCR 대상 이미지
+        String secretKey = "blA=";
+        String imageFile = "C:/3333.jpg"; // OCR 대상 이미지
 
         try {
             URL url = new URL(apiURL);
