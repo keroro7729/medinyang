@@ -23,7 +23,7 @@ import org.json.JSONObject;
 public class Clova_OCR_ver1 {
     public static void main(String[] args) {
         String apiURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
-        String secretKey = "bmFsWG5JZ3BjaGpRQlVNSHBZdHpFR2hWU1hibmlHblA=";
+        String secretKey = "bmFhWU1";
         String imageFile = "C:/111.jpg";
 
         try {

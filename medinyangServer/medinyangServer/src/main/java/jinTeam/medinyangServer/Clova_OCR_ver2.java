@@ -3,7 +3,6 @@ package jinTeam.medinyangServer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
 import java.net.HttpURLConnection;
 import java.util.UUID;
 import java.io.BufferedReader;
@@ -13,26 +12,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.UUID;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.web.multipart.MultipartFile;
-
-public class Clova_OCR {
-
-    private static final String apiURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
-    private static final String secretKey = "Key";
-
-    public static String extract(MultipartFile file){
-        return "";
-    }
+public class Clova_OCR_ver2 {
 
     public static void main(String[] args) {
         String apiURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
-        String secretKey = "bmFsWG5JZ3BjaGpRQlVNSHBZdHpFR2hWU1hibmlHblA=";
+        String secretKey = "bmhibmlHblA=";
         String imageFile = "C:/222.jpg";
 
         try {
