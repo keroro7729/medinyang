@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.database.userBasicData;
+package jinTeam.medinyangServer.database.user.userBasicData;
 
 import jakarta.persistence.*;
 import jinTeam.medinyangServer.database.user.User;

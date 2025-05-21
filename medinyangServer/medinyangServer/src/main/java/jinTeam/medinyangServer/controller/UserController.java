@@ -3,6 +3,8 @@ package jinTeam.medinyangServer.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.common.dto.UserDTO;
+import jinTeam.medinyangServer.common.dto.request.CreateUserRequestDto;
+import jinTeam.medinyangServer.common.dto.response.UserResponseDto;
 import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
 import jinTeam.medinyangServer.database.user.User;
 import jinTeam.medinyangServer.database.user.UserService;
@@ -24,8 +26,34 @@ public class UserController {
 
     private final UserService userService;
 
-    // 유저 스위칭 (세션에 userId 정보 수정 기능)
+    @PostMapping
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody CreateUserRequestDto body,
+                                                      HttpServletRequest request) {
+        UserResponseDto created = userService.createUser(body, request);
+        URI location = URI.create("/users/"+created.getUserId());
+        return ResponseEntity.created(location).body(created);
+    }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable Long userId,
+                                                   HttpServletRequest request) {
+        return ResponseEntity.ok(userService.getUser(userId, request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDto>> getUserList(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.getUserList(request));
+    }
+
+    @PostMapping("/switch/{userId}")
+    public ResponseEntity<Void> switchUser(@PathVariable Long userId,
+                                     HttpServletRequest request) {
+        userService.switchUser(userId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 유저 스위칭 (세션에 userId 정보 수정 기능)
+/*
     @PostMapping
     public ResponseEntity<UserDTO> createUser (@RequestBody CreateUserRequest form, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -101,4 +129,5 @@ public class UserController {
         session.setAttribute("userId", userId);
         return ResponseEntity.ok(new UserDTO(user));
     }
+ */
 }

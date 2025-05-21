@@ -32,7 +32,7 @@ public class ImageFileController {
     private final ImageFileService imageFileService;
 
     // (수정, 삭제) 추후 추가
-
+/*
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<ImageFileDTO> upload (@RequestPart("file") MultipartFile file, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -73,5 +73,5 @@ public class ImageFileController {
 
         return ResponseEntity.ok(new ImageFileDTO(image));
     }
-
+*/
 }

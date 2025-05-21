@@ -28,7 +28,7 @@ public class MedicalHistory {
     @Column(nullable = false)
     private MedicalType type;
 
-    private String hostpitalName;
+    private String hospitalName;
 
     private LocalDateTime visitDate;
 

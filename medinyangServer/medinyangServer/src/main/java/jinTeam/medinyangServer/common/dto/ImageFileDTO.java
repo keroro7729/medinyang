@@ -22,7 +22,7 @@ public class ImageFileDTO {
 
     private Long userId;
 
-    public ImageFileDTO(ImageFile o) {
+    /*public ImageFileDTO(ImageFile o) {
         id = o.getImageId();
         imageData = o.getImageData();
         uploadDate = o.getUploadDate();
@@ -31,5 +31,5 @@ public class ImageFileDTO {
         visitDate = o.getVisitDate();
         type = o.getType();
         userId = o.getUser().getUserId();
-    }
+    }*/
 }

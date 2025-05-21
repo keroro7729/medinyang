@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,11 +20,15 @@ public class Challenge {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false, unique = true)
     private String challengeName;
 
+    @Column(nullable = false)
     private LocalDate startDate;
 
+    @Column(nullable = false)
     private LocalDate endDate;
 
+    @Column(nullable = false)
     private Boolean isActive;
 }

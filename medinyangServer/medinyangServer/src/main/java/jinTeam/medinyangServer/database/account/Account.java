@@ -1,11 +1,9 @@
 package jinTeam.medinyangServer.database.account;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Account {
 
     @Id
@@ -23,5 +22,7 @@ public class Account {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createDate;
 }
