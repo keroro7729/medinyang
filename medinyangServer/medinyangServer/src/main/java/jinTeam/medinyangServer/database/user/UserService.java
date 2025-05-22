@@ -97,6 +97,11 @@ public class UserService {
     }
 
 
+    public User get(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("userId: " + userId));
+    }
+
     private Long getAccountId(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if(session == null){
