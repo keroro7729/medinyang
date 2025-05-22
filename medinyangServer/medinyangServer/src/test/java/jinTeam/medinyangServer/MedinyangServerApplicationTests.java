@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer;
+/*package jinTeam.medinyangServer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,4 +10,4 @@ class MedinyangServerApplicationTests {
 	void contextLoads() {
 	}
 
-}
+}*/

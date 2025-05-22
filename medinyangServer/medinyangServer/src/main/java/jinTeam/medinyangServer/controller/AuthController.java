@@ -67,4 +67,9 @@ public class AuthController {
 
         return ResponseEntity.ok(new DefaultResponseDto<>(true,"세션 로그인 성공!", loginData));
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("테스트 성공");
+    }
 }

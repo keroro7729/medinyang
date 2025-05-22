@@ -26,7 +26,7 @@ public class MedicalImageService {
     private final UserService userService;
 
     /*
-    * 업로드 POST UploadImageRequestDto, multipart ??? 200(ok)
+    * 업로드 POST multipathfile ImageResultResponseDto  200(ok)
     * */
 
     public ImageResultResponseDto uploadImage(MultipartFile imgMp,

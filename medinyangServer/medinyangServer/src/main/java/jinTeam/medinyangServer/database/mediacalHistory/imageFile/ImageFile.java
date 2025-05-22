@@ -23,7 +23,7 @@ public class ImageFile {
     @Lob
     private byte[] imageData;
 
-    // !!추가된 속성!!
+    // 메타데이터 추가
     private String fileName;
     private String contentType;
 

@@ -3,7 +3,6 @@ package jinTeam.medinyangServer.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
 import jinTeam.medinyangServer.database.mediacalHistory.MedicalImageService;
-import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFileService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

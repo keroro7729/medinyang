@@ -8,6 +8,7 @@ import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
 import jinTeam.medinyangServer.database.user.UserService;
+import jinTeam.medinyangServer.utils.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -58,7 +59,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             return;
         }
 
-        userId = (Long) httpSession.getAttribute("userId"); // 세션에서 userId 가져오기
+        userId = HttpSessionUtil.getUserId(httpSession); // 세션에서 userId 가져오기
 
 
         // 3. 인증 정보 확인
