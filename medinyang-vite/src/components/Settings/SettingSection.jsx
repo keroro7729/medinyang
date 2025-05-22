@@ -5,12 +5,19 @@ const SettingSection = ({ number, title, items }) => {
   return (
     <div style={styles.section}>
       <div style={styles.header}>
-        <span style={styles.number}>{number}</span>
+        {number && <span style={styles.number}>{number}</span>}
         <span style={styles.title}>{title}</span>
       </div>
-      {items.map((item, index) => (
-        <SettingItem key={index} label={item} />
-      ))}
+      {items.map((item, index) => {
+        const isObject = typeof item === "object";
+        return (
+          <SettingItem
+            key={index}
+            label={isObject ? item.label : item}
+            onClick={isObject ? item.onClick : undefined}
+          />
+        );
+      })}
     </div>
   );
 };
@@ -27,7 +34,6 @@ const styles = {
     marginBottom: "8px",
     fontWeight: "bold",
   },
- 
   title: {
     fontSize: "16px",
     color: "#111827",
