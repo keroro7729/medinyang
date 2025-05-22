@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -13,64 +14,22 @@ import org.json.JSONObject;
 public class Hyper_ClovaX_ver0 {
 
     private static final String host = "https://clovastudio.stream.ntruss.com";
-    private static final String apiKey = "Bearer nv-58f942484mDJo";
-    private String requestId;
+    private static final String apiKey = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo";
 
-    public Hyper_ClovaX_ver0(String requestId) {
-        this.requestId = requestId;
-    }
-
-    public void execute(String jsonPayload) {
-        try {
-            URL url = new URL(host + "/testapp/v1/chat-completions/HCX-DASH-001");
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Authorization", apiKey);
-            conn.setRequestProperty("X-NCP-CLOVASTUDIO-REQUEST-ID", requestId);
-            conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-            conn.setRequestProperty("Accept", "application/json");  // 일반 JSON 응답 받기
-
-            try (OutputStream os = conn.getOutputStream()) {
-                os.write(jsonPayload.getBytes(StandardCharsets.UTF_8));
-            }
-
-            int status = conn.getResponseCode();
-            BufferedReader reader;
-            if (status == 200) {
-                reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                reader = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
-                System.err.println("❌ 오류 코드: " + status);
-            }
-
-            StringBuilder responseBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                responseBuilder.append(line);
-            }
-            reader.close();
-
-            // JSON 파싱 및 content 추출
-            JSONObject jsonObject = new JSONObject(responseBuilder.toString());
-            String content = jsonObject
-                    .getJSONObject("result")
-                    .getJSONObject("message")
-                    .getString("content");
-
-            System.out.println("\n✅MEDINYANG 응답 메시지:\n" + content);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) {
-        Hyper_ClovaX_ver0 executor = new Hyper_ClovaX_ver0(
-                "9f8d2655c0284c29865ceb8e4a654f88"
-        );
+        Hyper_ClovaX_ver0 executor = new Hyper_ClovaX_ver0();
+        executor.jsonFile();
+    }
 
+    public String message(String input){
+        String reply = "";
+
+        
+        return reply;
+    }
+
+    public void jsonFile(){
         String jsonPayload = """
                 {  
                   "messages": [
@@ -243,7 +202,7 @@ public class Hyper_ClovaX_ver0 {
                   ],
                   "topP": 0.8,
                   "topK": 0,
-                  "maxTokens": 500,
+                  "maxTokens": 200,
                   "temperature": 0.5,
                   "repeatPenalty": 1.1,
                   "stopBefore": [],
@@ -251,11 +210,56 @@ public class Hyper_ClovaX_ver0 {
                   "seed": 0
                 }
                 """;
-
-        executor.execute(jsonPayload);
-
-
+        this.execute(jsonPayload);
     }
+    public void execute(String jsonPayload) {
+        try {
+            String requestId = UUID.randomUUID().toString();
+            URL url = new URL(host + "/testapp/v1/chat-completions/HCX-DASH-001");
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", apiKey);
+            conn.setRequestProperty("X-NCP-CLOVASTUDIO-REQUEST-ID", requestId);
+            conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            conn.setRequestProperty("Accept", "application/json");  // 일반 JSON 응답 받기
+
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(jsonPayload.getBytes(StandardCharsets.UTF_8));
+            }
+
+            int status = conn.getResponseCode();
+            BufferedReader reader;
+            if (status == 200) {
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+            } else {
+                reader = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+                System.err.println("❌ 오류 코드: " + status);
+            }
+
+            StringBuilder responseBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                responseBuilder.append(line);
+            }
+            reader.close();
+
+            // JSON 파싱 및 content 추출
+            JSONObject jsonObject = new JSONObject(responseBuilder.toString());
+            String content = jsonObject
+                    .getJSONObject("result")
+                    .getJSONObject("message")
+                    .getString("content");
+
+            System.out.println("\n✅MEDINYANG 응답 메시지:\n" + content);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 
 
