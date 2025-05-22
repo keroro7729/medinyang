@@ -1,7 +1,7 @@
 package jinTeam.medinyangServer.database.chatLog;
 
-import jinTeam.medinyangServer.common.dto.ChatLogRequest;
-import jinTeam.medinyangServer.common.dto.ChatLogResponse;
+import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
+import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
 import jinTeam.medinyangServer.database.user.User;
 import jinTeam.medinyangServer.database.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class ChatLogService {
     private final UserRepository userRepository;
 
     // 사용자 질문 저장
-    public ChatLog saveUserMessage(Long userId, ChatLogRequest c){
+    public ChatLog saveUserMessage(Long userId, ChatLogRequestDto c){
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저 없음"));
 
@@ -35,7 +35,7 @@ public class ChatLogService {
     }
 
     // LLM 응답 저장
-    public ChatLog saveLLMMessage(Long userId, ChatLogRequest c) {
+    public ChatLog saveLLMMessage(Long userId, ChatLogRequestDto c) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저 없음"));
 
@@ -50,13 +50,13 @@ public class ChatLogService {
         return chatLogRepository.save(chatLog);
     }
 
-    public List<ChatLogResponse> getNextChats(Long userId, Long lastChatId, int size) {
+    public List<ChatLogResponseDto> getNextChats(Long userId, Long lastChatId, int size) {
         Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "chatId"));
 
         List<ChatLog> chatLogs = chatLogRepository.findNextChats(userId,lastChatId,pageable);
 
         return chatLogs.stream()
-                .map(ChatLogResponse::fromEntity).toList();
+                .map(ChatLogResponseDto::fromEntity).toList();
 
     }
 
