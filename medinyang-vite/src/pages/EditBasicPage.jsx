@@ -1,27 +1,19 @@
 // src/pages/EditBasicPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState  } from 'react';
 import TopHeader from '../components/common/TopHeader';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../context/AuthContext";
+
 
 const EditBasicPage = () => {
-  const { isLoggedIn, loading } = useAuth();
+
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !isLoggedIn) {
-      alert("로그인이 필요한 서비스입니다!");
-      navigate("/");
-    }
-  }, [isLoggedIn, loading, navigate]);
-
+  
   const [form, setForm] = useState({
     이름: '홍길동',
     나이: '29',
     키: '173',
     몸무게: '65',
     성별: '남성',
-    가족관계: '1인가구',
   });
 
   const handleChange = (e) => {
@@ -34,7 +26,6 @@ const EditBasicPage = () => {
     navigate('/data');
   };
 
-  if (loading) return <p>로딩 중입니다...</p>;
 
   return (
     <div>
@@ -65,7 +56,7 @@ const EditBasicPage = () => {
 const styles = {
   pageWrapper: {
     backgroundColor: '#f8f9fa',
-    width: "100vw",
+    width: "100%",
     height: "100dvh",
     padding: '24px',
     justifyContent: 'center',
