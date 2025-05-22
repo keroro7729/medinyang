@@ -3,6 +3,14 @@ package jinTeam.medinyangServer.handler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jinTeam.medinyangServer.Clova;
+import jinTeam.medinyangServer.common.dto.ChatLogRequest;
+import jinTeam.medinyangServer.common.enums.ChatType;
+import jinTeam.medinyangServer.common.enums.ContentType;
+import jinTeam.medinyangServer.database.chatLog.ChatLogService;
+import jinTeam.medinyangServer.database.user.UserRepository;
+import jinTeam.medinyangServer.database.user.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -12,12 +20,20 @@ import org.springframework.security.core.Authentication;
 import jinTeam.medinyangServer.session.SessionCollector;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
+
+    @Autowired
+    private ChatLogService chatLogService;
+    @Autowired
+    private UserService userService;
+
+    private Long userId;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -43,6 +59,9 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             session.close();
             return;
         }
+
+        userId = (Long) httpSession.getAttribute("userId"); // 세션에서 userId 가져오기
+
 
         // 3. 인증 정보 확인
         SecurityContext context = (SecurityContext) httpSession.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -70,19 +89,40 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             String userMessage = jsonNode.get("message").asText(); // "message" 키의 값 가져오기
 
             System.out.println("💬 클라이언트 메시지: " + userMessage);
+            //사용자 메세지 저장
+            ChatLogRequest userRequest = ChatLogRequest
+                    .builder()
+                    .message(String.valueOf(message))
+                    .chatType(ChatType.MEDINYANG_CONSULTING)
+                    .contentType(ContentType.USER_TEXT)
+                    .chatDate(LocalDateTime.now())
+                    .build();
+            chatLogService.saveUserMessage(userId, userRequest);
 
-            // 💡 여기서 LLM이나 챗봇 응답 로직 넣으면 됨!
-            //String botReply = "🐱 메디냥 챗봇: \"" + userMessage + "\"에 대한 응답입니다!";
-            String botReply = Clova.getClovaReply(userMessage);
+            String botReply;
+            try{
+                botReply = Clova.getClovaReply(userMessage);
+                //llm 메세지 저장
+                ChatLogRequest llmRequest = ChatLogRequest.builder()
+                        .message(botReply)
+                        .chatType(ChatType.MEDINYANG_CONSULTING)
+                        .contentType(ContentType.LLM_TEXT)
+                        .chatDate(LocalDateTime.now())
+                        .build();
+                chatLogService.saveLLMMessage(userId, llmRequest);
 
-            // 프론트로 응답 보내기
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonReply = objectMapper.writeValueAsString(Map.of("reply", botReply));
-            session.sendMessage(new TextMessage(jsonReply));
+                // 프론트로 응답 보내기
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonReply = objectMapper.writeValueAsString(Map.of("reply", botReply)); // 추후 dto 생성 어떻게 프론트에게 응답을 줄 건지
+                session.sendMessage(new TextMessage(jsonReply));
+            } catch(Exception e){
+                System.err.println("LLM 응답 실패: " + e.getMessage());
+                session.sendMessage(new TextMessage("LLM 응답 생성하지 못함"));
+            }
 
         } catch (Exception e) {
-            System.err.println("❌ 메시지 파싱 실패: " + e.getMessage());
-            session.sendMessage(new TextMessage("⚠️ 서버에서 메시지를 이해하지 못했어요."));
+            System.err.println("메시지 파싱 실패: " + e.getMessage());
+            session.sendMessage(new TextMessage("서버에서 메시지를 이해하지 못했어요."));
         }
     }
 

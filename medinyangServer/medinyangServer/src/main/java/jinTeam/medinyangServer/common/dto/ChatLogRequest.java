@@ -2,11 +2,13 @@ package jinTeam.medinyangServer.common.dto;
 
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 public class ChatLogRequest {
     private String message;
     private ChatType chatType;
