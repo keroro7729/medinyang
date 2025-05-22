@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -30,7 +31,8 @@ public class MedicalHistory {
 
     private String hospitalName;
 
-    private LocalDateTime visitDate;
+    // LocalDateTime LocalDate로 변경
+    private LocalDate visitDate;
 
     private String shortDescription;
 

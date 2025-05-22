@@ -1,7 +1,6 @@
 package jinTeam.medinyangServer.common.dto;
 
 import jinTeam.medinyangServer.common.enums.MedicalType;
-import jinTeam.medinyangServer.database.imageFile.ImageFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

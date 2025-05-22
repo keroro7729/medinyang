@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.database.imageFile;
+package jinTeam.medinyangServer.database.mediacalHistory.imageFile;
 
 import jakarta.persistence.*;
 import jinTeam.medinyangServer.database.mediacalHistory.MedicalHistory;
@@ -22,6 +22,10 @@ public class ImageFile {
 
     @Lob
     private byte[] imageData;
+
+    // !!추가된 속성!!
+    private String fileName;
+    private String contentType;
 
     @CreatedDate
     @Column(updatable = false)

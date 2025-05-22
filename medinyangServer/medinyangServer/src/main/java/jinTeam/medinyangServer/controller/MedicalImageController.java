@@ -1,35 +1,33 @@
 package jinTeam.medinyangServer.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jinTeam.medinyangServer.common.dto.ImageFileDTO;
-import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
-import jinTeam.medinyangServer.database.imageFile.ImageFile;
-import jinTeam.medinyangServer.database.imageFile.ImageFileService;
-import jinTeam.medinyangServer.common.enums.MedicalType;
+import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
+import jinTeam.medinyangServer.database.mediacalHistory.MedicalImageService;
+import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFileService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URI;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/image-files")
+@RequestMapping("/medical-images")
 @RequiredArgsConstructor
 @Slf4j
-public class ImageFileController {
+public class MedicalImageController {
 
-    private final ImageFileService imageFileService;
+    private final MedicalImageService service;
+
+    @PostMapping("/upload")
+    public ResponseEntity<ImageResultResponseDto> upload(@RequestParam MultipartFile image,
+                                                         HttpServletRequest request) {
+        return ResponseEntity.ok(service.uploadImage(image, request));
+    }
 
     // (수정, 삭제) 추후 추가
 /*
