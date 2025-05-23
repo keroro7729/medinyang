@@ -14,7 +14,7 @@ import org.json.JSONObject;
 public class Hyper_ClovaX_ver0 {
 
     private static final String host = "https://clovastudio.stream.ntruss.com";
-    private static final String apiKey = "Bearer nv-DJo";
+    private static final String apiKey = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo";
 
 
     public static void main(String[] args) {
