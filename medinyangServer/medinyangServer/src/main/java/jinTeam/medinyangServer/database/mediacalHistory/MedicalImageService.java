@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,13 +47,14 @@ public class MedicalImageService {
         ImageFile image = makeImageFile(imgMp);
         String result = ocr.excute(image.getImageData(), image.getFileName());
         result = clova.execute(result);
-        Map<String, Object> map = parse(result);
+        System.out.println("clova 응답:"+result);
+        Map<String, String> map = parse(result);
         Long userId = HttpSessionUtil.getUserId(session);
         MedicalHistory medicalHistory = MedicalHistory.builder()
-                .hospitalName((String)map.get("병원 이름"))
-                .type((MedicalType) map.get("문서 형식"))
-                .visitDate((LocalDate)map.get("병원 방문일자"))
-                .shortDescription((String)map.get("한줄 요약"))
+                .hospitalName(map.get("hospitalName"))
+                .type(fromLabel(map.get("medicalType")))
+                .visitDate(LocalDate.parse(map.get("visitDate")))
+                .shortDescription(map.get("summary"))
                 .longDescription(result)
                 .user(userService.get(userId))
                 .build();
@@ -79,8 +81,8 @@ public class MedicalImageService {
         }
     }
 
-    private Map<String, Object> parse(String message) {
-        Map<String, Object> result = new HashMap<>();
+    private Map<String, String> parse(String message) {
+        Map<String, String> result = new HashMap<>();
 
         String[] lines = message.split("\\n");
         for (String line : lines) {
@@ -88,23 +90,22 @@ public class MedicalImageService {
             if (line.startsWith("병원 이름 :")) {
                 result.put("hospitalName", line.split(":", 2)[1].trim());
             } else if (line.startsWith("문서 형식 :")) {
-                String typeStr = line.split(":", 2)[1].trim();
-                MedicalType type = switch (typeStr) {
-                    case "처방전" -> MedicalType.PRESCRIPTION;
-                    case "건강검진결과지" -> MedicalType.HEALTH_REPORT;
-                    default -> throw new IllegalArgumentException("알 수 없는 문서 형식: " + typeStr);
-                };
-                result.put("medicalType", type);
+                result.put("medicalType", line.split(":", 2)[1].trim());
             } else if (line.startsWith("병원 방문일자 :")) {
-                String dateStr = line.split(":", 2)[1].trim();
-                LocalDate date = LocalDate.parse(dateStr);
-                result.put("visitDate", date);
+                result.put("visitDate", line.split(":", 2)[1].trim());
             } else if (line.startsWith("한줄 요약 :")) {
                 result.put("summary", line.split(":", 2)[1].trim());
             }
         }
 
-        System.out.println(result);
+        System.out.println("파싱 결과 확인!!:" + result);
         return result;
+    }
+
+    public static MedicalType fromLabel(String label) {
+        return Arrays.stream(MedicalType.values())
+                .filter(type -> type.getLabel().equals(label))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 문서 형식: " + label));
     }
 }
