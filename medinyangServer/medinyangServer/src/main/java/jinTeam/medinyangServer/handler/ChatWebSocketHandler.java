@@ -2,14 +2,12 @@ package jinTeam.medinyangServer.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jinTeam.medinyangServer.Clova;
+import jinTeam.medinyangServer.clova.Clova;
 import jinTeam.medinyangServer.common.dto.ChatLogRequest;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
-import jinTeam.medinyangServer.database.user.UserRepository;
 import jinTeam.medinyangServer.database.user.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;

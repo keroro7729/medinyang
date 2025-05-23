@@ -16,11 +16,11 @@ public class UserDTO {
 
     private Gender gender;
 
-    public UserDTO(User o) {
+    /*public UserDTO(User o) {
         userId = o.getUserId();
         masterAccountId = o.getMasterAccount().getAccountId();
         name = o.getName();
         birthYear = o.getBirthYear();
         gender = o.getGender();
-    }
+    }*/
 }

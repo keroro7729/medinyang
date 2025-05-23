@@ -31,6 +31,7 @@ public class ImageFile {
     @Column(updatable = false)
     private LocalDateTime uploadDate;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY) // N:1 관계, 지연 로딩
     @JoinColumn(name="history_id")
     private MedicalHistory medicalHistory;

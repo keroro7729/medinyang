@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer;
+package jinTeam.medinyangServer.clova;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,14 +8,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
-public class Clova_OCR_ver3 {
-    public static void main(String[] args) {
-        String apiURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
-        String secretKey = "bmFsWG5mlHblA=";
-        String imageFile = "3333.jpg"; // OCR 대상 이미지
+public class Clova_OCR_ver4 {
+    private static final String APIURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";;
+    private static final String SECRETKEY = "bmFsWHblA=";
+    private String imageFile;
 
+    public Clova_OCR_ver4(String imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public static void main(String[] args) {
+        Clova_OCR_ver4 excuter = new Clova_OCR_ver4("3333.jpg");
+        excuter.excute();
+    }
+
+    public void excute(){
         try {
-            URL url = new URL(apiURL);
+            URL url = new URL(APIURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setUseCaches(false);
             con.setDoInput(true);
@@ -24,7 +33,7 @@ public class Clova_OCR_ver3 {
             con.setRequestMethod("POST");
             String boundary = "----" + UUID.randomUUID().toString().replaceAll("-", "");
             con.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-            con.setRequestProperty("X-OCR-SECRET", secretKey);
+            con.setRequestProperty("X-OCR-SECRET", SECRETKEY);
 
             // JSON 요청 메시지 구성
             JSONObject json = new JSONObject();
@@ -164,4 +173,3 @@ public class Clova_OCR_ver3 {
         }
     }
 }
-

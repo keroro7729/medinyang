@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer;
+package jinTeam.medinyangServer.clova;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

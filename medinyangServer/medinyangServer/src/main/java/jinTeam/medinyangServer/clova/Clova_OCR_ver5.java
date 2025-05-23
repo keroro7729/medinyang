@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer;
+package jinTeam.medinyangServer.clova;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,11 +15,12 @@ public class Clova_OCR_ver5 {
     public static void main(String[] args) throws IOException {
         byte[] imageData = readImageAsBytes("3333.jpg");
         Clova_OCR_ver5 ocr = new Clova_OCR_ver5();
-        ocr.excute(imageData, "upload.jpg");
+        String result = ocr.excute(imageData, "upload.jpg");
+        System.out.println(result);
     }
 
     // byte[] + 파일 이름을 받도록 수정
-    public void excute(byte[] imageBytes, String fileName) {
+    public String excute(byte[] imageBytes, String fileName) {
         try {
             URL url = new URL(APIURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -105,18 +106,18 @@ public class Clova_OCR_ver5 {
                 row.sort(Comparator.comparingDouble(f -> f.x));
             }
 
-            System.out.println("----- 이미지 레이아웃 유지 결과 -----\n");
+            StringBuilder line = new StringBuilder();
             for (List<Field> row : rows) {
-                StringBuilder line = new StringBuilder();
                 for (Field f : row) {
                     line.append(f.text).append("\t");
-                }
-                System.out.println(line.toString().trim());
+                } line.append('\n');
             }
+            return line.toString();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     // multipart/form-data 작성: byte[] 기반

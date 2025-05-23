@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer;
+package jinTeam.medinyangServer.clova;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

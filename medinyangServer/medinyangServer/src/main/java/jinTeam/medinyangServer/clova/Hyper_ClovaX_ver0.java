@@ -1,10 +1,11 @@
-package jinTeam.medinyangServer;
+package jinTeam.medinyangServer.clova;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -28,6 +29,7 @@ public class Hyper_ClovaX_ver0 {
         
         return reply;
     }
+
 
     public void jsonFile(){
         String jsonPayload = """
