@@ -54,7 +54,8 @@ const MainPage = () => {
 
 const styles = {
   page: {
-    width: "100vw",
+    width: "100%",
+    //height: "100%",
     backgroundColor: "#f9f9f9",
     paddingBottom: "80px",
     position: "relative",
@@ -62,12 +63,14 @@ const styles = {
   },
   switcherBox: {
     position: "absolute",
-    top: "24px",
-    left: "20px",
-    zIndex: 1000,
+    top: "50px",
+    left: "1px",
+    //zIndex: 1000,
   },
   challengeWrapper: {
-    padding: "20px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
+    paddingTop : "10px",
   },
   challengeTitleBox: {
     marginBottom: "12px",

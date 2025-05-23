@@ -1,28 +1,83 @@
 import React, { useState, useEffect, useRef } from "react";
-import UserDropdownMenu from "./UserDropdown.jsx"; // 🟦 드롭다운 컴포넌트
+import { FaUser } from "react-icons/fa";
+import { LuChevronDown } from "react-icons/lu";
 
 const UserSwitcher = () => {
-  const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
 
-  // ✅ 사용자 정보 불러오기
-  useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
-    const storedCurrent = JSON.parse(localStorage.getItem("currentUser"));
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+        credentials: "include",
+      });
 
-    // 로그인 유저가 users에 없으면 추가
-    if (storedCurrent && !storedUsers.find((u) => u.id === storedCurrent.id)) {
-      storedUsers.push(storedCurrent);
-      localStorage.setItem("users", JSON.stringify(storedUsers));
+      if (!res.ok) throw new Error("유저 목록 불러오기 실패");
+      const data = await res.json();
+      setUsers(data);
+    } catch (err) {
+      console.error("❌ 유저 목록 요청 실패:", err);
+      alert("유저 정보를 불러오지 못했어요.");
     }
+  };
 
-    setUsers(storedUsers);
-    setCurrentUser(storedCurrent);
+  const switchUser = async (user) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/users/switch/${user.userId}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      if (!res.ok) throw new Error("유저 전환 실패");
+
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      window.location.href = "/main"; // 또는 window.location.reload();
+    } catch (err) {
+      console.error("❌ 유저 전환 실패:", err);
+      alert("유저 전환 중 오류가 발생했습니다.");
+    }
+  };
+
+  const deleteUser = async (userId) => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/users/${userId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+          },
+          credentials: "include",
+        }
+      );
+      if (!res.ok) throw new Error("삭제 실패");
+      setUsers(users.filter((user) => user.userId !== userId));
+    } catch (err) {
+      console.error("❌ 유저 삭제 실패:", err);
+      alert("유저 삭제 중 오류 발생");
+    }
+  };
+
+  const goToAddUserPage = () => {
+    window.location.href = "/add-user";
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
 
-  // ✅ 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -33,67 +88,41 @@ const UserSwitcher = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ 유저 선택 시 서버에 세션 전환 요청
-  const handleSelectUser = async (user) => {
-    console.log("선택된 유저:", user);         // ✅ 전체 유저 객체 확인
-  console.log("유저 ID:", user.id);         // ✅ 실제로 백엔드로 보내는 ID 확인
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/users/switch/${user.id}`,
-        {
-          method: "POST",
-          credentials: "include", // ✅ 세션 쿠키 포함
-        }
-      );
-
-      if (!res.ok) throw new Error("세션 전환 실패");
-
-      // ✅ 세션 전환 성공 → currentUser 갱신
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      setCurrentUser(user);
-      setIsOpen(false);
-      window.location.reload();
-    } catch (err) {
-      console.error("유저 전환 실패", err);
-      alert("유저 전환에 실패했어요. 다시 로그인 해주세요.");
-      window.location.href = "/";
-    }
-  };
-
-  // ✅ 유저 추가 페이지로 이동
-  const handleAddUser = () => {
-    setIsOpen(false);
-    window.location.href = "/add-user";
-  };
-
-  // ✅ 유저 삭제
-  const handleDeleteUser = (userToDelete) => {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
-    if (!confirmDelete) return;
-
-    const updatedUsers = users.filter((u) => u.id !== userToDelete.id);
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-    setUsers(updatedUsers);
-
-    if (userToDelete.id === currentUser?.id) {
-      localStorage.removeItem("currentUser");
-      setCurrentUser(null);
-      window.location.reload();
-    }
-  };
-
   return (
     <div ref={wrapperRef} style={styles.wrapper}>
       <div onClick={() => setIsOpen(!isOpen)} style={styles.button}>
-        ▼ {currentUser?.name || "등록된 유저 없음"}
+        <FaUser style={styles.icon} />
+        <span>유저 전환</span>
+        <LuChevronDown style={styles.icon} />
       </div>
       {isOpen && (
-        <UserDropdownMenu
-          users={users}
-          onSelectUser={handleSelectUser}
-          onAddUser={handleAddUser}
-          onDeleteUser={handleDeleteUser}
-        />
+        <div style={styles.dropdown}>
+          {users.length === 0 ? (
+            <div style={styles.item}>&nbsp;&nbsp;등록된 유저가 없습니다.</div>
+          ) : (
+            users.map((user) => (
+              <div key={user.userId} style={styles.userRow}>
+                <button
+                  style={styles.userButton}
+                  onClick={() => switchUser(user)}
+                >
+                  {user.name} ({user.gender})
+                </button>
+                <button
+                  style={styles.deleteButton}
+                  onClick={() => deleteUser(user.userId)}
+                >
+                  ❌
+                </button>
+              </div>
+            ))
+          )}
+          <div style={styles.addButtonWrapper}>
+            <button style={styles.addButton} onClick={goToAddUserPage}>
+              ➕ 유저 추가하기
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -104,16 +133,79 @@ const styles = {
     position: "relative",
     padding: "10px 20px",
     zIndex: 1000,
+    fontSize: "14px",
+  },
+  item: {
+    fontSize: "14px",
   },
   button: {
-    fontWeight: "bold",
-    backgroundColor: "white",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    padding: "6px 12px",
+    backgroundColor: "transparent",
+    color: "white",
+    fontWeight: "600",
+    borderRadius: "6px",
+    padding: "6px 4px",
     cursor: "pointer",
-    width: "fit-content",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    border: "none",
+  },
+  icon: {
+    fontSize: "14px",
+  },
+  dropdown: {
+    position: "absolute",
+    marginLeft: "20px",
+    top: "calc(90% + 2px)",
+    left: "0",
+    backgroundColor: "#fff",
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    padding: "8px 10px",
+    width: "240px",
+    boxShadow: "0 6px 12px rgba(0,0,0,0.1)",
+    zIndex: 1000,
+    backdropFilter: "blur(2px)",
+    fontSize: "14px",
+  },
+  userRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "8px",
+    fontSize: "14px",
+  },
+  userButton: {
+    flex: 1,
+    padding: "6px",
+    backgroundColor: "#f8f8f8",
+    border: "1px solid #ccc",
+    borderRadius: "6px",
+    cursor: "pointer",
+    textAlign: "left",
+    fontSize: "14px",
+  },
+  deleteButton: {
+    marginLeft: "8px",
+    backgroundColor: "#ffdddd",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "14px",
+  },
+  addButtonWrapper: {
+    marginTop: "12px",
+    textAlign: "center",
+    fontSize: "14px",
+  },
+  addButton: {
+    padding: "8px",
+    width: "100%",
+    backgroundColor: "#e6f2ff",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "14px",
   },
 };
 

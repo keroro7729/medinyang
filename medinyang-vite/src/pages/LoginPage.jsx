@@ -7,47 +7,56 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
 
-  const handleLoginSuccess = (credentialResponse) => {
-    const idToken = credentialResponse.credential;
+const handleLoginSuccess = (credentialResponse) => {
+  const idToken = credentialResponse.credential;
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ idToken }),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          throw new Error("백엔드 인증 실패");
-        }
-        const data = await res.json();
+  fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "69420",
+    },
+    body: JSON.stringify({ idToken }),
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        throw new Error("백엔드 인증 실패");
+      }
 
-        // ✅ 세션 및 토큰 저장
-        localStorage.setItem("jsessionId", data.data.jsessionId);
-        localStorage.setItem("accessToken", data.token || "");
-        localStorage.setItem("isLoggedIn", "true");
+      const data = await res.json();
+      localStorage.setItem("jsessionId", data.data.jsessionId);
+      localStorage.setItem("accessToken", data.token || "");
+      localStorage.setItem("isLoggedIn", "true");
 
-        // ✅ 유저 목록 확인
-        const users = JSON.parse(localStorage.getItem("users") || "[]");
-
-        if (users.length === 0) {
-          // ✅ 처음 로그인 → 기본 정보 등록 페이지로
-          navigate("/add-user");
-        } else {
-          // ✅ 기존 유저 있으면 첫 유저 선택
-          localStorage.setItem("currentUser", JSON.stringify(users[0]));
-          navigate("/main");
-        }
-
-        setIsLoggedIn(true);
-      })
-      .catch((err) => {
-        console.error("서버 인증 실패", err);
-        alert("로그인에 실패했어요 😢");
+      // ✅ 서버에서 유저 목록 요청
+      const userRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+        },
       });
-  };
+
+      if (!userRes.ok) throw new Error("유저 목록 조회 실패");
+      const userList = await userRes.json();
+
+      if (userList.length === 0) {
+        navigate("/add-user");
+      } else {
+        localStorage.setItem("users", JSON.stringify(userList));
+        localStorage.setItem("currentUser", JSON.stringify(userList[0]));
+        navigate("/main");
+      }
+
+      setIsLoggedIn(true);
+    })
+    .catch((err) => {
+      console.error("서버 인증 실패", err);
+      alert("로그인에 실패했어요 😢");
+    });
+};
+
 
   const handleLoginError = () => {
     console.error("Google 로그인 실패");

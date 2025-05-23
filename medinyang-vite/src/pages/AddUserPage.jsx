@@ -47,8 +47,10 @@ const AddUserPage = () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users`, {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
         },
         credentials: "include",
         body: JSON.stringify(requestData),
@@ -88,41 +90,44 @@ const AddUserPage = () => {
         />
 
         <label style={styles.label}>성별</label>
-<div style={styles.genderWrapper}>
-  {["남성", "여성"].map((option) => (
-    <button
-      key={option}
-      type="button"
-      onClick={() => {
-        setForm((prev) => ({ ...prev, gender: option }));
+        <div style={styles.genderWrapper}>
+          {["남성", "여성"].map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => {
+                setForm((prev) => ({ ...prev, gender: option }));
 
-        if (option === "여성") {
-          fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/test`, {
-            method: "GET",
-            credentials: "include",
-          })
-            .then((res) => {
-              if (!res.ok) throw new Error("요청 실패");
-              return res.text(); // 또는 .json(), 응답 형식에 따라
-            })
-            .then((data) => {
-              console.log("✅ /auth/test 응답:", data);
-            })
-            .catch((err) => {
-              console.error("❌ /auth/test 요청 실패:", err);
-            });
-        }
-      }}
-      style={{
-        ...styles.genderButton,
-        ...(form.gender === option ? styles.genderButtonSelected : {}),
-      }}
-    >
-      {option}
-    </button>
-  ))}
-</div>
-
+                if (option === "여성") {
+                  fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/test`, {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "ngrok-skip-browser-warning": "69420", // ✅ 이 줄 추가
+                    },
+                    credentials: "include",
+                  })
+                    .then((res) => {
+                      if (!res.ok) throw new Error("요청 실패");
+                      return res.text(); // 또는 .json(), 응답 형식에 따라
+                    })
+                    .then((data) => {
+                      console.log("✅ /auth/test 응답:", data);
+                    })
+                    .catch((err) => {
+                      console.error("❌ /auth/test 요청 실패:", err);
+                    });
+                }
+              }}
+              style={{
+                ...styles.genderButton,
+                ...(form.gender === option ? styles.genderButtonSelected : {}),
+              }}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
 
         <label style={styles.label}>키</label>
         <input

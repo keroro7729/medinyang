@@ -7,10 +7,10 @@ const ChallengeSummary = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={styles.card} onClick={() => navigate("/manage")}>
+    <div style={styles.card} onClick={() => navigate("/manage?tab=challenge")}>
       {/* ✅ 상단 헤더: 좌우 색 다르게 분리 */}
       <div style={styles.header}>
-        <div style={styles.headerLeft}>🌙 <span style={styles.headerTitle}>수면 챌린지</span></div>
+        <div style={styles.headerLeft}>🌙&nbsp;<span style={styles.headerTitle}>수면 챌린지</span></div>
         <div style={styles.headerRight}>챌린지 체크하러 가기 →</div>
       </div>
 
@@ -66,16 +66,17 @@ const styles = {
     marginLeft: "4px",
   },
   content: {
-    padding: "16px",
+    padding: "14px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     fontSize: "14px",
+    marginLeft:"15px",
   },
   status: {
-    fontSize: "14px",
+    fontSize: "15px",
     fontWeight: "bold",
-    marginBottom: "4px",
+    marginBottom: "6px",
   },
   desc: {
     marginTop: "-3px",
