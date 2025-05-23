@@ -79,7 +79,7 @@ public class HyperClovaX {
         root.add("messages", messages);
         root.addProperty("topP", 0.8);
         root.addProperty("topK", 0);
-        root.addProperty("maxTokens", 200);
+        root.addProperty("maxTokens", 500);
         root.addProperty("temperature", 0.5);
         root.addProperty("repeatPenalty", 1.1);
         root.add("stopBefore", new JsonArray());  // 빈 배열
