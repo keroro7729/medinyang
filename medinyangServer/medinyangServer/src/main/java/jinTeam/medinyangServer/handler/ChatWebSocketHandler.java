@@ -92,7 +92,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             //사용자 메세지 저장
             ChatLogRequestDto userRequest = ChatLogRequestDto
                     .builder()
-                    .message(String.valueOf(message))
+                    .message(userMessage)
                     .chatType(ChatType.MEDINYANG_CONSULTING)
                     .contentType(ContentType.USER_TEXT)
                     .chatDate(LocalDateTime.now())
