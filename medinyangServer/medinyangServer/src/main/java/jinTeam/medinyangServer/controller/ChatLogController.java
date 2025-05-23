@@ -1,8 +1,6 @@
 package jinTeam.medinyangServer.controller;
 
-import jinTeam.medinyangServer.common.dto.ChatLogRequest;
-import jinTeam.medinyangServer.common.dto.ChatLogResponse;
-import jinTeam.medinyangServer.database.chatLog.ChatLog;
+import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,7 @@ public class ChatLogController {
     private final ChatLogService chatLogService;
 
     @GetMapping("/scroll")
-    public ResponseEntity<List<ChatLogResponse>> getNextChats(
+    public ResponseEntity<List<ChatLogResponseDto>> getNextChats(
             @RequestParam Long userId,
             @RequestParam(required = false) Long lastChatId,
             @RequestParam(defaultValue = "20") int size

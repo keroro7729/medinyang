@@ -2,7 +2,6 @@ package jinTeam.medinyangServer.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jinTeam.medinyangServer.common.dto.UserDTO;
 import jinTeam.medinyangServer.common.dto.request.CreateUserRequestDto;
 import jinTeam.medinyangServer.common.dto.response.UserResponseDto;
 import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
@@ -26,6 +25,9 @@ public class UserController {
 
     private final UserService userService;
 
+    /*
+    * 유저 생성: POST /users BODY=CreateUserRequestDto RESPONSE=UserResponseData
+    * */
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@RequestBody CreateUserRequestDto body,
                                                       HttpServletRequest request) {
@@ -40,6 +42,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(userId, request));
     }
 
+    // url 경로: "/users" GET 요청을 보내면
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getUserList(HttpServletRequest request) {
         return ResponseEntity.ok(userService.getUserList(request));
@@ -48,6 +51,7 @@ public class UserController {
     @PostMapping("/switch/{userId}")
     public ResponseEntity<Void> switchUser(@PathVariable Long userId,
                                      HttpServletRequest request) {
+        System.out.println("userId: "+userId);
         userService.switchUser(userId, request);
         return ResponseEntity.noContent().build();
     }

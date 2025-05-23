@@ -2,12 +2,14 @@ package jinTeam.medinyangServer.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jinTeam.medinyangServer.clova.Clova;
-import jinTeam.medinyangServer.common.dto.ChatLogRequest;
+import jinTeam.medinyangServer.Clova;
+import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
 import jinTeam.medinyangServer.database.user.UserService;
+import jinTeam.medinyangServer.utils.HttpSessionUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -22,14 +24,12 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
+@RequiredArgsConstructor
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
 
-    @Autowired
-    private ChatLogService chatLogService;
-    @Autowired
-    private UserService userService;
+    private final ChatLogService chatLogService;
 
     private Long userId;
 
@@ -58,7 +58,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             return;
         }
 
-        userId = (Long) httpSession.getAttribute("userId"); // 세션에서 userId 가져오기
+        userId = HttpSessionUtil.getUserId(httpSession); // 세션에서 userId 가져오기
 
 
         // 3. 인증 정보 확인
@@ -88,7 +88,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
             System.out.println("💬 클라이언트 메시지: " + userMessage);
             //사용자 메세지 저장
-            ChatLogRequest userRequest = ChatLogRequest
+            ChatLogRequestDto userRequest = ChatLogRequestDto
                     .builder()
                     .message(String.valueOf(message))
                     .chatType(ChatType.MEDINYANG_CONSULTING)
@@ -101,7 +101,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             try{
                 botReply = Clova.getClovaReply(userMessage);
                 //llm 메세지 저장
-                ChatLogRequest llmRequest = ChatLogRequest.builder()
+                ChatLogRequestDto llmRequest = ChatLogRequestDto.builder()
                         .message(botReply)
                         .chatType(ChatType.MEDINYANG_CONSULTING)
                         .contentType(ContentType.LLM_TEXT)

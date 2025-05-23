@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class ChatLogRequest {
+public class ChatLogRequestDto {
     private String message;
     private ChatType chatType;
     private ContentType contentType;

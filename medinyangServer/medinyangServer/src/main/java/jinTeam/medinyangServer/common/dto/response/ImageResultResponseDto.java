@@ -25,7 +25,7 @@ public class ImageResultResponseDto {
     private LocalDate visitDate;
     private String shortDescription;
 
-    private String longDescription;
+    private String longDescription; // 체팅화면에 띄울 메세지
 
     public ImageResultResponseDto(MedicalHistory medicalHistory) {
         type = medicalHistory.getType();

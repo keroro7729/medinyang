@@ -1,16 +1,41 @@
-// src/components/Main/Greeting.jsx
-import React from "react";
-import profileImg from "../../assets/profile.png";
+import React, { useEffect, useState } from "react";
+import logo from "../../assets/logo.png";
 
 const Greeting = () => {
+  const [userName, setUserName] = useState(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("currentUser");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed.name) {
+          setUserName(parsed.name);
+        }
+      } catch (e) {
+        console.error("currentUser 파싱 오류:", e);
+      }
+    }
+  }, []);
+
+  const isUserMissing = userName === null;
+
   return (
     <div style={styles.container}>
+      <img src={logo} alt="Medi냥 로고" style={styles.logo} />
       <div style={styles.inner}>
-        <img src={profileImg} alt="프로필" style={styles.image} />
         <div style={styles.textWrapper}>
-          <p style={styles.name}>홍길동 님,</p>
-          <p style={styles.sub1}>메디냥과 함께</p>
-          <p style={styles.sub2}>더 건강한 생활 해보아요!</p>
+          {isUserMissing ? (
+            <>
+              <p style={styles.name}>등록된 유저가 없습니다.</p>
+              <p style={styles.sub}>우측 상단에서 유저를 추가해주세요.</p>
+            </>
+          ) : (
+            <>
+              <p style={styles.name}>{userName} 님,</p>
+              <p style={styles.sub}>메디냥과 함께<br />더 건강한 생활 해보아요!</p>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -19,20 +44,24 @@ const Greeting = () => {
 
 const styles = {
   container: {
-    backgroundColor: "#2C7EDB",
-    padding: "48px 24px 70px",
+   background: "linear-gradient(to bottom, #2C7EDB 10%, #4EA0F1 60%, #ffffff 100%)",
+    padding: "100px 24px 70px",
     color: "white",
+    //position: "relative",
+  },
+  logo: {
+    position: "absolute",
+    top: "70px",
+    right: "30px",
+    height: "50px",
+    zIndex: 1,
+    filter: "brightness(0) invert(1)",
+    opacity: 0.60,
   },
   inner: {
     display: "flex",
     alignItems: "center",
     gap: "24px",
-  },
-  image: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    backgroundColor: "#e4e4e4",
   },
   textWrapper: {
     flex: 1,
@@ -42,14 +71,9 @@ const styles = {
     fontWeight: "bold",
     marginBottom: "4px",
   },
-  sub1: {
+  sub: {
     fontSize: "15px",
     lineHeight: "1.4",
-  },
-  sub2: {
-    fontSize: "15px",
-    lineHeight: "1.4",
-    marginTop: "-12px",
   },
 };
 

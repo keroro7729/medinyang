@@ -1,11 +1,18 @@
-// src/api/auth.js
-
 export async function checkSession() {
-  return fetch("https://1fc0-210-110-128-155.ngrok-free.app/auth/session", {
+  return fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/session`, {
     method: "GET",
     credentials: "include", // ✅ 쿠키 포함해서 세션 체크
+    mode:"cors",
   }).then((res) => {
     if (!res.ok) throw new Error("세션 없음");
     return res.json();
+  });
+
+  
+}
+export async function logout() {
+  return fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include", // ✅ 세션 쿠키 포함
   });
 }

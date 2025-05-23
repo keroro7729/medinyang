@@ -44,12 +44,12 @@ public class UserService {
         user = userRepository.save(user);
 
         UserBasicData userData = UserBasicData.builder()
-                .userId(user.getUserId())
                 .name(body.getName())
                 .age(body.getAge())
                 .weight(body.getWeight())
                 .height(body.getHeight())
                 .gender(body.getGender())
+                .user(user)
                 .build();
         userDataRepository.save(userData);
 
