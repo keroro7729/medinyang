@@ -1,78 +1,116 @@
 package jinTeam.medinyangServer.database.user;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jinTeam.medinyangServer.common.dto.request.CreateUserRequestDto;
+import jinTeam.medinyangServer.common.dto.response.UserResponseDto;
+import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
+import jinTeam.medinyangServer.common.exceptions.NotLoginException;
 import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.account.Account;
 import jinTeam.medinyangServer.database.account.AccountService;
 import jinTeam.medinyangServer.common.dto.CreateUserRequest;
-import jinTeam.medinyangServer.common.enums.Gender;
+import jinTeam.medinyangServer.database.user.userBasicData.UserBasicData;
+import jinTeam.medinyangServer.database.user.userBasicData.UserBasicDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final UserBasicDataRepository userDataRepository;
     private final AccountService accountService;
 
-    @Transactional
-    public User createUser(Long accountId, String name, Integer year, Gender gender){
-        User user = User.builder()
-                        .masterAccount(accountService.getAccount(accountId))
-                        .name(name)
-                        .birthYear(year)
-                        .gender(gender)
-                        .build();
-        return repository.save(user);
-    }
+    /*
+    * 생성: POST /users CreateUserRequestDto UserResponseDto 202(created)
+    * 단건 조회: GET /users/{userId} - UserResponseDto 200(ok)
+    * 전체 조회: GET /users - List<UserResponseDto> 200(ok)
+    * */
 
     @Transactional
-    public User createUser(Long accountId, CreateUserRequest request){
-        User user = User.builder()
-                .masterAccount(accountService.getAccount(accountId))
-                .name(request.getName())
-                .birthYear(request.getYear())
-                .gender(request.getGender())
-                .build();
-        return repository.save(user);
-    }
+    public UserResponseDto createUser(CreateUserRequestDto body, HttpServletRequest request){
+        Long accountId = getAccountId(request);
 
-    @Transactional(readOnly = true)
-    public List<User> getUserList (Long accountId){
         Account account = accountService.getAccount(accountId);
-        return repository.findAllByMasterAccount(account);
+        User user = User.builder()
+                .masterAccount(account)
+                .build();
+        user = userRepository.save(user);
+
+        UserBasicData userData = UserBasicData.builder()
+                .name(body.getName())
+                .age(body.getAge())
+                .weight(body.getWeight())
+                .height(body.getHeight())
+                .gender(body.getGender())
+                .user(user)
+                .build();
+        userDataRepository.save(userData);
+
+        user.setUserBasicData(userData);
+        switchUser(user.getUserId(), request);
+        return new UserResponseDto(user);
     }
 
     @Transactional(readOnly = true)
-    public User getUser(Long id){
-        Optional<User> result = repository.findById(id);
-        if(result.isEmpty()){
-            throw new ResourceNotFoundException("User not found with id: "+id);
+    public List<UserResponseDto> getUserList (HttpServletRequest request){
+        Long accountId = getAccountId(request);
+        Account account = accountService.getAccount(accountId);
+        List<User> users = userRepository.findAllByMasterAccount(account);
+
+        return users.stream()
+                .map(UserResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponseDto getUser(Long userId, HttpServletRequest request){
+        Long accountId = getAccountId(request);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("userId: "+userId));
+        if(!user.getMasterAccount().getAccountId().equals(accountId)){
+            throw new AccessDeniedException("account: "+accountId);
         }
-        return result.get();
+
+        return new UserResponseDto(user);
     }
 
-    @Transactional
-    public User updateUser(Long id, CreateUserRequest form){
-        User user = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+    public boolean switchUser(Long userId, HttpServletRequest request) {
+        Long accountId = getAccountId(request);
 
-        user.setName(form.getName());
-        user.setBirthYear(form.getYear());
-        user.setGender(form.getGender());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("userId: "+userId));
+        if(!user.getMasterAccount().getAccountId().equals(accountId)){
+            throw new AccessDeniedException("account: "+accountId);
+        }
 
-        // JPA는 @Transactional 안에서 entity 필드만 수정해도 자동으로 update 쿼리 나감 (Dirty Checking)
-        return user;
+        HttpSession session = request.getSession(false);
+        session.setAttribute("userId", user.getUserId());
+        return true;
     }
 
-    @Transactional
-    public void deleteUser(Long id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        repository.delete(user);
+
+    public User get(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("userId: " + userId));
+    }
+
+    private Long getAccountId(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            throw new NotLoginException(request.getRemoteUser());
+        }
+        Long accountId = (Long) session.getAttribute("accountId");
+        if(accountId == null){
+            throw new RuntimeException("세션은 존재하는데 accountId가 없음: "+session.getServletContext());
+        }
+        return accountId;
     }
 }

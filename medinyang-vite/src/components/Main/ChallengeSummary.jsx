@@ -17,7 +17,7 @@ const ChallengeSummary = () => {
       <div style={styles.content}>
         <div>
           <p style={styles.status}>13일 연속 성공중 🔥</p>
-          <p style={styles.desc}>지금 이 페이스 그대로~! 남은 기간 화이팅 👊🏻</p>
+          <p style={styles.desc}>지금 이 페이스 그대로~!<br /> 남은 기간 화이팅 👊🏻</p>
           <div style={styles.barWrapper}>
             <div style={styles.barFill} />
           </div>
@@ -102,8 +102,9 @@ const styles = {
     color: "#6B7280",
   },
   cat: {
-    width: "100px",
+    width: "130px",
     height: "auto",
+    marginRight: "2px"
   },
 };
 

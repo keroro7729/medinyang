@@ -2,7 +2,7 @@ package jinTeam.medinyangServer.database.user;
 
 import jakarta.persistence.*;
 import jinTeam.medinyangServer.database.account.Account;
-import jinTeam.medinyangServer.common.enums.Gender;
+import jinTeam.medinyangServer.database.user.userBasicData.UserBasicData;
 import lombok.*;
 import jakarta.persistence.Id;
 
@@ -22,11 +22,6 @@ public class User {
     @JoinColumn(name = "master_account_id")
     private Account masterAccount;
 
-    @Column(nullable = false)
-    private String name;
-
-    private Integer birthYear;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserBasicData userBasicData;
 }

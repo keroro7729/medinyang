@@ -1,8 +1,8 @@
 import React from "react";
 
-const SettingItem = ({ label }) => {
+const SettingItem = ({ label, onClick }) => {
   return (
-    <div style={styles.item}>
+    <div style={styles.item} onClick={onClick}>
       <span>{label}</span>
     </div>
   );

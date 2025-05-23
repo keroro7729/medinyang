@@ -27,9 +27,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/login/**","/","/ws/**", "/auth/session").permitAll() // 로그인 관련 API만 비인증 접근 허용
+        http.cors(Customizer.withDefaults()) // WebMvcConfig을 사용
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/auth/**","/","/ws/**").permitAll() // 로그인 관련 API만 비인증 접근 허용
                     .anyRequest().authenticated() // 나머지는 전부 인증 필요
             );
 
@@ -37,22 +38,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:5173",  frontendOrigin));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-        bean.setOrder(0); // 💡 필터 체인 가장 먼저 적용되도록 우선순위 부여
-        return bean;
-    }
-
+    //WebSocket 세션 복원에 필요(내가 직접 세션 컨트롤)
     @Bean
     public ServletListenerRegistrationBean<SessionCollector> sessionCollector() {
         return new ServletListenerRegistrationBean<>(new SessionCollector());

@@ -14,7 +14,6 @@ public class AccountService {
 
     private final AccountRepository repository;
 
-
     @Transactional
     public Account makeAccount(String email) {
         if (!isNewEmail(email)) {

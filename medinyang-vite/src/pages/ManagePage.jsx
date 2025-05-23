@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TopHeader from "../components/common/TopHeader";
 import { useNavigate } from "react-router-dom";
 import PlanResultCard from "../components/Manage/PlanResultCard";
 import ChallengeContent from "../components/Manage/ChallengeContent";
 import BottomNav from "../components/Main/BottomNav";
-import { useAuth } from "../context/AuthContext";
+
 
 const ManagePage = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("plan");
-  const { isLoggedIn, loading } = useAuth();
 
-  // ✅ 로그인 안 되어있을 경우 경고 후 리디렉션
-  useEffect(() => {
-    if (!loading && !isLoggedIn) {
-      alert("로그인이 필요한 서비스입니다!");
-      navigate("/");
-    }
-  }, [isLoggedIn, loading, navigate]);
-
-  if (loading) return <p>로딩 중입니다...</p>;
 
   const handleGoToChat = () => {
     navigate("/chat");
