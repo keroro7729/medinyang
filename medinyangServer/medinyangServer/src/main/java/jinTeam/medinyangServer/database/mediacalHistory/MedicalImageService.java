@@ -107,4 +107,9 @@ public class MedicalImageService {
         System.out.println(result);
         return result;
     }
+
+    public void getMedicalHistory(HttpServletRequest request) {
+
+        //medicalRepository.findAllByUser();
+    }
 }
