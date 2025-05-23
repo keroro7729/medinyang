@@ -30,11 +30,11 @@ public class AuthController {
         if (email == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new DefaultResponseDto<>(false, "세션 없음 또는 만료됨", null));
+                    .body(new DefaultResponseDto<>(HttpStatus.UNAUTHORIZED.value(), "세션 없음 또는 만료됨", null));
         }
 
         SessionResponseDto sessionData = new SessionResponseDto(email);
-        return ResponseEntity.ok(new DefaultResponseDto<>(true, "세션 정보 반환 성공", sessionData));
+        return ResponseEntity.ok(new DefaultResponseDto<>(HttpStatus.OK.value(), "세션 정보 반환 성공", sessionData));
     }
 
     @PostMapping("/google")
@@ -45,7 +45,7 @@ public class AuthController {
         if (payload == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(new DefaultResponseDto<>(false, "Invalid ID Token", null));
+                    .body(new DefaultResponseDto<>(HttpStatus.UNAUTHORIZED.value(), "Invalid ID Token", null));
         }
         String email = payload.getEmail();
 
@@ -57,19 +57,25 @@ public class AuthController {
         // 2. (선택) 사용자 세션 직접 접근 가능
         request.getSession().setAttribute("userEmail", email);
 
+        Long accountId;
         if(accountService.isNewEmail(email)){
-            accountService.makeAccount(email);
+            accountId = accountService.makeAccount(email).getAccountId();
         }
+        else {
+            accountId = accountService.getAccount(email).getAccountId();
+        }
+        request.getSession().setAttribute("accountId", accountId);
 
         String jsessionId = request.getSession().getId();
 
         LoginResponseDto loginData = new LoginResponseDto(email,jsessionId);
 
-        return ResponseEntity.ok(new DefaultResponseDto<>(true,"세션 로그인 성공!", loginData));
+        return ResponseEntity.ok(new DefaultResponseDto<>(HttpStatus.OK.value(), "세션 로그인 성공!", loginData));
     }
 
     @GetMapping("/test")
-    public ResponseEntity<String> test() {
+    public ResponseEntity<String> test(HttpServletRequest request) {
+        request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         return ResponseEntity.ok("테스트 성공");
     }
 }
