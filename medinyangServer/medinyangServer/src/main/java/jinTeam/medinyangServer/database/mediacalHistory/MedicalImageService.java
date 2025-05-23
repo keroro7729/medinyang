@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.clova.Clova_OCR_ver5;
 import jinTeam.medinyangServer.clova.HyperClovaX;
-import jinTeam.medinyangServer.common.dto.ChatLogRequest;
-import jinTeam.medinyangServer.common.dto.request.UploadImageRequestDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
 import jinTeam.medinyangServer.common.enums.MedicalType;
 import jinTeam.medinyangServer.common.exceptions.NotLoginException;

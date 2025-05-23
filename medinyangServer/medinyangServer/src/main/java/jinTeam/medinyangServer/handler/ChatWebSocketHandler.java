@@ -2,7 +2,7 @@ package jinTeam.medinyangServer.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jinTeam.medinyangServer.Clova;
+import jinTeam.medinyangServer.clova.HyperClovaX;
 import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
@@ -30,6 +30,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
 
     private final ChatLogService chatLogService;
+
+    private final HyperClovaX clova = new HyperClovaX();
 
     private Long userId;
 
@@ -99,7 +101,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
             String botReply;
             try{
-                botReply = Clova.getClovaReply(userMessage);
+                botReply = clova.execute(userMessage);
                 //llm 메세지 저장
                 ChatLogRequestDto llmRequest = ChatLogRequestDto.builder()
                         .message(botReply)

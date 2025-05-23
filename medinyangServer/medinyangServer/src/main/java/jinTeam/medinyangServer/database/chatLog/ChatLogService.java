@@ -2,6 +2,8 @@ package jinTeam.medinyangServer.database.chatLog;
 
 import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
+import jinTeam.medinyangServer.common.enums.ChatType;
+import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.user.User;
 import jinTeam.medinyangServer.database.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -48,6 +51,20 @@ public class ChatLogService {
                 .build();
 
         return chatLogRepository.save(chatLog);
+    }
+
+    public void saveLLMMessage(Long userId, String message) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저 없음"));
+
+        ChatLog chatLog = ChatLog.builder()
+                .user(user)
+                .chatType(ChatType.MEDINYANG_CONSULTING)
+                .message(message)
+                .contentType(ContentType.LLM_TEXT)
+                .chatDate(LocalDateTime.now())
+                .build();
+        chatLogRepository.save(chatLog);
     }
 
     public List<ChatLogResponseDto> getNextChats(Long userId, Long lastChatId, int size) {
