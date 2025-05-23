@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class DefaultResponseDto<T> {
-    private boolean success;
+    private int status;
     private String message;
     private T data;
 }
