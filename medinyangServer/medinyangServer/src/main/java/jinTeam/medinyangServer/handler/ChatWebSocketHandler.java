@@ -9,6 +9,7 @@ import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
 import jinTeam.medinyangServer.database.user.UserService;
 import jinTeam.medinyangServer.utils.HttpSessionUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -23,14 +24,12 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
+@RequiredArgsConstructor
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
 
-    @Autowired
-    private ChatLogService chatLogService;
-    @Autowired
-    private UserService userService;
+    private final ChatLogService chatLogService;
 
     private Long userId;
 
