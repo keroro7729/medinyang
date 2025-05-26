@@ -36,12 +36,11 @@ public class UserService {
     @Transactional
     public UserResponseDto createUser(CreateUserRequestDto body, HttpServletRequest request){
         Long accountId = getAccountId(request);
-
         Account account = accountService.getAccount(accountId);
+
         User user = User.builder()
                 .masterAccount(account)
                 .build();
-        user = userRepository.save(user);
 
         UserBasicData userData = UserBasicData.builder()
                 .name(body.getName())
@@ -51,9 +50,8 @@ public class UserService {
                 .gender(body.getGender())
                 .user(user)
                 .build();
-        userDataRepository.save(userData);
-
         user.setUserBasicData(userData);
+
         userRepository.save(user);
         switchUser(user.getUserId(), request);
         return new UserResponseDto(user);
