@@ -4,31 +4,38 @@ import ChatList from "../components/Chat/ChatList";
 import ChatInput from "../components/Chat/ChatInput";
 import TopHeader from "../components/common/TopHeader";
 import { useAuth } from "../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const ChatPage = () => {
-  const { isLoggedIn, loading } = useAuth(); // ✅ Context에서 가져오기
+  const { isLoggedIn, loading } = useAuth();
+  const location = useLocation(); // ✅ 초기 메시지 확인용
   const [messages, setMessages] = useState([]);
   const [isReplying, setIsReplying] = useState(false);
   const socket = useRef(null);
 
   useEffect(() => {
-    if (loading) return; // 아직 확인 중이면 아무것도 하지 않음
+    // ✅ 업로드 페이지에서 넘어왔을 때 초기 메시지 세팅
+    if (location.state?.fromUpload && location.state.initialMessage) {
+      setMessages([{ sender: "gpt", text: location.state.initialMessage }]);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    if (loading) return;
     if (!isLoggedIn) {
       console.log("로그인되지 않아 WebSocket 연결을 생략합니다.");
       return;
     }
 
-  // ✅ localStorage에서 세션 ID 가져오기
     const jsessionId = localStorage.getItem("jsessionId");
     if (!jsessionId) {
-     console.warn("❌ 세션 ID 없음");
-     return;
+      console.warn("❌ 세션 ID 없음");
+      return;
     }
 
-      // ✅ WebSocket 연결 시 쿼리로 세션 ID 붙이기
-    socket.current = new WebSocket(`${import.meta.env.VITE_WS_BASE_URL}/ws/chat?jsession=${jsessionId}`);
-
-
+    socket.current = new WebSocket(
+      `${import.meta.env.VITE_WS_BASE_URL}/ws/chat?jsession=${jsessionId}`
+    );
 
     socket.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -36,7 +43,6 @@ const ChatPage = () => {
       setMessages((prev) => [...prev, gptReply]);
       setIsReplying(false);
     };
-
 
     socket.current.onclose = (event) => {
       console.warn("웹소켓 연결 종료");
@@ -46,7 +52,7 @@ const ChatPage = () => {
     };
 
     return () => socket.current?.close();
-  }, [isLoggedIn, loading]); // ✅ 의존성에 추가
+  }, [isLoggedIn, loading]);
 
   const handleSend = (text) => {
     if (!text.trim() || isReplying) return;
