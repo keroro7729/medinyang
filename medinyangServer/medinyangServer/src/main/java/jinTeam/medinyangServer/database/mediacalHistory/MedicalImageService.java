@@ -87,13 +87,13 @@ public class MedicalImageService {
         String[] lines = message.split("\\n");
         for (String line : lines) {
             line = line.trim();
-            if (line.startsWith("병원 이름 :")) {
+            if (line.startsWith("병원 이름")) {
                 result.put("hospitalName", line.split(":", 2)[1].trim());
-            } else if (line.startsWith("문서 형식 :")) {
+            } else if (line.startsWith("문서형식")) {
                 result.put("medicalType", line.split(":", 2)[1].trim());
-            } else if (line.startsWith("병원 방문일자 :")) {
+            } else if (line.startsWith("병원 방문일자")) {
                 result.put("visitDate", line.split(":", 2)[1].trim());
-            } else if (line.startsWith("한줄 요약 :")) {
+            } else if (line.startsWith("한줄 요약")) {
                 result.put("summary", line.split(":", 2)[1].trim());
             }
         }
