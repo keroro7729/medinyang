@@ -1,10 +1,7 @@
 package jinTeam.medinyangServer.handler;
 
 import jinTeam.medinyangServer.common.dto.DefaultResponse;
-import jinTeam.medinyangServer.common.exceptions.AccessDeniedException;
-import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
-import jinTeam.medinyangServer.common.exceptions.EmailAlreadyExistsException;
-import jinTeam.medinyangServer.common.exceptions.FileUploadException;
+import jinTeam.medinyangServer.common.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<DefaultResponse> handleAccountNotFoundException(ResourceNotFoundException e){
+    public ResponseEntity<DefaultResponse> handleNotFoundException(ResourceNotFoundException e){
         log.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new DefaultResponse(e.getMessage()));
@@ -46,6 +43,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<DefaultResponse> handleAccessDeniedException(AccessDeniedException e) {
         log.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new DefaultResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(DuplicateProgressException.class)
+    public ResponseEntity<DefaultResponse> handleDuplicateProgressException(DuplicateProgressException e) {
+        log.error("⛔️ 중복 수행 기록 예외: {}", e.getMessage(), e);
+        return ResponseEntity.status(HttpStatus.CONFLICT)  // 409 Conflict
                 .body(new DefaultResponse(e.getMessage()));
     }
 }
