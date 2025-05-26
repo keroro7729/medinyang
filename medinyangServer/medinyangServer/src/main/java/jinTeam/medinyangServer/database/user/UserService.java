@@ -54,6 +54,7 @@ public class UserService {
         userDataRepository.save(userData);
 
         user.setUserBasicData(userData);
+        userRepository.save(user);
         switchUser(user.getUserId(), request);
         return new UserResponseDto(user);
     }
