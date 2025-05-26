@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.clova.Clova_OCR_ver5;
 import jinTeam.medinyangServer.clova.HyperClovaX;
+import jinTeam.medinyangServer.common.dto.response.HistoryHeaderDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
 import jinTeam.medinyangServer.common.enums.MedicalType;
 import jinTeam.medinyangServer.common.exceptions.NotLoginException;
@@ -12,6 +13,7 @@ import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFile;
 import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFileRepository;
 import jinTeam.medinyangServer.database.user.UserService;
 import jinTeam.medinyangServer.utils.HttpSessionUtil;
+import jinTeam.medinyangServer.utils.Parser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,13 +50,14 @@ public class MedicalImageService {
         String result = ocr.excute(image.getImageData(), image.getFileName());
         result = clova.execute(result);
         System.out.println("clova 응답:"+result);
-        Map<String, String> map = parse(result);
+        HistoryHeaderDto header = Parser.parseDefaultHeader(result);
+
         Long userId = HttpSessionUtil.getUserId(session);
         MedicalHistory medicalHistory = MedicalHistory.builder()
-                .hospitalName(map.get("hospitalName"))
-                .type(fromLabel(map.get("medicalType")))
-                .visitDate(LocalDate.parse(map.get("visitDate")))
-                .shortDescription(map.get("summary"))
+                .hospitalName(header.getHospitalName())
+                .type(header.getMedicalType())
+                .visitDate(header.getVisitDate())
+                .shortDescription(header.getSummary())
                 .longDescription(result)
                 .user(userService.get(userId))
                 .build();
@@ -79,27 +82,6 @@ public class MedicalImageService {
         } catch(IOException e) {
             throw new RuntimeException("cant read image file", e);
         }
-    }
-
-    private Map<String, String> parse(String message) {
-        Map<String, String> result = new HashMap<>();
-
-        String[] lines = message.split("\\n");
-        for (String line : lines) {
-            line = line.trim();
-            if (line.startsWith("병원 이름 :")) {
-                result.put("hospitalName", line.split(":", 2)[1].trim());
-            } else if (line.startsWith("문서 형식 :")) {
-                result.put("medicalType", line.split(":", 2)[1].trim());
-            } else if (line.startsWith("병원 방문일자 :")) {
-                result.put("visitDate", line.split(":", 2)[1].trim());
-            } else if (line.startsWith("한줄 요약 :")) {
-                result.put("summary", line.split(":", 2)[1].trim());
-            }
-        }
-
-        System.out.println("파싱 결과 확인!!:" + result);
-        return result;
     }
 
     public static MedicalType fromLabel(String label) {
