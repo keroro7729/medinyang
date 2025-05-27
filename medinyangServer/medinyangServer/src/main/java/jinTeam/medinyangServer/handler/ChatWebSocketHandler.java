@@ -7,7 +7,7 @@ import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
-import jinTeam.medinyangServer.utils.HttpSessionUtil;
+import jinTeam.medinyangServer.database.user.medicalData.MedicalDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -19,6 +19,8 @@ import jinTeam.medinyangServer.session.SessionCollector;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
@@ -28,6 +30,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 파싱기
 
     private final ChatLogService chatLogService;
+    private final MedicalDataService medicalDataService;
 
     private final HyperClovaX clova = new HyperClovaX();
 
@@ -58,7 +61,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             return;
         }
 
-        userId = HttpSessionUtil.getUserId(httpSession); // 세션에서 userId 가져오기
+        userId = (Long) httpSession.getAttribute("userId");
 
 
         // 3. 인증 정보 확인
@@ -97,11 +100,19 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                     .build();
             chatLogService.saveUserMessage(userId, userRequest);
 
+            List<String> user = new ArrayList<>();
+            List<String> assist = new ArrayList<>();
+            //chatLogService.getRecentChats() 내부용 메서드도 필요하네요..!!
+            // 받아온 채팅기록 user, assist에 잘 나눠담기
+            userMessage += "\n" + medicalDataService.getMedicalData(userId);
+            user.add(userMessage);
+
             String botReply;
             try{
-                botReply = clova.execute(userMessage);
-
+                botReply = clova.execute(user, assist);
                 chatLogService.saveLLMMessage(userId, botReply);
+                // botReply parse ->
+                // medicalDataService.addData(userId, 파싱결과맵);
 
                 // 프론트로 응답 보내기
                 ObjectMapper objectMapper = new ObjectMapper();
