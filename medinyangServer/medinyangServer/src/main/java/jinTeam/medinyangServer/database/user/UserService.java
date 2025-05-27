@@ -10,6 +10,8 @@ import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.account.Account;
 import jinTeam.medinyangServer.database.account.AccountService;
 import jinTeam.medinyangServer.common.dto.CreateUserRequest;
+import jinTeam.medinyangServer.database.user.medicalData.MedicalData;
+import jinTeam.medinyangServer.database.user.medicalData.MedicalDataService;
 import jinTeam.medinyangServer.database.user.userBasicData.UserBasicData;
 import jinTeam.medinyangServer.database.user.userBasicData.UserBasicDataRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserBasicDataRepository userDataRepository;
     private final AccountService accountService;
+    private final MedicalDataService medicalDataService;
 
     /*
     * 생성: POST /users CreateUserRequestDto UserResponseDto 202(created)
@@ -51,6 +54,12 @@ public class UserService {
                 .user(user)
                 .build();
         user.setUserBasicData(userData);
+
+        MedicalData medicalData = MedicalData.builder()
+                        .detailsJson(medicalDataService.createDefaultJson(userData))
+                        .user(user)
+                        .build();
+        user.setMedicalData(medicalData);
 
         userRepository.save(user);
         switchUser(user.getUserId(), request);

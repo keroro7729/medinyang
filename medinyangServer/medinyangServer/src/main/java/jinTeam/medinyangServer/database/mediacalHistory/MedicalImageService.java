@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +49,7 @@ public class MedicalImageService {
         System.out.println("clova 응답:"+result);
         HistoryHeaderDto header = Parser.parseDefaultHeader(result);
 
-        Long userId = HttpSessionUtil.getUserId(session);
+        Long userId = HttpSessionUtil.getUserId(request);
         MedicalHistory medicalHistory = MedicalHistory.builder()
                 .hospitalName(header.getHospitalName())
                 .type(header.getMedicalType())
