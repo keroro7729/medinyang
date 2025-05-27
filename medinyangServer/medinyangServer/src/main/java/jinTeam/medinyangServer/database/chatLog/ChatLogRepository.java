@@ -8,9 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ChatLogRepository extends JpaRepository<ChatLog, Long> {
-    List<ChatLog> findByUser_UserId(Long userId);
-    @Query("SELECT c FROM ChatLog c WHERE c.user.userId = :userId AND (:lastChatId IS NULL OR c.chatId < :lastChatId) ORDER BY c.chatId DESC")
-    List<ChatLog> findNextChats(@Param("userId") Long userId, @Param("lastChatId") Long lastChatId, Pageable pageable);
-
+    List<ChatLog> findByUser_UserId(Long userId, Pageable pageable);
 
 }
