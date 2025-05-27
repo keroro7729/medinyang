@@ -1,11 +1,15 @@
 package jinTeam.medinyangServer.database.chatLog;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
+import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.user.User;
 import jinTeam.medinyangServer.database.user.UserRepository;
+import jinTeam.medinyangServer.utils.HttpSessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +26,9 @@ public class ChatLogService {
     private final UserRepository userRepository;
 
     // 사용자 질문 저장
-    public ChatLog saveUserMessage(Long userId, ChatLogRequestDto c){
+    public void saveUserMessage(Long userId, ChatLogRequestDto c){
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 유저 없음"));
+                .orElseThrow(()-> new ResourceNotFoundException("해당 유저 없음"));
 
         ChatLog chatLog = ChatLog.builder()
                 .user(user)
@@ -34,28 +38,12 @@ public class ChatLogService {
                 .chatDate(c.getChatDate()) // 클라이언트 기준 시간으로 저장
                 .build();
 
-        return chatLogRepository.save(chatLog);
-    }
-
-    // LLM 응답 저장
-    public ChatLog saveLLMMessage(Long userId, ChatLogRequestDto c) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저 없음"));
-
-        ChatLog chatLog = ChatLog.builder()
-                .user(user)
-                .chatType(c.getChatType())
-                .message(c.getMessage())
-                .contentType(c.getContentType())
-                .chatDate(c.getChatDate())
-                .build();
-
-        return chatLogRepository.save(chatLog);
+        chatLogRepository.save(chatLog);
     }
 
     public void saveLLMMessage(Long userId, String message) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저 없음"));
+                .orElseThrow(() -> new ResourceNotFoundException("해당 유저 없음"));
 
         ChatLog chatLog = ChatLog.builder()
                 .user(user)
@@ -67,14 +55,15 @@ public class ChatLogService {
         chatLogRepository.save(chatLog);
     }
 
-    public List<ChatLogResponseDto> getNextChats(Long userId, Long lastChatId, int size) {
-        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "chatId"));
+    public List<ChatLogResponseDto> getRecentChats(HttpServletRequest request, int page, int size) {
+        HttpSession session = request.getSession(false);
+        Long userId = HttpSessionUtil.getUserId(session);
 
-        List<ChatLog> chatLogs = chatLogRepository.findNextChats(userId,lastChatId,pageable);
-
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "chatId"));
+        List<ChatLog> chatLogs = chatLogRepository.findByUser_UserId(userId, pageable);
         return chatLogs.stream()
-                .map(ChatLogResponseDto::fromEntity).toList();
-
+                .map(ChatLogResponseDto::fromEntity)
+                .toList();
     }
 
 }
