@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Clova_OCR_ver5 {
     private static final String APIURL = "https://3re7zriyhp.apigw.ntruss.com/custom/v1/40857/743b329a1cc4cdf3ee5f5ad38a392f2a8cc0770a3d01982a9d82b17c5d983c09/general";
-    private static final String SECRETKEY = "bmFsWGHblA=";
+    private static final String SECRETKEY = "bmFsWG5JZ3BjaGpRQlVNSHBZdHpFR2hWU1hibmlHblA=";
 
     public static void main(String[] args) throws IOException {
         byte[] imageData = readImageAsBytes("3333.jpg");
