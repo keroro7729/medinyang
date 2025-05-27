@@ -1,6 +1,7 @@
 package jinTeam.medinyangServer.configuration;
 
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
+import jinTeam.medinyangServer.database.user.medicalData.MedicalDataService;
 import jinTeam.medinyangServer.handler.ChatWebSocketHandler;
 import jinTeam.medinyangServer.session.JSessionIdInterceptor;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private String frontendOrigin;
 
     private final ChatLogService chatLogService;
+    private final MedicalDataService medicalDataService;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry){
@@ -35,6 +37,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler chatWebSocketHandler() {
-        return new ChatWebSocketHandler(chatLogService);
+        return new ChatWebSocketHandler(chatLogService, medicalDataService);
     }
 }
