@@ -13,7 +13,7 @@ public class Clova_OCR_ver5 {
     private static final String SECRETKEY = "bmFsWG5JZ3BjaGpRQlVNSHBZdHpFR2hWU1hibmlHblA=";
 
     public static void main(String[] args) throws IOException {
-        byte[] imageData = readImageAsBytes("3333.jpg");
+        byte[] imageData = readImageAsBytes("C:\\Users\\kanda\\111.jpg");
         Clova_OCR_ver5 ocr = new Clova_OCR_ver5();
         String result = ocr.excute(imageData, "upload.jpg");
         System.out.println(result);
