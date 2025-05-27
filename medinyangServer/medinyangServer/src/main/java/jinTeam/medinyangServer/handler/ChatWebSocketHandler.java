@@ -7,10 +7,8 @@ import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
-import jinTeam.medinyangServer.database.user.UserService;
 import jinTeam.medinyangServer.utils.HttpSessionUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -102,14 +100,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             String botReply;
             try{
                 botReply = clova.execute(userMessage);
-                //llm 메세지 저장
-                ChatLogRequestDto llmRequest = ChatLogRequestDto.builder()
-                        .message(botReply)
-                        .chatType(ChatType.MEDINYANG_CONSULTING)
-                        .contentType(ContentType.LLM_TEXT)
-                        .chatDate(LocalDateTime.now())
-                        .build();
-                chatLogService.saveLLMMessage(userId, llmRequest);
+
+                chatLogService.saveLLMMessage(userId, botReply);
 
                 // 프론트로 응답 보내기
                 ObjectMapper objectMapper = new ObjectMapper();
