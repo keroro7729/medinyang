@@ -1,49 +1,74 @@
-import React, { useState } from "react";
+// ✅ HistoryPage.jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import HistoryList from "../components/History/HistoryList";
 import TopHeader from "../components/common/TopHeader";
 import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
 import ScrollToTopButton from "../components/common/ScrollToTopButton";
 
-
-const dummyData = [
-  { hospital: "지콜 병원", date: "2023-03-02", type: "처방전", diagnosis: "감기" },
-  { hospital: "지토스키 병원", date: "2024-04-01", type: "건강검진", diagnosis: "당뇨 또는 고혈압 등 만성질환 가능성이 있어요." },
-  { hospital: "지토스키 병원", date: "2025-04-03", type: "처방전", diagnosis: "장염" },
-  { hospital: "차은우 병원", date: "2021-04-03", type: "건강검진", diagnosis: "체중이 표준보다 높아 생활습관 개선이 권장됩니다. 정기적인 운동과 균형 잡힌 식단을 통해 건강을 관리해보세요."},
-  { hospital: "지토스키 병원", date: "2021-05-03", type: "처방전", diagnosis: "장염" },
-  { hospital: "지콜 정형외과", date: "2024-07-03", type: "처방전", diagnosis: "척추측만증으로 물리치료" },
-  { hospital: "지토스키 병원", date: "2023-09-03", type: "처방전", diagnosis: "장염" },
-  { hospital: "지콜 병원", date: "2020-09-03", type: "처방전", diagnosis: "감기" },
-  { hospital: "인성 병원", date: "2022-09-01", type: "처방전", diagnosis: "장염" },
-  { hospital: "지토스키 병원", date: "2023-09-03", type: "처방전", diagnosis: "장염" },
-  { hospital: "지토스키 병원", date: "2023-09-03", type: "처방전", diagnosis: "감기" },
-  { hospital: "인성 병원", date: "2024-11-28", type: "처방전", diagnosis: "노로바이러스" },
-  { hospital: "삼성 병원", date: "2023-09-03", type: "처방전", diagnosis: "감기" },
-  { hospital: "지훈 병원", date: "2025-01-21", type: "건강검진", diagnosis: "⚠️ 일부 항목에서 주의가 필요해요 이번 검진에서 혈압이 약간 높고, 콜레스테롤 수치도 경계 수준입니다." },
-  { hospital: "철철 병원", date: "2025-05-10", type: "처방전", diagnosis: "고혈압" },
-  { hospital: "삼성 병원", date: "2023-01-21", type: "처방전", diagnosis: "코로나" },
-  { hospital: "진욱 병원", date: "2025-01-21", type: "건강검진", diagnosis: "고혈압" },
-  { hospital: "삼성 병원", date: "2021-02-04", type: "처방전", diagnosis: "독감" },
-  { hospital: "삼성 병원", date: "2024-12-21", type: "처방전", diagnosis: "감기" },
-
-];
+const PAGE_SIZE = 10;
 
 const HistoryPage = () => {
+  const navigate = useNavigate();
+  const today = new Date().toISOString().slice(0, 10);
+  const [historyData, setHistoryData] = useState([]);
   const [filterType, setFilterType] = useState("전체");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState("2023-01-01");
+  const [endDate, setEndDate] = useState(today);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const filteredData = dummyData.filter((item) => {
-    const inDateRange =
-      (!startDate || item.date >= startDate) &&
-      (!endDate || item.date <= endDate);
-    const inType = filterType === "전체" || item.type === filterType;
-    return inDateRange && inType;
-  });
+  const fetchHistoryData = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/medical-images/history`,
+        {
+          params: {
+            startDate,
+            endDate,
+            page,
+            size: PAGE_SIZE,
+            sort: "visitDate,desc",
+          },
+          withCredentials: true,
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
 
-  const sortedData = [...filteredData].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+      const { status, data, message } = res.data;
+
+      if (status !== 200) throw new Error(message || "조회 실패");
+
+      const transformed = data.content
+        .filter((item) => filterType === "전체" || item.type === filterType)
+        .map((item) => ({
+          id: item.historyId,
+          hospital: item.hospitalName,
+          type: item.type,
+          diagnosis: item.shortDescription,
+          date: item.visitDate.replace(/\./g, "-"),
+        }));
+
+      setHistoryData(transformed);
+      setTotalPages(data.totalPages);
+      setError("");
+    } catch (err) {
+      console.error("❌ 의료 이력 요청 실패:", err);
+      setError("의료 이력을 불러오지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHistoryData();
+  }, [page, startDate, endDate, filterType]);
 
   return (
     <div style={styles.page}>
@@ -80,10 +105,41 @@ const HistoryPage = () => {
             </select>
           </div>
         </div>
+
         <div style={styles.listWrapper}>
-          <HistoryList data={sortedData} />
+          {loading ? (
+            <p>불러오는 중입니다...</p>
+          ) : error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : historyData.length === 0 ? (
+            <p>조회된 이력이 없습니다.</p>
+          ) : (
+            <HistoryList
+              data={historyData}
+              onItemClick={(id) => navigate(`/history/${id}`)}
+            />
+          )}
+        </div>
+
+        <div style={styles.pagination}>
+          <button
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
+            disabled={page === 0}
+            style={styles.pageButton}
+          >
+            이전
+          </button>
+          <span style={{ margin: "0 12px" }}>{page + 1} / {totalPages}</span>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page >= totalPages - 1}
+            style={styles.pageButton}
+          >
+            다음
+          </button>
         </div>
       </div>
+
       <ScrollAwareBottomNav current="history" />
       <ScrollToTopButton />
     </div>
@@ -95,7 +151,7 @@ const styles = {
     width: "100%",
     minHeight: "100vh",
     backgroundColor: "#f5f5f5",
-    overflowX: "hidden", 
+    overflowX: "hidden",
     margin: "0 auto",
     display: "flex",
     flexDirection: "column",
@@ -130,6 +186,25 @@ const styles = {
   },
   listWrapper: {
     marginTop: "16px",
+  },
+  pagination: {
+    marginTop: "20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  pageButton: {
+    padding: "6px 14px",
+    fontSize: "14px",
+    backgroundColor: "#3B82F6",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    disabled: {
+      opacity: 0.5,
+      cursor: "not-allowed",
+    },
   },
 };
 

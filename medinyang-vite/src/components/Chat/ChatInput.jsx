@@ -7,9 +7,11 @@ import {
   faStethoscope,
   faPills,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-const ChatInput = ({ onSend, onStop, isReplying, onImageUpload }) => {
+const ChatInput = ({ onSend, onStop, isReplying }) => {
   const [input, setInput] = useState("");
+  const navigate = useNavigate();
   const isActive = input.trim().length > 0;
 
   const handleSend = () => {
@@ -32,10 +34,9 @@ const ChatInput = ({ onSend, onStop, isReplying, onImageUpload }) => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file && onImageUpload) {
-      onImageUpload(file);
+  const handleCameraClick = () => {
+    if (!isReplying) {
+      navigate("/upload");
     }
   };
 
@@ -90,18 +91,14 @@ const ChatInput = ({ onSend, onStop, isReplying, onImageUpload }) => {
       >
         {/* 왼쪽 버튼들 */}
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {/* 이미지 업로드 */}
-          <label htmlFor="upload-image" style={iconBtnStyle}>
+          {/* 카메라 버튼 → 업로드 페이지로 이동 */}
+          <button
+            onClick={handleCameraClick}
+            disabled={isReplying}
+            style={iconBtnStyle}
+          >
             <FontAwesomeIcon icon={faCamera} />
-            <input
-              id="upload-image"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              disabled={isReplying}
-            />
-          </label>
+          </button>
 
           {/* 증상 프리셋 */}
           <button
@@ -156,7 +153,6 @@ const ChatInput = ({ onSend, onStop, isReplying, onImageUpload }) => {
   );
 };
 
-// 스타일 유틸 함수들
 const presetBtnStyle = (disabled) => ({
   backgroundColor: "#f1f1f1",
   border: "none",

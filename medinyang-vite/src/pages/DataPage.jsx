@@ -33,7 +33,6 @@ const styles = {
   },
   container: {
     width: "100%",
-    maxWidth: "600px",
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#f8f9fa",
