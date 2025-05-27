@@ -1,18 +1,25 @@
 package jinTeam.medinyangServer.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jinTeam.medinyangServer.common.dto.MedicalHistoryDto;
+import jinTeam.medinyangServer.common.dto.response.DefaultResponseDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
 import jinTeam.medinyangServer.database.mediacalHistory.MedicalImageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/medical-images")
@@ -26,6 +33,18 @@ public class MedicalImageController {
     public ResponseEntity<ImageResultResponseDto> upload(@RequestParam MultipartFile image,
                                                          HttpServletRequest request) {
         return ResponseEntity.ok(service.uploadImage(image, request));
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<DefaultResponseDto<Page<MedicalHistoryDto>>> getMedicalHistories(
+            HttpServletRequest request,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @PageableDefault(size = 10, sort = "visitDate", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                DefaultResponseDto.success(service.getMedicalHistoryList(request, startDate, endDate, pageable))
+        );
     }
 
     // (수정, 삭제) 추후 추가
