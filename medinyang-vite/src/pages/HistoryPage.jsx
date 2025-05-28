@@ -7,11 +7,14 @@ import TopHeader from "../components/common/TopHeader";
 import ScrollAwareBottomNav from "../components/common/ScrollAwareBottomNav";
 import ScrollToTopButton from "../components/common/ScrollToTopButton";
 
+// 한 페이지에 불러올 항목 수
 const PAGE_SIZE = 10;
 
 const HistoryPage = () => {
   const navigate = useNavigate();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10); // 오늘 날짜 (YYYY-MM-DD)
+  
+  // 상태 관리 변수들
   const [historyData, setHistoryData] = useState([]);
   const [filterType, setFilterType] = useState("전체");
   const [startDate, setStartDate] = useState("2023-01-01");
@@ -21,6 +24,7 @@ const HistoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // ✅ 의료 이력 API 호출
   const fetchHistoryData = async () => {
     setLoading(true);
     try {
@@ -28,23 +32,25 @@ const HistoryPage = () => {
         `${import.meta.env.VITE_API_BASE_URL}/medical-images/history`,
         {
           params: {
-            startDate,
-            endDate,
-            page,
+            startDate,     // 시작일 필터
+            endDate,       // 종료일 필터
+            page,          // 현재 페이지
             size: PAGE_SIZE,
-            sort: "visitDate,desc",
+            sort: "visitDate,desc", // 방문일 내림차순 정렬
           },
           withCredentials: true,
           headers: {
-            "ngrok-skip-browser-warning": "69420",
+            "ngrok-skip-browser-warning": "69420", // ngrok 경고 무시용 헤더
           },
         }
       );
 
       const { status, data, message } = res.data;
 
+      // API 내부 응답 status가 200이 아니면 오류 처리
       if (status !== 200) throw new Error(message || "조회 실패");
 
+      // ✅ 데이터 필터링 및 가공
       const transformed = data.content
         .filter((item) => filterType === "전체" || item.type === filterType)
         .map((item) => ({
@@ -66,14 +72,18 @@ const HistoryPage = () => {
     }
   };
 
+  // ✅ 필터 변경이나 페이지 이동 시 이력 새로 불러오기
   useEffect(() => {
     fetchHistoryData();
   }, [page, startDate, endDate, filterType]);
 
   return (
     <div style={styles.page}>
+      {/* 상단 고정 헤더 */}
       <TopHeader title="의료 이력 관리" />
+
       <div style={styles.container}>
+        {/* 날짜 및 유형 필터 */}
         <div style={styles.filterContainer}>
           <div style={styles.filters}>
             <label>
@@ -106,6 +116,7 @@ const HistoryPage = () => {
           </div>
         </div>
 
+        {/* 의료 이력 목록 출력 */}
         <div style={styles.listWrapper}>
           {loading ? (
             <p>불러오는 중입니다...</p>
@@ -116,11 +127,12 @@ const HistoryPage = () => {
           ) : (
             <HistoryList
               data={historyData}
-              onItemClick={(id) => navigate(`/history/${id}`)}
+              onItemClick={(id) => navigate(`/history/${id}`)} // 클릭 시 상세 페이지 이동
             />
           )}
         </div>
 
+        {/* 페이지네이션 컨트롤 */}
         <div style={styles.pagination}>
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
@@ -129,7 +141,9 @@ const HistoryPage = () => {
           >
             이전
           </button>
-          <span style={{ margin: "0 12px" }}>{page + 1} / {totalPages}</span>
+          <span style={{ margin: "0 12px" }}>
+            {page + 1} / {totalPages}
+          </span>
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={page >= totalPages - 1}
@@ -140,11 +154,13 @@ const HistoryPage = () => {
         </div>
       </div>
 
+      {/* 하단 네비게이션 및 상단 이동 버튼 */}
       <ScrollAwareBottomNav current="history" />
       <ScrollToTopButton />
     </div>
   );
 };
+
 
 const styles = {
   page: {

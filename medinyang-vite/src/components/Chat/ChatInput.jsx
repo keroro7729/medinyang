@@ -9,22 +9,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
+// ✅ ChatInput: 하단 입력창 + 프리셋 버튼 + 전송/중단 버튼 포함 컴포넌트
 const ChatInput = ({ onSend, onStop, isReplying }) => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
+
   const isActive = input.trim().length > 0;
 
+  // ✅ 입력값 전송 처리
   const handleSend = () => {
     if (!isActive || isReplying) return;
     onSend(input);
     setInput("");
   };
 
+  // ✅ 전송 버튼 클릭 시 동작: 전송 or 중단
   const handleButtonClick = () => {
     if (isReplying) onStop();
     else handleSend();
   };
 
+  // ✅ 프리셋 버튼 클릭 처리
   const handlePresetClick = (type) => {
     if (isReplying) return;
     if (type === "symptom") {
@@ -34,6 +39,7 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
     }
   };
 
+  // ✅ 카메라 버튼 클릭 시 업로드 페이지로 이동
   const handleCameraClick = () => {
     if (!isReplying) {
       navigate("/upload");
@@ -50,7 +56,7 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
         borderTop: "1px solid #eee",
       }}
     >
-      {/* 입력창 */}
+      {/* ✅ 텍스트 입력창 */}
       <div
         style={{
           backgroundColor: "#f9f9f9",
@@ -78,7 +84,7 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
         />
       </div>
 
-      {/* 버튼 영역 */}
+      {/* ✅ 버튼 영역 (프리셋 + 전송 버튼) */}
       <div
         style={{
           marginTop: "10px",
@@ -89,9 +95,9 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
           gap: "8px",
         }}
       >
-        {/* 왼쪽 버튼들 */}
+        {/* ✅ 왼쪽: 카메라 + 프리셋 버튼 */}
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {/* 카메라 버튼 → 업로드 페이지로 이동 */}
+          {/* 카메라 → 업로드 페이지로 이동 */}
           <button
             onClick={handleCameraClick}
             disabled={isReplying}
@@ -106,10 +112,7 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
             disabled={isReplying}
             style={presetBtnStyle(isReplying)}
           >
-            <FontAwesomeIcon
-              icon={faStethoscope}
-              style={{ marginRight: "6px" }}
-            />
+            <FontAwesomeIcon icon={faStethoscope} style={{ marginRight: "6px" }} />
             증상/응급처치
           </button>
 
@@ -124,7 +127,7 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
           </button>
         </div>
 
-        {/* 전송 or 응답 멈춤 */}
+        {/* ✅ 오른쪽: 전송 or 중단 버튼 */}
         <button
           onClick={handleButtonClick}
           disabled={!isActive && !isReplying}
@@ -153,6 +156,7 @@ const ChatInput = ({ onSend, onStop, isReplying }) => {
   );
 };
 
+// ✅ 프리셋 버튼 스타일 함수
 const presetBtnStyle = (disabled) => ({
   backgroundColor: "#f1f1f1",
   border: "none",
@@ -167,6 +171,7 @@ const presetBtnStyle = (disabled) => ({
   opacity: disabled ? 0.5 : 1,
 });
 
+// ✅ 카메라 아이콘 버튼 스타일
 const iconBtnStyle = {
   backgroundColor: "transparent",
   border: "none",
