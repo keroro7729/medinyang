@@ -28,4 +28,11 @@ public class HttpSessionUtil {
             throw new NotLoginException(session.getId()+" session has no userId");
         return result;
     }
+
+    public static void setUserId(HttpServletRequest request, Long userId) {
+        HttpSession session = request.getSession(false);
+        if(session == null)
+            throw new NotLoginException("not logged in: "+request.getRemoteUser());
+        session.setAttribute("userId", userId);
+    }
 }

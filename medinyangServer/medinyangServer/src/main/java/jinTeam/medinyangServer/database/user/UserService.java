@@ -14,6 +14,7 @@ import jinTeam.medinyangServer.database.user.medicalData.MedicalData;
 import jinTeam.medinyangServer.database.user.medicalData.MedicalDataService;
 import jinTeam.medinyangServer.database.user.userBasicData.UserBasicData;
 import jinTeam.medinyangServer.database.user.userBasicData.UserBasicDataRepository;
+import jinTeam.medinyangServer.utils.HttpSessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,16 +92,15 @@ public class UserService {
     }
 
     public boolean switchUser(Long userId, HttpServletRequest request) {
-        Long accountId = getAccountId(request);
+        Long accountId = HttpSessionUtil.getAccountId(request);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("userId: "+userId));
         if(!user.getMasterAccount().getAccountId().equals(accountId)){
             throw new AccessDeniedException("account: "+accountId);
         }
-
-        HttpSession session = request.getSession(false);
-        session.setAttribute("userId", user.getUserId());
+        HttpSessionUtil.setUserId(request, userId);
+        System.out.println("session id: "+request.getSession(false).getId()+", "+userId);
         return true;
     }
 

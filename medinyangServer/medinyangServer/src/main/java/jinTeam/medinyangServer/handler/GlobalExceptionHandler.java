@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
                 .body(new DefaultResponse(e.getMessage()));
     }
 
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<DefaultResponse> handleGenericException(Exception e) {
         log.error("🚨 알 수 없는 서버 예외", e);

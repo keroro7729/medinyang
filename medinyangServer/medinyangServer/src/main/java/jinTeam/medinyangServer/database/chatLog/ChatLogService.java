@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,11 +56,13 @@ public class ChatLogService {
         chatLogRepository.save(chatLog);
     }
 
+    // 컨틔롤러 요청 용
     public List<ChatLogResponseDto> getRecentChats(HttpServletRequest request, int page, int size) {
         Long userId = HttpSessionUtil.getUserId(request);
         return getRecentChats(userId, page, size);
     }
 
+    // 웹소켓, 내부용
     public List<ChatLogResponseDto> getRecentChats(Long userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "chatDate"));
         List<ChatLog> chatLogs = chatLogRepository.findByUser_UserId(userId, pageable);

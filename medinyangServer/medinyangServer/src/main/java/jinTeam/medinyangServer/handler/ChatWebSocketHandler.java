@@ -7,9 +7,11 @@ import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
+import jinTeam.medinyangServer.common.exceptions.NotLoginException;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
 import jinTeam.medinyangServer.database.user.medicalData.MedicalDataService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
@@ -64,6 +67,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         }
 
         userId = (Long) httpSession.getAttribute("userId");
+        if(userId == null)
+            throw new NotLoginException("no userId in session: "+httpSession.getId());
 
 
         // 3. 인증 정보 확인
@@ -105,13 +110,14 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
             List<String> user = new ArrayList<>();
             List<String> assist = new ArrayList<>();
             List<ChatLogResponseDto> list = chatLogService.getRecentChats(userId, 0, 20);
-            Collections.reverse(list);
-            for(int i=0; i<list.size(); i++) {
-                if(list.get(i).contentType().equals(ContentType.USER_TEXT.toString()) &&
-                list.size() > i+1 && list.get(i+1).contentType().equals(ContentType.LLM_TEXT.toString())) {
-                    user.add(list.get(i).message());
-                    assist.add(list.get(i+1).message());
-                    i++;
+            for (int i = list.size() - 1; i > 0; i--) {
+                ChatLogResponseDto current = list.get(i);
+                ChatLogResponseDto next = list.get(i - 1);
+                if (current.contentType().equals(ContentType.USER_TEXT.toString()) &&
+                        next.contentType().equals(ContentType.LLM_TEXT.toString())) {
+                    user.add(current.message());
+                    assist.add(next.message());
+                    i--; // 한 쌍 처리했으니 인덱스를 한 번 더 감소시킴
                 }
             }
             userMessage += "\n" + medicalDataService.getMedicalData(userId);
@@ -138,6 +144,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
         } catch (Exception e) {
             System.err.println("메시지 파싱 실패: " + e.getMessage());
+            log.error("error: ", e);
             session.sendMessage(new TextMessage("서버에서 메시지를 이해하지 못했어요."));
         }
     }
