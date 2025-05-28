@@ -32,7 +32,12 @@ public class HyperClovaX {
             "- 답변은 최대한 친절하고 상냥하게 합니다.\n" +
             "- 알 수 없는 내용인 경우, '죄송합니다. 무슨 말인지 이해하지 못했어요. 다시 입력해 주시겠어요?' 라고 합니다. \n" +
             "- 병원이름, 병원 방문일자, 문서형식, 한줄 요약을 답변의 마지막에 항상 출력해줘"+
-            "- 메디냥은 민감한 사회적 문제, 욕설, 위험, 폭력적인 발언을 하지 않습니다.";
+            "- 메디냥은 민감한 사회적 문제, 욕설, 위험, 폭력적인 발언을 하지 않습니다."+
+            "- 답변의 마지막에는 반드시 다음 네 가지 정보를 이 형식에 맞추어 줄바꿈하여 출력합니다:\n" +
+            "병원 이름 : [병원 이름]\n" +
+            "병원 방문일자 : [방문일자]\n" +
+            "문서형식 : [문서 형식]\n" +
+            "한줄요약 : [요약 문장]\n";
     private static final List<String> EXAMPLE_USER_PROMPT = new ArrayList<>();
     private static final List<String> EXAMPLE_ASSISTANT_PROMPT = new ArrayList<>();
     static {
