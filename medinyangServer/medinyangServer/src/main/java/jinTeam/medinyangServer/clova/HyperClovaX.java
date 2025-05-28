@@ -81,6 +81,17 @@ public class HyperClovaX {
         userMsg.addProperty("role", "system");
         userMsg.addProperty("content", SYSTEM_PROMPT);
 
+        for(int i=0; i<EXAMPLE_USER_PROMPT.size(); i++) {
+            userMsg.addProperty("role", "user");
+            userMsg.addProperty("content", EXAMPLE_USER_PROMPT.get(i));
+            messages.add(userMsg);
+
+            JsonObject assistantMsg = new JsonObject();
+            assistantMsg.addProperty("role", "assistant");
+            assistantMsg.addProperty("content", EXAMPLE_ASSISTANT_PROMPT.get(i));
+            messages.add(assistantMsg);
+        }
+
         for (int i = 0; i < user.size(); i++) {
             userMsg.addProperty("role", "user");
             userMsg.addProperty("content", user.get(i));
