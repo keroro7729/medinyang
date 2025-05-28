@@ -56,14 +56,15 @@ public class ChatLogService {
     }
 
     public List<ChatLogResponseDto> getRecentChats(HttpServletRequest request, int page, int size) {
-        HttpSession session = request.getSession(false);
-        Long userId = HttpSessionUtil.getUserId(session);
+        Long userId = HttpSessionUtil.getUserId(request);
+        return getRecentChats(userId, page, size);
+    }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "chatId"));
+    public List<ChatLogResponseDto> getRecentChats(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "chatDate"));
         List<ChatLog> chatLogs = chatLogRepository.findByUser_UserId(userId, pageable);
         return chatLogs.stream()
                 .map(ChatLogResponseDto::fromEntity)
                 .toList();
     }
-
 }

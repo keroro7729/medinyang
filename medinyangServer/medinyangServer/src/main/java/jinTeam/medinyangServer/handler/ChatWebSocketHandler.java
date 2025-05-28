@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jinTeam.medinyangServer.clova.HyperClovaX;
 import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
+import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
@@ -20,6 +21,7 @@ import jinTeam.medinyangServer.session.SessionCollector;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import jakarta.servlet.http.HttpSession;
@@ -102,10 +104,21 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
             List<String> user = new ArrayList<>();
             List<String> assist = new ArrayList<>();
-            //chatLogService.getRecentChats() 내부용 메서드도 필요하네요..!!
-            // 받아온 채팅기록 user, assist에 잘 나눠담기
+            List<ChatLogResponseDto> list = chatLogService.getRecentChats(userId, 0, 20);
+            Collections.reverse(list);
+            for(int i=0; i<list.size(); i++) {
+                if(list.get(i).contentType().equals(ContentType.USER_TEXT.toString()) &&
+                list.size() > i+1 && list.get(i+1).contentType().equals(ContentType.LLM_TEXT.toString())) {
+                    user.add(list.get(i).message());
+                    assist.add(list.get(i+1).message());
+                    i++;
+                }
+            }
             userMessage += "\n" + medicalDataService.getMedicalData(userId);
             user.add(userMessage);
+
+            System.out.println("user prompt: "+user);
+            System.out.println("assist prompt: "+assist);
 
             String botReply;
             try{
