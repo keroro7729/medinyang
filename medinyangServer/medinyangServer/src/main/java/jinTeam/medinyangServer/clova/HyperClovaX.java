@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class HyperClovaX {
-    private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-002";
+    private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v3/chat-completions/HCX-DASH-002";
 
     private static final String API_KEY = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo";
 
@@ -134,6 +134,7 @@ public class HyperClovaX {
     }
 
     private String extract(String responseBody) {
+        System.out.println(responseBody);
         JSONObject json = new JSONObject(responseBody);
         return json.getJSONObject("result")
                 .getJSONObject("message")

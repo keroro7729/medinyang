@@ -20,7 +20,7 @@ public class Parser {
     public static HistoryHeaderDto parseDefaultHeader(String input) {
         String hospitalName = "예시 병원";
         MedicalType medicalType = MedicalType.TYPE_NONE;
-        LocalDate visitDate = parseDateFlexibly("1900-01-01");
+        LocalDate visitDate = LocalDate.now();
         String summary = "예시 요약";
 
         String[] lines = input.split("\\r?\\n");
