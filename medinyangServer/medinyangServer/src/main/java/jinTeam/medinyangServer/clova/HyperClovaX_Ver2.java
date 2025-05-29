@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class HyperClovaX_Ver2 {
-    private static final String API_URL = "https://clovastudio.stream.ntruss.com//testapp/v1/chat-completions/HCX-DASH-001";
+    private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-001";
     private static final String API_KEY = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo";
 
     private static final String SYSTEM_PROMPT =
@@ -145,8 +145,8 @@ public class HyperClovaX_Ver2 {
     }
 
     public static void main(String[] args) {
-        HyperClovaX clova = new HyperClovaX();
-        String result = clova.execute("지금 배가 아프고 열이 나는데 약국에서 무슨 약을 사먹어야 해?");
+        HyperClovaX_Ver2 clova = new HyperClovaX_Ver2();
+        String result = clova.execute("지금 열이나고 몸이 너무 추워 어디가 아픈걸까?");
         System.out.println(result);
     }
 }
