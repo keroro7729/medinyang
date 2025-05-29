@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class HyperClovaX {
-    private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v3/chat-completions/HCX-005";
+    private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v3/chat-completions/HCX-DASH-001";
     private static final String API_KEY = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo";
 
     private static final String SYSTEM_PROMPT =
