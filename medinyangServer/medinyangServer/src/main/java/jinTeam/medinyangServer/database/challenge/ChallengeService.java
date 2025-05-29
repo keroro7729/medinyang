@@ -1,9 +1,9 @@
 package jinTeam.medinyangServer.database.challenge;
 
-import jinTeam.medinyangServer.common.dto.ChallengeProgressRequestDto;
-import jinTeam.medinyangServer.common.dto.ChallengeProgressResponseDto;
-import jinTeam.medinyangServer.common.dto.CreateChallengeRequestDto;
-import jinTeam.medinyangServer.common.dto.CreateChallengeResponseDto;
+import jinTeam.medinyangServer.common.dto.request.ChallengeProgressRequestDto;
+import jinTeam.medinyangServer.common.dto.response.ChallengeProgressResponseDto;
+import jinTeam.medinyangServer.common.dto.request.ChallengeCreateRequestDto;
+import jinTeam.medinyangServer.common.dto.response.ChallengeCreateResponseDto;
 import jinTeam.medinyangServer.common.exceptions.DuplicateProgressException;
 import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
 import jinTeam.medinyangServer.database.challenge.challengeProgress.ChallengeProgress;
@@ -22,7 +22,7 @@ public class ChallengeService {
     private final ChallengeProgressRepository challengeProgressRepository;
 
     @Transactional
-    public CreateChallengeResponseDto createChallenge(Long userId, CreateChallengeRequestDto c){
+    public ChallengeCreateResponseDto createChallenge(Long userId, ChallengeCreateRequestDto c){
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new ResourceNotFoundException("해당 유저 없음"));
 
@@ -33,16 +33,9 @@ public class ChallengeService {
                 .endDate(c.getEndDate())
                 .isActive(true)
                 .build();
-
         challengeRepository.save(challenge);
 
-        return new CreateChallengeResponseDto(
-                challenge.getChallengeId(),
-                challenge.getChallengeName(),
-                challenge.getStartDate(),
-                challenge.getEndDate(),
-                challenge.getIsActive()
-        );
+        return ChallengeCreateResponseDto.from(challenge);
     }
 
     @Transactional
@@ -60,15 +53,9 @@ public class ChallengeService {
                 .date(c.getDate())
                 .isCompleted(c.getIsCompleted())
                 .build();
-
         challengeProgressRepository.save(progress);
 
-        return new ChallengeProgressResponseDto(
-                challenge.getChallengeId(),
-                progress.getProgressId(),
-                progress.getDate(),
-                progress.getIsCompleted()
-        );
+        return ChallengeProgressResponseDto.from(progress);
     }
 
 

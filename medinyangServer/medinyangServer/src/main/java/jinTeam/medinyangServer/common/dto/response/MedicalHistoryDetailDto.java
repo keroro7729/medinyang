@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.common.dto;
+package jinTeam.medinyangServer.common.dto.response;
 
 import jinTeam.medinyangServer.database.mediacalHistory.MedicalHistory;
 import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFile;

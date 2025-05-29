@@ -4,15 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.clova.Clova_OCR_ver5;
 import jinTeam.medinyangServer.clova.HyperClovaX;
-import jinTeam.medinyangServer.common.dto.MedicalHistoryDetailDto;
-import jinTeam.medinyangServer.common.dto.MedicalHistoryDto;
+import jinTeam.medinyangServer.common.dto.response.MedicalHistoryDetailDto;
+import jinTeam.medinyangServer.common.dto.response.MedicalHistoryDto;
 import jinTeam.medinyangServer.common.dto.response.HistoryHeaderDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
-import jinTeam.medinyangServer.common.dto.response.UserResponseDto;
 import jinTeam.medinyangServer.common.enums.MedicalType;
 import jinTeam.medinyangServer.common.exceptions.NotLoginException;
 import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
-import jinTeam.medinyangServer.database.account.Account;
 import jinTeam.medinyangServer.database.chatLog.ChatLogService;
 import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFile;
 import jinTeam.medinyangServer.database.mediacalHistory.imageFile.ImageFileRepository;
@@ -31,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Optional;
 
 

@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.common.dto;
+package jinTeam.medinyangServer.common.dto.request;
 
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;

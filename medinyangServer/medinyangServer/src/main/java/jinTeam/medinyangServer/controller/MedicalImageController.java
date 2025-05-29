@@ -1,8 +1,8 @@
 package jinTeam.medinyangServer.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jinTeam.medinyangServer.common.dto.MedicalHistoryDetailDto;
-import jinTeam.medinyangServer.common.dto.MedicalHistoryDto;
+import jinTeam.medinyangServer.common.dto.response.MedicalHistoryDetailDto;
+import jinTeam.medinyangServer.common.dto.response.MedicalHistoryDto;
 import jinTeam.medinyangServer.common.dto.response.DefaultResponseDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
 import jinTeam.medinyangServer.database.mediacalHistory.MedicalImageService;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

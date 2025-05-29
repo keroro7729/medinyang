@@ -1,9 +1,8 @@
 package jinTeam.medinyangServer.database.chatLog;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jinTeam.medinyangServer.common.dto.ChatLogRequestDto;
-import jinTeam.medinyangServer.common.dto.ChatLogResponseDto;
+import jinTeam.medinyangServer.common.dto.request.ChatLogRequestDto;
+import jinTeam.medinyangServer.common.dto.response.ChatLogResponseDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
 import jinTeam.medinyangServer.common.enums.ContentType;
 import jinTeam.medinyangServer.common.exceptions.ResourceNotFoundException;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package jinTeam.medinyangServer.common.dto;
+package jinTeam.medinyangServer.common.dto.response;
 
 import jinTeam.medinyangServer.common.enums.MedicalType;
 import jinTeam.medinyangServer.database.mediacalHistory.MedicalHistory;

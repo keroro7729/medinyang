@@ -1,13 +1,14 @@
-package jinTeam.medinyangServer.common.dto;
+package jinTeam.medinyangServer.common.dto.request;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
+@Getter
 @AllArgsConstructor
-public class ChallengeProgressResponseDto {
+public class ChallengeProgressRequestDto {
     Long challengeId;
-    Long progressId;
     LocalDate date;
     Boolean isCompleted;
 }
