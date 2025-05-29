@@ -1,6 +1,7 @@
 package jinTeam.medinyangServer.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jinTeam.medinyangServer.common.dto.MedicalHistoryDetailDto;
 import jinTeam.medinyangServer.common.dto.MedicalHistoryDto;
 import jinTeam.medinyangServer.common.dto.response.DefaultResponseDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
@@ -31,7 +32,8 @@ public class MedicalImageController {
 
     @PostMapping("/upload")
     public ResponseEntity<ImageResultResponseDto> upload(@RequestParam MultipartFile image,
-                                                         HttpServletRequest request) {
+                                                         HttpServletRequest request)
+    {
         return ResponseEntity.ok(service.uploadImage(image, request));
     }
 
@@ -40,11 +42,18 @@ public class MedicalImageController {
             HttpServletRequest request,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @PageableDefault(size = 10, sort = "visitDate", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
+            @PageableDefault(size = 10, sort = "visitDate", direction = Sort.Direction.DESC) Pageable pageable)
+    {
         return ResponseEntity.ok(
                 DefaultResponseDto.success(service.getMedicalHistoryList(request, startDate, endDate, pageable))
         );
+    }
+
+    @GetMapping("/{historyId}")
+    public ResponseEntity<DefaultResponseDto<MedicalHistoryDetailDto>> getMedicalHistoryDetail(@PathVariable Long historyId)
+    {
+        return ResponseEntity.ok(
+                DefaultResponseDto.success(service.getMedicalHistoryDetail(historyId)));
     }
 
     // (수정, 삭제) 추후 추가
