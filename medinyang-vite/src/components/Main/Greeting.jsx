@@ -28,7 +28,7 @@ const Greeting = () => {
           {isUserMissing ? (
             <>
               <p style={styles.name}>등록된 유저가 없습니다.</p>
-              <p style={styles.sub}>우측 상단에서 유저를 추가해주세요.</p>
+              <p style={styles.sub}>좌측 상단에서 유저를 추가해주세요.</p>
             </>
           ) : (
             <>
@@ -44,15 +44,15 @@ const Greeting = () => {
 
 const styles = {
   container: {
-   background: "linear-gradient(to bottom, #2C7EDB 10%, #4EA0F1 60%, #ffffff 100%)",
+   background: "linear-gradient(to bottom, #2C7EDB 15%, #4EA0F1 70%, #ffffff 100%)",
     padding: "100px 24px 70px",
     color: "white",
-    //position: "relative",
+    position: "flex",
   },
   logo: {
     position: "absolute",
-    top: "70px",
-    right: "30px",
+    top: "30px",
+    right: "20px",
     height: "50px",
     zIndex: 1,
     filter: "brightness(0) invert(1)",
@@ -61,7 +61,7 @@ const styles = {
   inner: {
     display: "flex",
     alignItems: "center",
-    gap: "24px",
+    //gap: "20px",
   },
   textWrapper: {
     flex: 1,

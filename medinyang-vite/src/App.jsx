@@ -11,6 +11,7 @@ import SettingsPage from './pages/SettingsPage';
 import MainPage from './pages/MainPage';
 import LoginPage from "./pages/LoginPage";
 import AddUserPage from "./pages/AddUserPage";
+import HistoryDetailPage from "./pages/HistoryDetailPage";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute"; // ✅ 추가
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/manage" element={<PrivateRoute><ManagePage /></PrivateRoute>} />
           <Route path="/setting" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
           <Route path="/main" element={<PrivateRoute><MainPage /></PrivateRoute>} />
+          <Route path="/history/:id" element={<PrivateRoute><HistoryDetailPage /></PrivateRoute>} />
           <Route path="/add-user" element={<PrivateRoute><AddUserPage /></PrivateRoute>} />
         </Routes>
       </Router>
