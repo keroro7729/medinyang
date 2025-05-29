@@ -45,16 +45,16 @@ public class HyperClovaX_Ver2 {
         EXAMPLE_ASSISTANT_PROMPT.add("좋아요! 지금처럼 열이 나고 몸이 춥고, 감기 기운이 있는 상황이라면 약국에서는 아래처럼 말해보세요:\n" + "약사님께 이렇게 말해보세요:\n" + "열이 나고 몸이 으슬으슬 추운 감기 기운이 있어요.\n" + "몸살도 좀 오는 것 같고, 목이 살짝 따가운 느낌도 있어요.\n" + "처방전 없이 먹을 수 있는 약 중에 추천해 주세요.”\n" + "약국에서 추천해줄 수 있는 일반의약품 예시\n" + "증상\t추천되는 일반약 종류\n" + "열 / 몸살\t타이레놀(해열진통제), 타세놀, 판피린\n" + "콧물 / 코막힘\t콜대원, 훼스탈콜, 코푸시럽\n" + "목 따가움 / 인후통\t스트렙실, 트라스트 스프레이\n" + "기침 / 가래\t벤포벨, 후시딘시럽, 뮤코졸\n" + "⚠ 약 이름은 약국 사정에 따라 다를 수 있으니, **“열 + 감기 기운 + 몸살용 약 주세요”**라고 말하면 알아서 추천해주실 거예요.\n" + "메디냥의 추가 팁:\n" + "약 먹고 1~2일 내로 호전되면 괜찮아요.\n" + "오히려 더 아프거나, 3일 이상 열이 계속되면 꼭 병원 가세요.\n" + "타이레놀 계열(아세트아미노펜)은 위장에 부담이 적지만, 다른 감기약은 공복에 먹으면 속 쓰릴 수 있어요! 꼭 식사 후에 드세요 \uD83C\uDF5A\n" + "필요하면, 어떤 약을 먹었는지도 같이 알려주시면 확인해드릴게요!");
         EXAMPLE_USER_PROMPT.add("졸린약은 없지? 운전해야해서");
         EXAMPLE_ASSISTANT_PROMPT.add("아! 운전 예정 있으시면 정말 중요한 질문이에요." + "감기약 중에는 졸음 유발 성분이 들어간 경우가 많아서 꼭 조심해야 해요.\n" + "❗피해야 할 성분들 (졸음 유발)\n" + "약 성분 중에서 다음이 들어가 있으면 졸릴 수 있어요:\n" + "클로르페니라민(Chlorpheniramine)\n" + "디펜히드라민(Diphenhydramine)\n" + "독실아민(Doxylamine)\n" + "→ 흔한 감기약, 종합감기약에 많이 들어 있어요.\n" + "이런 성분은 졸릴 수 있어서 운전 전에는 피해야 해요.\n" + "✅ 약국에서 이렇게 말해보세요:\n" + "지금 감기 기운이 있고 열이 좀 나는데,\n" + "운전해야 해서 졸리지 않는 약으로 주세요.\n" + "그러면 약사님이 **비항히스타민제(졸음 적은 약)**나\n" + "타이레놀 단일제 위주로 조합해 줄 거예요.\n" + "졸음 없는 약 예시:\n" + "약 이름\t특징\n" + "타이레놀(아세트아미노펜)\t졸음 없음, 해열/진통\n" + "콜대원 에이 연질캡슐\t졸음 유발 성분 없음 (버전 따라 다름, 꼭 확인 필요)\n" + "판콜에이 내복액(무수함 확인)\t졸음 없는 버전 따로 있음\n" + "메디냥의 조언:\n" + "운전할 땐 졸음 안 오는 약으로만 드세요!\n" + "꼭 약국에서 '운전한다'고 말해주셔야 안전해요.\n" + "절대 일반 종합감기약 막 드시지 마세요 \n" + "필요하면 약 성분 확인해드릴 수도 있어요. 약 이름 알려주시면 검토해드릴게요!");
-        EXAMPLE_USER_PROMPT.add("");
-        EXAMPLE_ASSISTANT_PROMPT.add("");
-        EXAMPLE_USER_PROMPT.add("");
-        EXAMPLE_ASSISTANT_PROMPT.add("");
-        EXAMPLE_USER_PROMPT.add("");
-        EXAMPLE_ASSISTANT_PROMPT.add("");
-        EXAMPLE_USER_PROMPT.add("");
-        EXAMPLE_ASSISTANT_PROMPT.add("");
-        EXAMPLE_USER_PROMPT.add("");
-        EXAMPLE_ASSISTANT_PROMPT.add("");
+//        EXAMPLE_USER_PROMPT.add("");
+//        EXAMPLE_ASSISTANT_PROMPT.add("");
+//        EXAMPLE_USER_PROMPT.add("");
+//        EXAMPLE_ASSISTANT_PROMPT.add("");
+//        EXAMPLE_USER_PROMPT.add("");
+//        EXAMPLE_ASSISTANT_PROMPT.add("");
+//        EXAMPLE_USER_PROMPT.add("");
+//        EXAMPLE_ASSISTANT_PROMPT.add("");
+//        EXAMPLE_USER_PROMPT.add("");
+//        EXAMPLE_ASSISTANT_PROMPT.add("");
 
     }
 

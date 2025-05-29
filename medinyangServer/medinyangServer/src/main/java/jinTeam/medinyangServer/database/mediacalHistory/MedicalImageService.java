@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.clova.Clova_OCR_ver5;
 import jinTeam.medinyangServer.clova.HyperClovaX;
+import jinTeam.medinyangServer.clova.HyperClovaX_Ver2;
 import jinTeam.medinyangServer.common.dto.response.MedicalHistoryDetailDto;
 import jinTeam.medinyangServer.common.dto.response.MedicalHistoryDto;
 import jinTeam.medinyangServer.common.dto.response.HistoryHeaderDto;
@@ -44,7 +45,7 @@ public class MedicalImageService {
     private final UserService userService;
     private final ChatLogService chatLogService;
     private final Clova_OCR_ver5 ocr = new Clova_OCR_ver5();
-    private final HyperClovaX clova = new HyperClovaX();
+    private final HyperClovaX_Ver2 clova = new HyperClovaX_Ver2();
 
     /*
     * 업로드 POST multipathfile ImageResultResponseDto  200(ok)

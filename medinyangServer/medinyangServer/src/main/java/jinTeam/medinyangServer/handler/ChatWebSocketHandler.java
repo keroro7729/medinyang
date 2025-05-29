@@ -3,6 +3,7 @@ package jinTeam.medinyangServer.handler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jinTeam.medinyangServer.clova.HyperClovaX;
+import jinTeam.medinyangServer.clova.HyperClovaX_Ver2;
 import jinTeam.medinyangServer.common.dto.request.ChatLogRequestDto;
 import jinTeam.medinyangServer.common.dto.response.ChatLogResponseDto;
 import jinTeam.medinyangServer.common.enums.ChatType;
@@ -36,7 +37,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     private final ChatLogService chatLogService;
     private final MedicalDataService medicalDataService;
 
-    private final HyperClovaX clova = new HyperClovaX();
+    private final HyperClovaX_Ver2 clova = new HyperClovaX_Ver2();
 
     private Long userId;
 
