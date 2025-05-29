@@ -1,15 +1,12 @@
 package jinTeam.medinyangServer.clova;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.checkerframework.checker.units.qual.C;
 import org.json.JSONObject;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -21,6 +18,7 @@ import java.util.UUID;
 
 public class HyperClovaX {
     private static final String API_URL = "https://clovastudio.stream.ntruss.com/testapp/v1/chat-completions/HCX-DASH-002";
+
     private static final String API_KEY = "Bearer nv-58f94248f8a14ed3a4745e942aade094mDJo";
 
     private static final String SYSTEM_PROMPT =

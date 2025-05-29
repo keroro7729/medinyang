@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jinTeam.medinyangServer.clova.Clova_OCR_ver5;
 import jinTeam.medinyangServer.clova.HyperClovaX;
+import jinTeam.medinyangServer.common.dto.MedicalHistoryDetailDto;
 import jinTeam.medinyangServer.common.dto.MedicalHistoryDto;
 import jinTeam.medinyangServer.common.dto.response.HistoryHeaderDto;
 import jinTeam.medinyangServer.common.dto.response.ImageResultResponseDto;
@@ -30,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.Optional;
 
 
 @Service
@@ -117,6 +120,17 @@ public class MedicalImageService {
                 .findAllByUserAndVisitDateBetween(user, startDate, endDate, pageable);
 
         return histories.map(MedicalHistoryDto::from);
+    }
+
+    @Transactional(readOnly = true)
+    public MedicalHistoryDetailDto getMedicalHistoryDetail(Long historyId) {
+        MedicalHistory history = medicalHistoryRepository.findById(historyId) //기본적으로 Optional을 함
+                .orElseThrow(() -> new ResourceNotFoundException("해당 이력이 존재하지 않습니다."));
+
+        ImageFile imageFile = Optional.ofNullable(imageRepository.findByMedicalHistory_HistoryId(historyId))
+                .orElseThrow(() -> new ResourceNotFoundException("해당 이력에 이미지가 존재하지 않습니다."));
+
+        return MedicalHistoryDetailDto.from(history, imageFile);
     }
 
 }
