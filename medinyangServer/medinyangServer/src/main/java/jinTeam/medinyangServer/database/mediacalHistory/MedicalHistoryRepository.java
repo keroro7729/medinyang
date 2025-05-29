@@ -14,5 +14,4 @@ import java.util.List;
 @Repository
 public interface MedicalHistoryRepository extends JpaRepository<MedicalHistory, Long> {
     Page<MedicalHistory> findAllByUserAndVisitDateBetween(User user, LocalDate startDate, LocalDate endDate, Pageable pageable);
-
 }
