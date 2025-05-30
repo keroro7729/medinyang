@@ -44,7 +44,7 @@ const Greeting = () => {
 
 const styles = {
   container: {
-   background: "linear-gradient(to bottom, #2C7EDB 15%, #4EA0F1 70%, #ffffff 100%)",
+   background: "linear-gradient(to bottom, #2C7EDB 25%, #4EA0F1 66%, #ffffff 100%)",
     padding: "100px 24px 70px",
     color: "white",
     position: "flex",
