@@ -39,3 +39,7 @@ out/
 .gradle/
 src/main/resources/application.properties
 src/main/java/jinTeam/meadinyangServer/Clova.java
+
+# Spring Boot config files
+src/main/resources/application.yml
+src/main/resources/application-*.yml
