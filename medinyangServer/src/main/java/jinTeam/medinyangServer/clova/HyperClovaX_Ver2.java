@@ -145,7 +145,7 @@ public class HyperClovaX_Ver2 {
     }
 
     public static void main(String[] args) {
-        HyperClovaX clova = new HyperClovaX();
+        HyperClovaX_Ver2 clova = new HyperClovaX_Ver2();
         String result = clova.execute("지금 배가 아프고 열이 나는데 약국에서 무슨 약을 사먹어야 해?");
         System.out.println(result);
     }
